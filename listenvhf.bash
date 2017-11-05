@@ -27,6 +27,7 @@
 # ex2: 'bash listenvhf stop'
 # ex3: 'bash listenvhf status'
 # ex4: 'bash listenvhf' # same as 'bash listenvhf start'
+# ex5: bash listenvhf --help' # get program usage
 
 PROG="/usr/bin/omxplayer" # Program which is wanted to restart if it stops
 

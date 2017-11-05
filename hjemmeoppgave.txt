@@ -1,0 +1,64 @@
+Hei kursdeltakere,
+
+Her kommer hjemmeoppgavene som er en ganske enkel
+øvelse i å sette opp en Python funksjon og gjøre funksjonskall
+til denne som vi snakket om på siste kurskveld 26.oct 2017
+
+Jeg har skrevet programmene temperature.py og usingtemp.py
+NESTEN ferdig for deg, men du skal
+justere disse slik at de lar seg kompilere og kjøre.
+
+Du kan hente filene temperature.py filen og usingtemp.py
+vha wget programmet fra internet slik fra din RPI:
+
+$ wget https://raw.github.com/la4okurs/rpi/master/temperature.py
+$ wget https://raw.github.com/la4okurs/rpi/master/usingtemp.py
+
+Når du har fått over filene, er
+
+oppgave 1  knyttet til filen temperature.py
+
+og
+
+oppgave 2 er knyttet til filen usingtemp.py
+
+Hva du skal gjøre med den nedlastede filen temperature.py
+står i kommentarfeltet inne i temperature.py filen,
+
+Det samme for usingtemp.py source filen.
+
+Oppgaven består å få begge programmene til å kompilere og kjøre.
+
+Merk: Du MÅ løse oppgave 1 før oppgave 2  da usingtemp.py avhenger
+         av temperature.py !!
+
+
+
+
+Alternativ måte å downloade fra github.com området:
+Dersom du har programmet git  inne på din RPI kan du også laste ned alle filene fra kursområdet rpi fra internet i en smell slik:
+
+$ git clone https://github.com/la4okurs/rpi
+$ cd rpi
+$ ls
+her ligger så alle filene......
+
+
+((Hvis du ikke har git inne, kan git installeres først slik:
+$ sudo apt-get install git  
+Deretter flytter du deg til et ledig directory du har og kjører
+$ git clone https://github.com/la4okurs/rpi
+$ cd rpi
+som nevnt over               ))
+    
+Send meg en email om noe er uklart.
+
+Neste kurskveld
+torsdag 9.nov 2017 skal vi ta i bruk lednings- og komponent kit'ene som LA5PN/Pål delte ut forrige kurskveld og komme igang med
+Raspberry Pi GPIO, dvs  IO-pinnene, dvs bli svarte på fingrene med Hardware som LA4GF Frode uttrykte det.
+Da får vi til fulle bruk for kunnskapen om funksjoner i Python som denne hjemmeoppgaven gikk ut på.
+
+PS: Jeg skal ta med 3 ekstra kit de til som måtte mangle på neste kurskveld.
+
+Program for neste kurskveld torsdag 9.nov kommer snart....
+- Steinar 

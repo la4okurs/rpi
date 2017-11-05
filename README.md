@@ -1,2 +1,3 @@
 # rpi
-short introduction
+Hallo kursdeltakere
+

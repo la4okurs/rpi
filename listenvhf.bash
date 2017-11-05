@@ -23,11 +23,11 @@
 # You may start this program in foreground or background
 #
 # ex0: 'bash listenvhf.bash start &'    
-# ex1: 'bash listenvhf start'    or 'bash listenvhf start &'
-# ex2: 'bash listenvhf stop'
-# ex3: 'bash listenvhf status'
-# ex4: 'bash listenvhf' # same as 'bash listenvhf start'
-# ex5: 'bash listenvhf --help' # get program usage
+# ex1: 'bash listenvhf.bash start'    or 'bash listenvhf start &'
+# ex2: 'bash listenvhf.bash stop'
+# ex3: 'bash listenvhf.bash status'
+# ex4: 'bash listenvhf.bash' # same as 'bash listenvhf start'
+# ex5: 'bash listenvhf.bash --help' # get program usage
 
 PROG="/usr/bin/omxplayer" # Program which is wanted to restart if it stops
 

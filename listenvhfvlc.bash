@@ -64,7 +64,7 @@ killandstart() {
       echo "==>New startup now at $(date)"
       PROGG="$PROG $PROGARGUMENTS"
       $PROGG >/dev/null 2>&1 &
-      sleep x
+      sleep 2
       if pgrep -f $PSPROG >/dev/null 2>&1; then
          # $PROG is running
          wait

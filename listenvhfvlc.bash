@@ -8,7 +8,7 @@
 #         cvlc instead of the better omxplayer for RPI
 #
 # This script will keep listening for Norwegian ham VHF repeaters
-# or any live stream stream from the server http://myradio.no
+# or any live stream from the server http://myradio.no
 #
 # As this server forward a proxy in my hut which retransmits also Apple HLS stream
 # this script will listen for that stream at http://51.174.165.11:8888

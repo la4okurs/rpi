@@ -98,7 +98,11 @@ case $1 in
       usage_exit
       ;;
    status)
-      ps -ef | grep -i -E "$THISSCRIPT|$PROG" | grep -v grep
+     if pgrep -f $PROG >/dev/null 2>&1 ; then
+         echo "$PROG is running"
+      else
+         echo "$PROG is not running"
+      fi
       exit 0
       ;;
    

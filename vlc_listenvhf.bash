@@ -103,7 +103,12 @@ case $1 in
       usage_exit
       ;;
    status)
-      ps -ef | grep -i -E "$THISSCRIPT|$PSPROG" | grep -v grep
+      if pgrep -f $PSPROG >/dev/null 2>&1 ; then
+         # ret value 0
+         echo "$PSPROG is running"
+      else
+         echo "$PSPROG is not running"
+      fi
       exit 0
       ;;
    

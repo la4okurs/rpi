@@ -75,8 +75,8 @@ start() {
    killandstart
 }
 
-if [ ! -x /usr/bin/omxplayer ];then
-   echo "Can't find access to /usr/bin/omxplayer"
+if [ ! -x $PROG ];then
+   echo "Can't find access to $PROG"
    echo "This program is ONLY executing on an Raspberry Pi PC"
    echo "Now exit"
    exit 1

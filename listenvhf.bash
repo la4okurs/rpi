@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash#!/bin/bash
 # 
 # This script is made for running on a RPI producing sound output sink to HDMI (HDMI screens)
 # Note: If sound output is wanted on the RPI audio jack instead please change '-o hdmi' to '-o local'
@@ -33,12 +33,12 @@ PROG="/usr/bin/omxplayer" # Program which is wanted to restart if it stops
 
 #PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8 -o local"
 PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8 -o hdmi"
-
-OWNTYPE=$(pgrep -f $(basename $0))
+THISSCRIPT=$(basename $0)
+OWNPIDS=$(pgrep -f $THISSCRIPT)
 THISPROCESS=$$
 
 usage_exit() {
-   echo "Usage: $(basename $0) <start|stop|status|--help>"
+   echo "Usage: $THISSCRIPT <start|stop|status|--help>"
    exit 0
 }
 
@@ -46,7 +46,7 @@ usage_exit() {
 # kill all scripts having the same script name as this one, but
 # leave this (the last started) script run
 killscriptofthistype() {
-   for i in $OWNTYPE;do
+   for i in $OWNPIDS;do
       if [ ! "$i" = "$THISPROCESS" ];then
          kill -9 $i
       fi
@@ -57,12 +57,11 @@ killandstart() {
    while true;do
       kill -9 $(pgrep -f $PROG) > /dev/null 2>&1
       sleep 2
-      echo "==>New startup now at $(date)"
       PROGG="$PROG $PROGARGUMENTS"
       $PROGG >/dev/null 2>&1 &
       sleep 1
       if pgrep -f $PROG >/dev/null 2>&1; then
-         # $PROG is running
+         echo "==>$THISSCRIPT:$(date +%H:%M:%S):Restarted $PROGG"
          wait
       fi
       # if $PROG is killed or stopped this while loops will continue....
@@ -99,11 +98,11 @@ case $1 in
       usage_exit
       ;;
    status)
-      echo "status here"
-      ps -ef | grep -i -E "$(basename $0)|$PROG" | grep -v grep
+      ps -ef | grep -i -E "$THISSCRIPT|$PROG" | grep -v grep
       exit 0
       ;;
    
    *) start
       ;;
 esac
+

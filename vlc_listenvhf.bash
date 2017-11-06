@@ -53,7 +53,7 @@ usage_exit() {
 killscriptofthistype() {
    for i in $OWNPIDS;do
       if [ ! "$i" = "$THISPROCESS" ];then
-         kill -9 $i
+         kill -9 $i > /dev/null 2>&1
       fi
    done
 }
@@ -96,7 +96,7 @@ case $1 in
       killscriptofthistype
       kill -9 $(pgrep -f $PSPROG) > /dev/null 2>&1
       sleep 2
-      kill -9 $$ # at last kill myself too !
+      kill -9 $$ > /dev/null 2>&1 # at last kill myself too !
       exit 1
       ;;
    --help|-h|--h)

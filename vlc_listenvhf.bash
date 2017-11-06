@@ -31,6 +31,7 @@
 # ex3: 'bash vlc_listenvhf.bash status'
 # ex4: 'bash vlc_listenvhf.bash' # same as 'bash vlc_listenvhf.bash start'
 # ex5: 'bash vlc_listenvhf.bash --help' # get program usage
+THISSCRIPT=$(basename $0)
 
 PSPROG="/usr/bin/vlc"
 PROG="/usr/bin/cvlc" # Program which is wanted to restart if it stops
@@ -38,11 +39,11 @@ PROG="/usr/bin/cvlc" # Program which is wanted to restart if it stops
 #PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8"
 PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8"
 
-OWNTYPE=$(pgrep -f $(basename $0))
+OWNPIDS=$(pgrep -f $THISSCRIPT)
 THISPROCESS=$$
 
 usage_exit() {
-   echo "Usage: $(basename $0) <start|stop|status|--help>"
+   echo "Usage: $THISSCRIPT <start|stop|status|--help>"
    exit 0
 }
 
@@ -50,7 +51,7 @@ usage_exit() {
 # kill all scripts having the same script name as this one, but
 # leave this (the last started) script run
 killscriptofthistype() {
-   for i in $OWNTYPE;do
+   for i in $OWNPIDS;do
       if [ ! "$i" = "$THISPROCESS" ];then
          kill -9 $i
       fi
@@ -61,12 +62,12 @@ killandstart() {
    while true;do
       kill -9 $(pgrep -f $PSPROG) > /dev/null 2>&1
       sleep 2
-      echo "==>New startup now at $(date)"
       PROGG="$PROG $PROGARGUMENTS"
       $PROGG >/dev/null 2>&1 &
       sleep 2
       if pgrep -f $PSPROG >/dev/null 2>&1; then
          # $PROG is running
+         echo "==>$THISSCRIPT:$(date +%H:%M:%S):Restarted $PROGG"
          wait
       fi
       # if $PROG is killed or stopped this while loops will continue....
@@ -102,8 +103,7 @@ case $1 in
       usage_exit
       ;;
    status)
-      echo "status here"
-      ps -ef | grep -i -E "$(basename $0)|$PSPROG" | grep -v grep
+      ps -ef | grep -i -E "$THISSCRIPT|$PSPROG" | grep -v grep
       exit 0
       ;;
    

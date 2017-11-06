@@ -1,4 +1,4 @@
-#!/bin/bash#!/bin/bash
+#!/bin/bash
 # 
 # This script is made for running on a RPI producing sound output sink to HDMI (HDMI screens)
 # Note: If sound output is wanted on the RPI audio jack instead please change '-o hdmi' to '-o local'

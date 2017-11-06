@@ -1,8 +1,11 @@
 #!/bin/bash
 # 
-# This script is made for running on a RPI producing sound output sink to HDMI (HDMI screens)
-# Note: If sound output is wanted on the RPI audio jack instead please change '-o hdmi' to '-o local'
-#       below
+# This script is using vlc in a none GUI environment for better performance
+# (cvlc)
+# This program is intended for Linux PC, but not primarily for Raspberry PI
+
+# Notice: On RPI use the program 'listenvhf.bash' instead of this one as this one is using
+#         cvlc instead of the better omxplayer for RPI
 #
 # This script will keep listening for Norwegian ham VHF repeaters
 # or any live stream stream from the server http://myradio.no
@@ -61,7 +64,7 @@ killandstart() {
       echo "==>New startup now at $(date)"
       PROGG="$PROG $PROGARGUMENTS"
       $PROGG >/dev/null 2>&1 &
-      sleep 1
+      sleep x
       if pgrep -f $PSPROG >/dev/null 2>&1; then
          # $PROG is running
          wait
@@ -77,8 +80,7 @@ start() {
 }
 
 if [ ! -x $PROG ];then
-   echo "Can't find access to /usr/bin/omxplayer"
-   echo "This program is ONLY executing on an Raspberry Pi PC"
+   echo "Can't find access to $PROG"
    echo "Now exit"
    exit 1
 fi

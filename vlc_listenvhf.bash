@@ -1,5 +1,10 @@
 #!/bin/bash
-# 
+# # 
+# Do you want your Linux PC (not Raspberry PI) to act as a ham VHF receiver without any extra HW add On cards needed
+# in your Linucx PC ?
+#
+# This is then the program listening at Norwegian VHF repeaters, both in scan mode and fixed frequency mode
+#
 # This script is using vlc in a none GUI environment for better performance
 # (cvlc)
 # This program is intended for Linux PC, but not primarily for Raspberry PI

@@ -34,8 +34,8 @@ BASE=$(getLAN | awk -F"." '{printf $1"."$2"."$3}')
 if [ "$BASE" = "" ];then
    echo "BASE=$BASE"
    echo "Is your own network disabled or link down?"
-   echo "Check wireless access or the cable insert"
-   echo "if wired connection is used"
+   echo "Check wireless access or the cable insert if"
+   echo "wired connection is used"
    exit 1
 fi
 

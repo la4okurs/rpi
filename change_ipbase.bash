@@ -1,12 +1,12 @@
 #!/bin/bash -e
 #
 # This program I made if you are running recent versions of Linux Raspbian distro (stretch)
-# to quickly alter the upper 24 bits of your LAN IPv4 IP address base.
-# The /etc/dhcpcd.conf file is used for IP configs in stretch versions
+# and want to quickly alter the upper 24 bits of your LAN IPv4 IP address base.
+# The /etc/dhcpcd.conf file is used for IP configs in Raspbian stretch versions.
 # For help, simply start the script with no arguments given
 #
 # Advice: Do not change the IP base if not knowing your present base
-#         For a post control after chaning the IP base, you may find the 'getip' program useful 
+#         You may find the 'getip' program useful to check IPv4 LAN and WAN (base) addresses
 #
 # Author: Steinar Wenaas/LA7XQ
 #

@@ -40,13 +40,6 @@ PROG="/usr/bin/omxplayer" # Program which is wanted to restart if it stops
 #SINK="local"  # sound output sinks to RPI analog jack connector (for headphones)
 SINK="hdmi"   # sound output sinks to hdmi audio sound in hdmi screens
 
-#if [ "$2" = "local" ];then
-#   SINK="local" 
-#elif [ "$2" = "hdmi" ];then
-#   SINK="hdmi" 
-#else
-#   SINK="hdmi"
-#fi
 
 PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8 -o $SINK"
 THISSCRIPT=$(basename $0)

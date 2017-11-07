@@ -59,9 +59,10 @@ killandstart() {
       sleep 2
       PROGG="$PROG $PROGARGUMENTS"
       $PROGG >/dev/null 2>&1 &
-      sleep 1
-      if pgrep -f "$PROG " >/dev/null 2>&1; then
-         echo "==>$THISSCRIPT:$(date +%H:%M:%S):Restarted $PROGG"
+      sleep 1   
+      if pgrep -f $PROG >/dev/null 2>&1 ; then
+         echo "$PROG is running:"
+         ps -ef | grep "$PROG " | grep -v grep
          wait
       fi
       # if $PROG is killed or stopped this while loops will continue....

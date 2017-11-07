@@ -60,7 +60,7 @@ killandstart() {
       PROGG="$PROG $PROGARGUMENTS"
       $PROGG >/dev/null 2>&1 &
       sleep 1
-      if pgrep -f $PROG >/dev/null 2>&1; then
+      if pgrep -f "$PROG " >/dev/null 2>&1; then
          echo "==>$THISSCRIPT:$(date +%H:%M:%S):Restarted $PROGG"
          wait
       fi
@@ -100,7 +100,7 @@ case $1 in
    status)
       if pgrep -f $PROG >/dev/null 2>&1 ; then
          echo "$PROG is running:"
-         ps -ef | grep $PROG | grep -v grep
+         ps -ef | grep "$PROG " | grep -v grep
       else
          echo "$PROG is not running"
       fi

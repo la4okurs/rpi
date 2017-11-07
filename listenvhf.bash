@@ -61,7 +61,7 @@ killandstart() {
       $PROGG >/dev/null 2>&1 &
       sleep 1   
       if pgrep -f $PROG >/dev/null 2>&1 ; then
-         echo "$PROG is running:"
+         echo "$(date +%H:&M:%S) $PROG restarts:"
          ps -ef | grep "$PROG " | grep -v grep
          wait
       fi

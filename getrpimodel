@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+# Author: Steinar Wenaas/LA7XQ
+#
 echo "============== HW ============:"
 cat /proc/cpuinfo | grep -E "(Serial|Revision)"
 cat << EOF > /tmp/rpi_models

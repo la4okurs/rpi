@@ -98,14 +98,14 @@ case $1 in
       usage_exit
       ;;
    status)
-     if pgrep -f $PROG >/dev/null 2>&1 ; then
-         echo "$PROG is running"
+      if pgrep -f $PROG >/dev/null 2>&1 ; then
+         echo "$PROG is running:"
+         ps -Hf | grep $PROG | grep -v grep
       else
          echo "$PROG is not running"
       fi
       exit 0
       ;;
-   
    *) start
       ;;
 esac

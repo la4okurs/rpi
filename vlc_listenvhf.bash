@@ -67,7 +67,7 @@ killandstart() {
       sleep 2
       if pgrep -f $PSPROG>/dev/null 2>&1; then
          # $PROG is running
-         # echo "==>$THISSCRIPT:$(date +%H:%M:%S):Restarted $PROGG"
+         echo "==>$(date +%H:%M:%S)  $PSPROG restarts:"
          ps -ef | grep "$PSPROG " | grep -v grep
          wait
       fi

@@ -105,7 +105,8 @@ case $1 in
    status)
       if pgrep -f $PSPROG >/dev/null 2>&1 ; then
          # ret value 0
-         echo "$PSPROG is running"
+         echo "$PSPROG is running:"
+         ps -Hf | grep $PSPROG | grep -v grep
       else
          echo "$PSPROG is not running"
       fi

@@ -26,6 +26,8 @@ for i in "$@";do
       echo "Example 6: $(basename $0) -p  # ping test towards router"
       echo "Example 7: $(basename $0) -a  # scan any on the local network (LAN side)"
       echo "Example 8: $(basename $0) -pr # ping rotate test towards router"
+      echo "Example 9: $(basename $0) -o  # search for open ports on your own WAN address"
+      echo "Example 10:$(basename $0) -oo # search for open ports on any WAN"
       exit 0
    fi
 done
@@ -34,8 +36,8 @@ BASE=$(getLAN | awk -F"." '{printf $1"."$2"."$3}')
 if [ "$BASE" = "" ];then
    echo "BASE=$BASE"
    echo "Is your own network disabled or link down?"
-   echo "Check wireless access or the cable insert if"
-   echo "wired connection is used"
+   echo "Check wireless access or the cable insert"
+   echo "if wired connection is used"
    exit 1
 fi
 
@@ -163,8 +165,25 @@ case "$1" in
         echo;echo "start local scan on ${BASE}.0/24 (be patient)...";
         nmap -v -sn ${BASE}.0/24 | sed -e 's/Nmap //g' | grep -B1 -i "up"
         exit 0;;
+   -o)  IPWAN=$(curl -s http://www.ipmotivation.com/ | grep "IP Address:"  | awk -F":" '{print $2}' | awk '{print $1}')
+        echo "Finding open ports may take some time..."
+        nmap -sS $IPWAN | grep -i -E "[0-9]\/"
+        exit 0;;
+   -oo) while true;do
+           echo -ne "Give IPv4 address: "
+           read ANS
+           if echo "$ANS" | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" >/dev/null 2>&1; then
+              break
+           else
+              echo "Not a valid IPv4 address given"
+              continue
+           fi
+        done
+        echo "Finding open ports may take some time..."
+        sudo nmap -Pn -sS $ANS | grep -i -E "[0-9]\/"
+        exit 0;;
    *)   echo -ne "My IP LAN address is: ";getLAN;getWAN;;
-   #*)   echo "ERROR: Wrong usage, see $(basename $0) --help ";exit 1;;
+   #*)   echo "ERROR:wrong usage, see $(basename $0) --help ";exit 1;;
 esac
 
 #echo -ne "My IP LAN address is: "

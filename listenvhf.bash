@@ -63,7 +63,7 @@ killandstart() {
       if pgrep -f $PROG >/dev/null 2>&1 ; then
          echo -ne "==>$(date +%H:%M:%S): $PROG restarts: "
          # ps -ef | grep "$PROG " | grep -v grep
-         echo "Now listening ham VHF stream..."
+         echo "Now listening ham VHF stream. Adjust your audio volume..."
          wait
       fi
       # if $PROG is killed or stopped this while loops will continue....

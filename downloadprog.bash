@@ -34,6 +34,9 @@ case $1 in
       RET=$?
       if [ $RET -ne 0 ];then
          echo "$(basename $0): file '$1' not found or connection lost"
+         exit 1
+      else
+         exit 0
       fi
       ;;
 esac

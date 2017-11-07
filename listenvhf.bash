@@ -100,7 +100,7 @@ case $1 in
    status)
       if pgrep -f $PROG >/dev/null 2>&1 ; then
          echo "$PROG is running:"
-         ps -Hf | grep $PROG | grep -v grep
+         ps -ef | grep $PROG | grep -v grep
       else
          echo "$PROG is not running"
       fi

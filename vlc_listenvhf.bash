@@ -96,7 +96,9 @@ case $1 in
       echo "I'll do..."
       killscriptofthistype
       kill -9 $(pgrep -f $PSPROG) > /dev/null 2>&1
-      sleep 2
+      sleep 1
+      ps -ef | grep "$PSPROG " | grep -v grep
+      sleep 1
       kill -9 $$ > /dev/null 2>&1 # at last kill myself too !
       exit 1
       ;;

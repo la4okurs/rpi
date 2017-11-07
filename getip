@@ -124,8 +124,14 @@ getWAN() {
       echo "Try '$(basename $0) -a' as well"
       exit 1
    fi
+   
    # Then try to pass the gateway...
    echo -ne "My IP WAN address is: "
+   if ! type curl >/dev/null 2>&1 ;then
+      echo "ERROR: curl missing. Try 'apt-get install curl' first. Then try again $(basename $0)"
+      exit 1
+   fi
+   
    IPWAN=$(curl -s http://www.ipmotivation.com/ | grep "IP Address:"  | awk -F":" '{print $2}' | awk '{print $1}')
    if [ -z "$IPWAN" ];then
       echo "ERROR, can't gate the router, check gateway setting"

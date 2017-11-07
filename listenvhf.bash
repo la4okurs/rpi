@@ -1,5 +1,10 @@
 #!/bin/bash
 # 
+# Do you want your Raspberry PI to act as a ham VHF receiver without any HW add On cards needed or piggyback
+# cards needed ?
+#
+# This is then the program listening at Norwegian VHF repeaters, both in scan mode and fixed frequency mode
+#
 # This script is made for running on a RPI producing sound output sink to HDMI (HDMI screens)
 # Note: If sound output is wanted on the RPI audio jack instead please change '-o hdmi' to '-o local'
 #       below

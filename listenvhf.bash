@@ -6,7 +6,7 @@
 # This is then the program that lets you listen at Norwegian VHF repeaters, both in scan mode and fixed frequency mode
 #
 # This script is made for running on a RPI producing sound output sink to HDMI (HDMI screens)
-# Note: If sound output is wanted on the RPI audio jack instead please change '-o hdmi' to '-o local'
+# Note: If sound output is wanted on the RPI audio jack instead please change SINK="local"
 #       below
 #
 # This script will keep listening for Norwegian ham VHF repeaters
@@ -36,8 +36,19 @@
 
 PROG="/usr/bin/omxplayer" # Program which is wanted to restart if it stops
 
-#PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8 -o local"
-PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8 -o hdmi"
+# sound output:
+#SINK="local"  # sound output sinks to RPI analog jack connector (for headphones)
+SINK="hdmi"   # sound output sinks to hdmi audio sound in hdmi screens
+
+#if [ "$2" = "local" ];then
+#   SINK="local" 
+#elif [ "$2" = "hdmi" ];then
+#   SINK="hdmi" 
+#else
+#   SINK="hdmi"
+#fi
+
+PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8 -o $SINK"
 THISSCRIPT=$(basename $0)
 OWNPIDS=$(pgrep -f $THISSCRIPT)
 THISPROCESS=$$

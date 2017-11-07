@@ -128,7 +128,7 @@ getWAN() {
    # Then try to pass the gateway...
    echo -ne "My IP WAN address is: "
    if ! type curl >/dev/null 2>&1 ;then
-      echo "ERROR: curl missing. Try '$ sudo apt-get install curl' first. Then try again $(basename $0)"
+      echo "ERROR: curl missing. Try '+$ sudo apt-get install curl' first. Then try again $(basename $0)"
       exit 1
    fi
    

@@ -67,8 +67,9 @@ killandstart() {
       sleep 2
       if pgrep -f $PSPROG>/dev/null 2>&1; then
          # $PROG is running
-         echo "==>$(date +%H:%M:%S)  $PSPROG restarts:"
-         ps -ef | grep "$PSPROG " | grep -v grep
+         echo -ne "==>$(date +%H:%M:%S): $PSPROG restarts: "
+         # ps -ef | grep "$PSPROG " | grep -v grep
+         echo "Now listening ham VHF stream. Adjust your audio volume..."
          wait
       fi
       # if $PROG is killed or stopped this while loops will continue....

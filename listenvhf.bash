@@ -29,12 +29,7 @@
 #
 # You may start this program in foreground or background
 #
-# ex0: 'bash listenvhf.bash start &'     # start in background 
-# ex1: 'bash listenvhf.bash start'       # start in foreground
-# ex2: 'bash listenvhf.bash stop'
-# ex3: 'bash listenvhf.bash status'
-# ex4: 'bash listenvhf.bash' # same as 'bash listenvhf.bash start'
-# ex5: 'bash listenvhf.bash --help' # get program usage
+# Usage: see below
 
 PROG="/usr/bin/omxplayer" # Program which is wanted to restart if it stops
 
@@ -54,7 +49,8 @@ THISPROCESS=$$
 usage_exit() {
    echo "Usage: $THISSCRIPT <start [jack]|stop|status|--help>"
    echo "examples:"
-   echo "ex1: $THISSCRIPT          # start rendering HDMI audio (foreground)"
+   echo "ex0: $THISSCRIPT          # start rendering HDMI audio (foreground)"
+   echo "ex1: $THISSCRIPT &        # start rendering HDMI audio (background)"
    echo "ex2: $THISSCRIPT start    # start rendering HDMI audio (foreground)"
    echo "ex3: $THISSCRIPT start &  # start rendering HDMI audio (background)"
    echo "ex4: $THISSCRIPT stop     # stop rendering audio"
@@ -63,7 +59,7 @@ usage_exit() {
    echo "ex7: $THISSCRIPT jack &   # start rendering audio to RPI jack audio connector (background)"
    echo "ex8: $THISSCRIPT start jack   # start rendering audio to RPI jack audio connector (foreground)"
    echo "ex9: $THISSCRIPT start jack & # start rendering audio to RPI jack audio connector (background)"
-   echo "ex10:$THISSCRIPT --help   # print this help usage"
+   echo "ex10:$THISSCRIPT --help   # print this usage help list"
    echo"";echo "INFO: rendering audio will default use HDMI if not 'jack' or 'local' specified"
    exit 0
 }

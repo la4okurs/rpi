@@ -1,6 +1,6 @@
 #!/bin/bash
 # 
-# RPI VHF HAM RADIO RECEIVER
+# RPI VHF HAM RADIO RECEIVER (no RPI HAT is needed !)
 #
 # Do you want your Raspberry PI to act as a ham VHF receiver
 # without any HW add-on card needed or any extra piggyback card needed ?

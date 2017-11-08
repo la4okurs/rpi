@@ -1,7 +1,8 @@
 #!/bin/bash
 #  
-# Do you want your Raspberry PI to act as a ham VHF receiver
-# without any HW add-on card needed or any extra piggyback card needed ?
+# Do you want your Raspberry PI to act as a HAM VHF RADIO RECEIVER
+# WITHOUT any extra HAT (add-on card) needed or other piggyback card on top needed.
+# Just pure Raspberry PI board needed
 #
 # This is then the program that lets you listen at Norwegian VHF repeaters, both in scan mode and fixed frequency mode
 #

@@ -2,10 +2,13 @@
 # 
 # RPI VHF HAM RADIO RECEIVER (no RPI HAT is needed !)
 #
-# Do you want your Raspberry PI to act as a ham VHF receiver
+# # Just pure Raspberry PI board needed
+#
+# Do you want your Raspberry PI to act as a HAM RADIO VHF receiver
 # without any HW add-on card needed or any extra piggyback card needed ?
 #
-# This is then the program that lets you listen at Norwegian VHF repeaters, both in scan mode and fixed frequency mode
+# Then this is then the program that lets you listen at Norwegian VHF repeaters,
+# both in scan mode and fixed frequency mode
 #
 # This script is made for running on a RPI producing sound output sink to HDMI (HDMI screens)
 # Note: If sound output is wanted on the RPI audio jack instead please change SINK="local"

@@ -88,7 +88,7 @@ killandstart() {
          echo -ne "==>$(date +%H:%M:%S): $PROG restarts: "
          # ps -ef | grep "$PROG " | grep -v grep
          echo "Now listening radio VHF stream. Adjust your audio $SINK volume"
-         echo "Notice: Silence before radio squelch opens is normal.Stay tuned.."
+         echo "Notice: Silence now before radio squelch opens is normal. Stay tuned..."
          wait
       fi
       # if $PROG is killed or stopped this while loops will continue....

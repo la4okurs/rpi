@@ -74,7 +74,8 @@ killandstart() {
          # $PROG is running
          echo -ne "==>$(date +%H:%M:%S): $PSPROG restarts: "
          # ps -ef | grep "$PSPROG " | grep -v grep
-         echo "Now listening ham VHF stream. Adjust your audio volume..."
+         echo "Now listening radio VHF stream. Adjust your audio volume."
+         echo "Notice: Silence before radio squelch opens is normal.Stay tuned.."
          wait
       fi
       # if $PROG is killed or stopped this while loops will continue....

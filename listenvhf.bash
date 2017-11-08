@@ -5,7 +5,9 @@
 #
 # This is then the program that lets you listen at Norwegian VHF repeaters, both in scan mode and fixed frequency mode
 #
-# This script is made for running on a RPI producing sound output sink to HDMI (HDMI screens)
+# This script is made for running on a RPI producing sound output sink to HDMI (HDMI screens) or to RPI´s
+# audio jack connector (see SINK variable below)
+#
 # Note: If sound output is wanted on the RPI audio jack instead please change SINK="local"
 #       below
 #

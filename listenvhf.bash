@@ -1,13 +1,13 @@
 #!/bin/bash
 # 
+# RPI VHF HAM RADIO RECEIVER
+#
 # Do you want your Raspberry PI to act as a ham VHF receiver
 # without any HW add-on card needed or any extra piggyback card needed ?
 #
 # This is then the program that lets you listen at Norwegian VHF repeaters, both in scan mode and fixed frequency mode
 #
-# This script is made for running on a RPI producing sound output sink to HDMI (HDMI screens) or to RPI´s
-# audio jack connector (see SINK variable below)
-#
+# This script is made for running on a RPI producing sound output sink to HDMI (HDMI screens)
 # Note: If sound output is wanted on the RPI audio jack instead please change SINK="local"
 #       below
 #
@@ -39,17 +39,32 @@
 PROG="/usr/bin/omxplayer" # Program which is wanted to restart if it stops
 
 # sound output:
-#SINK="local"  # sound output sinks to RPI analog jack connector (for headphones)
-SINK="hdmi"   # sound output sinks to hdmi audio sound in hdmi screens
+if [ "$2" = "jack" -o "$2" = "local" ];then
+   SINK="local"  # sound output sinks to RPI analog jack connector (for headphones)
+else
+   # default
+   SINK="hdmi"   # sound output sinks to hdmi audio sound in hdmi screens
+fi
 
 
-PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8 -o $SINK"
 THISSCRIPT=$(basename $0)
 OWNPIDS=$(pgrep -f $THISSCRIPT)
 THISPROCESS=$$
 
 usage_exit() {
-   echo "Usage: $THISSCRIPT <start|stop|status|--help>"
+   echo "Usage: $THISSCRIPT <start [jack]|stop|status|--help>"
+   echo "examples:"
+   echo "ex1: $THISSCRIPT          # start rendering HDMI audio (foreground)"
+   echo "ex2: $THISSCRIPT start    # start rendering HDMI audio (foreground)"
+   echo "ex3: $THISSCRIPT start &  # start rendering HDMI audio (background)"
+   echo "ex4: $THISSCRIPT stop     # stop rendering audio"
+   echo "ex5: $THISSCRIPT status   # get audio process status"
+   echo "ex6: $THISSCRIPT jack     # start rendering audio to RPI jack audio connector (foreground)"
+   echo "ex7: $THISSCRIPT jack &   # start rendering audio to RPI jack audio connector (background)"
+   echo "ex8: $THISSCRIPT start jack   # start rendering audio to RPI jack audio connector (foreground)"
+   echo "ex9: $THISSCRIPT start jack & # start rendering audio to RPI jack audio connector (background)"
+   echo "ex10:$THISSCRIPT --help   # print this help usage"
+   echo"";echo "INFO: rendering audio will default use HDMI if not 'jack' or 'local' specified"
    exit 0
 }
 
@@ -68,6 +83,8 @@ killandstart() {
    while true;do
       kill -9 $(pgrep -f $PROG) > /dev/null 2>&1
       sleep 2
+      #PROGARGUMENTS="--vol 500 http://51.174.165.11:8888/hls/stream.m3u8 -o $SINK"
+      PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8 -o $SINK"
       PROGG="$PROG $PROGARGUMENTS"
       $PROGG >/dev/null 2>&1 &
       sleep 1   
@@ -88,7 +105,7 @@ start() {
 }
 
 if [ ! -x $PROG ];then
-   echo "Can't find access to $PROG"
+   echo "Can't find $PROG or no access"
    echo "This program is ONLY executing on an Raspberry Pi PC"
    echo "Now exit"
    exit 1
@@ -121,7 +138,10 @@ case $1 in
       fi
       exit 0
       ;;
+   jack)
+      SINK="local"
+      start
+      ;;
    *) start
       ;;
 esac
-

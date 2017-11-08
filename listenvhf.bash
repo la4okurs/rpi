@@ -138,7 +138,7 @@ case $1 in
       fi
       exit 0
       ;;
-   jack)
+   jack|local)
       SINK="local"
       start
       ;;

@@ -18,4 +18,4 @@ For download av ALLE filer fra dette rpi repository: $ git clone http://github.c
 
 Send meg email hvis noe er uklart
 
-- Steinar
+- Steinar/LA7XQ

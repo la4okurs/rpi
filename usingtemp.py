@@ -3,10 +3,10 @@
 #
 # TEXT AREA
 # Dette programmet (denne filen) skal du kalle usingtemp.py
-# og dette prammet skal kalle begge funksjonene du laget i temperature.py programmet
+# og dette programmet skal kalle begge funksjonene du laget i temperature.py programmet
 # ved hjelp av import (module) i Python
 #
-# Slik prorammet nå er skrevet vil det feile.
+# Slik programmet nå er skrevet vil det feile.
 # Importer riktig under og få programmet til å kjøre
 # Hint: Du trenger ikke å tilføre flere statements, kun rette opp de statements som
 # er gitt

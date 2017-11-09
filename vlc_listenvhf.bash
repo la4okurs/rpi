@@ -90,11 +90,10 @@ start() {
 }
 
 if [ ! -x $PROG ];then
-   echo "Can't find access to $PROG"
+   echo "Can't find $PROG or no access"
    echo "Now exit"
    exit 1
 fi
-
 case $1 in
    start)
       start

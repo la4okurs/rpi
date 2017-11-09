@@ -3,7 +3,7 @@
 #
 # TEXT AREA
 # Dette programmet (denne filen) skal du kalle usingtemp.py
-# og dette progammet skal kalle begge funksjonene du laget i temperature.py programmet
+# og dette programmet skal kalle begge funksjonene du laget i temperature.py programmet
 # ved hjelp av import (module) i Python
 
 # IMPORT AREA

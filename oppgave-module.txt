@@ -1,0 +1,18 @@
+oppgave Module
+==============
+Oppgaven går litt på forståelse av importerte moduler, her modulen 'time'
+som vi snakket om på siste kurskveld
+
+a) Start din Python interpreter             #   $ python
+b) import time   modulen                    #   >>> import time
+c) kjør nå Python funksjonen  time.ctime()  #   >>> time.ctime()
+   Hva viser denne ?
+   Hvilken data type kom ut ? 
+d) kjør Python statementet       time.ctime().split(' ')
+   Hvilken data type kommer nå ut etter splittingen her?
+e) Plukk ut time tallet i list'en         # hint  time.ctime().split(' ')[3]
+f) Finn selv et statemnet som plukker ut kun dato tallet (hint: skal være mellom 0-31)
+g) Kjør               time.ctime().split(' ')[3].split(':')
+   Hva kom ut og hvilken data type er dette
+h) Lag et Python statement (=en Python linje) som plukker ut bare sekundtallet av det du kjørte i oppgave 1g)
+i) kjør ditt statement i oppgave 1h) gjentatte ganger for å se at sekundtallet øker for hver gang du kjører samme statement

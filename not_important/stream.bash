@@ -47,7 +47,7 @@ if [ "$ARG" = "john" ];then
    bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash http://streaming.radio.co/s9fa0dff72/listen  start &
 elif [ "$ARG" = "p4" ];then
    # bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash http://streaming.radio.co/s9fa0dff72/listen  start &
-   bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash http://stream.p4.no/p4_mp3_hq start
+   bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash http://stream.p4.no/p4_mp3_hq start &
 elif [ "$ARG" = "nrk" ];then
    bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p13_aac_h start &
 elif [ "$ARG" = "ham" ];then

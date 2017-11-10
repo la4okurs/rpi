@@ -1,11 +1,21 @@
 #/bin/bash
-#set -x
-VLC_LISTENVHF_PATH="/home/pi/rpi"
-MYLIST="nrk p4 ham john"
-while true;do
-   if [ $# -eq 0 ];then
-      echo "Select one of the following:"
-      for i in $MYLIST;
+#
+# Just a quick hack script to quickly test my new wonderful Raspberry Pi based
+# IQAUDIO sound card
+#
+# Author: Steinar/LA7XQ
+#
+VLC_LISTENVHF_PATH="/home/pi/rpi
+
+question() {
+   # call like this:
+   # QUESTION="Select one of the following"
+   # POSANS="nrk p4 ham john status stop" 
+   # question "$QUESTION" "$POSANS"
+   # out: ARG
+   while true;do
+      echo "$1"
+      for i in $2 ;
       do
          echo $i
       done
@@ -14,7 +24,7 @@ while true;do
       read ANS
       #echo "ANS=$ANS"
       FOUND=0
-      for i in $MYLIST;
+      for i in $2;
       do
          if [ "$ANS" = "$i" ];then
             FOUND=1
@@ -26,14 +36,20 @@ while true;do
          echo;echo "Not in the list. Please again:"
          continue
       fi
-   else
-      ARG="$1"
-      break
-   fi
-   if [ $FOUND -eq 1 ];then
-      break
-   fi
-done
+      if [ $FOUND -eq 1 ];then
+         break
+      fi
+   done
+}
+
+if [ $# -eq 0 ];then
+   QUESTION="Select one of the following"
+   POSANS="nrk p4 ham john status stop" 
+   question "$QUESTION" "$POSANS"
+   # ARG is here valid as a string
+else
+   ARG="$1"
+fi
 
 echo "You selected: ${ARG}. Just a second...."
 
@@ -41,12 +57,17 @@ if [ "$ARG" = "john" ];then
    bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash http://streaming.radio.co/s9fa0dff72/listen  start &
 elif [ "$ARG" = "p4" ];then
    # bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash http://streaming.radio.co/s9fa0dff72/listen  start &
-   bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash http://stream.p4.no/p4_mp3_hq start
+   bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash http://stream.p4.no/p4_mp3_hq start &
 elif [ "$ARG" = "nrk" ];then
-   bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p13_aac_h start
+   bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p13_aac_h start &
 elif [ "$ARG" = "ham" ];then
-   bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash start
+   bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash start &
+elif [ "$ARG" = "status" ];then
+   bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash status
+elif [ "$ARG" = "stop" ];then
+   bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash stop
 else
    :
 fi
 exit 0
+

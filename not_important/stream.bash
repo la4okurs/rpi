@@ -1,5 +1,11 @@
 
 #/bin/bash
+#
+# Just a quick hack script to quickly test my new wonderful Raspberry Pi based
+# IQAUDIO sound card
+#
+# Author: Steinar/LA7XQ
+#
 VLC_LISTENVHF_PATH="/home/pi/rpi"
 MYLIST="nrk p4 ham john status stop"
 while true;do

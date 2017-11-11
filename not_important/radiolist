@@ -1,7 +1,7 @@
 # You may add URLs to this list yourself...
-ham    ::  # DO NOT REMOVE THIS LINE
-status ::  # DO NOT REMOVE THIS LINE
-stop   ::  # DO NOT REMOVE THIS LINE
+ham    :: # DO NOT REMOVE THIS LINE
+status :: # DO NOT REMOVE THIS LINE
+stop   :: # DO NOT REMOVE THIS LINE
  
 johnny :: http://streaming.radio.co/s9fa0dff72/listen
 nrk    :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p13_aac_h

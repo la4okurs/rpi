@@ -158,6 +158,8 @@ if echo "$1" | grep -q '^http://' ; then
    # echo "after shift: \@1=$1"
    # echo "after shift: \@2=$2"
 else
+   echo
+   echo " === HAM VHF RADIO RECEIVER AND INTERNET STREAM RECEIVER ==="
    DIFFURL=""
 fi
 # echo "DIFFURL=$DIFFURL"

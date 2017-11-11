@@ -21,9 +21,9 @@ question() {
    while true;do
       # if [ -z "$3" ];then
       if [ -z "$1" ];then
-          echo "Select one of the following:"
+          echo;echo "Select one of the following:"
       else
-          echo "$1"  # the question
+          echo;echo "$1"  # the question
       fi
       for i in $2 ;
       do
@@ -90,13 +90,13 @@ buildposanswers() {
    TMPRESFILE2="./.tmp2"
    [ -f $TMPRESFILE1 ] && rm $TMPRESFILE1
    [ -f $TMPRESFILE2 ] && rm $TMPRESFILE2
-   while read line; do    
-      colen=$(echo $line  | awk '{print $1}')
-      # echo "colen=${colen}X"
-      if [ ! "$colen" = "#" ];then
-         # echo $line  | awk '{print $1}' >>$TMPRESFILE1
-         echo $colen >>$TMPRESFILE1
-      fi
+   while read line; do
+      POS1=$(echo "$line" | cut -c1)
+      [ "$POS1" = "#" ] && continue
+      colen=$(echo $line | awk -F "::" '{print $1}')
+      #echo "colen=${colen}X"
+      # echo $line  | awk -F "::" '{print $1}' >>$TMPRESFILE1
+      echo $colen >>$TMPRESFILE1
    done < $1
    # replace NL wit SP
    tr '\n' ' ' < $TMPRESFILE1 >$TMPRESFILE2
@@ -117,16 +117,17 @@ pickalineandplay() {
       return 1
    fi
    [ -f $1 ] || { echo "No such file '$1'"; return 1; }
-   touch "./.tmp1"
+   # touch "./.tmp1"
   
    echo "reading the $1  file..."
    FOUND=0
    while read line; do    
-      col1=$(echo $line  | awk '{print $1}')
-      # echo "==>col1=$col1"
+      POS1=$(echo "$line" | cut -c1)
+      [ "$POS1" = "#" ] && continue
+      col1=$(echo $line | awk -F "::" '{print $1}' | awk '{print $1}')
+      [ -z "$col1" ] && continue
       if [ "$col1" = "$2" ];then
          FOUND=1 
-         #echo "line=$line"
          http=$(echo "$line" | sed -e 's/.*http:/http:/g' -e 's/#.*//g' )
          # echo "http=$http"
          # echo "==>COL1=$col1, line=$line"
@@ -154,11 +155,11 @@ pickalineandplay() {
 
 # echo "Reading the $RADIOLIST ..."
 POSANS=$(buildposanswers $RADIOLIST)
+ 
 #QUESTION=""
 QUESTION="Select one to stream/control from:"
 question "$QUESTION" "$POSANS" "$1"
 RET=$?
-# echo "ANS=$ANS"; exit 0
 [ $RET -ne 0 ] && { echo "ERROR: Answer was ${ANS}, now exit";exit 1; }
 pickalineandplay $RADIOLIST "$ANS"
 RET=$?

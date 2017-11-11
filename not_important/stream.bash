@@ -133,9 +133,7 @@ pickalineandplay() {
          # echo "==>COL1=$col1, line=$line"
 
          # treat some entries as proprietary:
-         if [ "$col1" == "ham" ];then
-            play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash start &"
-         elif [ "$col1" == "start" ];then
+         if [ "$col1" == "start" ];then
             play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash start &"
          elif [ "$col1" == "stop" ];then
             play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash stop &"

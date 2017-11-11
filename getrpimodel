@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Author: Steinar Wenaas/LA7XQ
+# Author: Steinar/LA7XQ
 #
 echo "============== HW ============:"
 cat /proc/cpuinfo | grep -E "(Serial|Revision)"

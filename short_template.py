@@ -1,7 +1,7 @@
 #!/bin/env/python
 # -*- coding: utf-8 -*-
 #
-# TEXT AREA
+# TEXT AREA explaining what the program is doing
 # This program will ....
 #
 # Author: 
@@ -13,11 +13,14 @@ import sys
 
 # GLOBAL DATA AREA
 # a = 3 # substitute a or other data to be your own data
-#
+
+
 
 # FUNCTION AREA
 def foo():
    pass # substitute this to be your own function statements
+
+
 
 
 # MAIN AREA

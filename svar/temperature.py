@@ -42,7 +42,7 @@ def calc_fahrenheit():
    print "calc_fahrenheit:"
    print "Celius Fahrenheit"
    for c in range(-10,11,1):
-      f = 1.8 *c + 32
+      f = 1.8 * c + 32
       print c,f
 
 def calc_celsius():
@@ -59,7 +59,7 @@ def calc_celsius():
 if __name__ == "__main__":
 
    calc_fahrenheit()
-   calc_celsius()  # gir feilmelding, du må rette opp kallet selv her
+   calc_celsius()
 
    sys.exit(0)
 

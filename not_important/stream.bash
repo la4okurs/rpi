@@ -1,3 +1,4 @@
+
 #/bin/bash
 #
 # Just a quick hack script to quickly test my new wonderful Raspberry Pi based
@@ -124,7 +125,8 @@ pickalineandplay() {
       if [ "$col1" = "$2" ];then
          FOUND=1 
          #echo "line=$line"
-         http=$(echo "$line" | sed -e 's/.*http:/http:/g')
+         http=$(echo "$line" | sed -e 's/.*http:/http:/g' -e 's/#.*//g' )
+         echo "http=$http"
          #echo "==>COL1=$col1, line=$line"
          if [ "$col1" == "ham" ];then
             play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash start &"
@@ -150,8 +152,9 @@ POSANS=$(buildposanswers "./radiolist")
 QUESTION=""
 question "$QUESTION" "$POSANS" "$1"
 RET=$?
+# echo "ANS=$ANS"; exit 0
 [ $RET -ne 0 ] && { echo "ERROR: Answer was ${ANS}, now exit";exit 1; }
-#echo "ANS=$ANS"
 pickalineandplay "./radiolist" "$ANS"
 RET=$?
 exit $RET
+

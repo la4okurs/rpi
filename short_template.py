@@ -1,7 +1,7 @@
 #!/bin/env/python
 # -*- coding: utf-8 -*-
 #
-# TEXT AREA explaining what the program is doing
+# TEXT AREA explaining what the program is doing, any licensies, copyrights etc
 # This program will ....
 #
 # Author: 

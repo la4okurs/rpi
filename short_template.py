@@ -6,7 +6,8 @@
 #
 # Author: 
 #
-#
+
+
 # IMPORT AREA
 import sys 
 
@@ -29,5 +30,5 @@ if __name__ == "__main__":
    # ....
    # ...
 
-
-   sys.exit(0) # All exits back to shell should leave 0 if no error(s) and >< 0 if failing
+   
+   sys.exit(0) # All exits back to outer shell should leave 0 if no error(s) and >< 0 if failing

@@ -1,6 +1,12 @@
 #!/bin/env/python
 # -*- coding: utf-8 -*-
 #
+# TEXT AREA
+# This program will ....
+#
+# Author: 
+#
+#
 # IMPORT AREA
 import sys 
 
@@ -21,4 +27,4 @@ if __name__ == "__main__":
    # ...
 
 
-   sys.exit(0)
+   sys.exit(0)  # All exits of the program should leave a value, 0 = no error,  not 0 if failing 

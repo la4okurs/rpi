@@ -27,4 +27,4 @@ if __name__ == "__main__":
    # ...
 
 
-   sys.exit(0)  # All exits of the program should leave a value, 0 = no error,  not 0 if failing 
+   sys.exit(0) # All exits back to shell should leave 0 if no error(s) and >< 0 if failing

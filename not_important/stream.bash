@@ -151,9 +151,9 @@ pickalineandplay() {
    return 1
 }
 
-echo "Reading the $RADIOLIST ..."
+# echo "Reading the $RADIOLIST ..."
 POSANS=$(buildposanswers $RADIOLIST)
-QUESTION=""
+QUESTION="Select one of the following"
 question "$QUESTION" "$POSANS" "$1"
 RET=$?
 # echo "ANS=$ANS"; exit 0

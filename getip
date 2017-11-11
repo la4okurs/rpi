@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # The program gives overview over your LAN and WAN properties
-# Author: Steinar Wenaas / LA7XQ
+# Author: Steinar/LA7XQ
 #         hack script skrevet av Steinar i full fart
 # First check if any help is requested tru '--help','-h' etc:
 

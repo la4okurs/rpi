@@ -7,6 +7,7 @@
 # Author: Steinar/LA7XQ
 #
 VLC_LISTENVHF_PATH="/home/pi/rpi"
+RADIOLIST="./radiolist"
 
 question() {
    # call like this:
@@ -23,7 +24,6 @@ question() {
    #
    while true;do
       [ -z "$3" ] && echo "$1"  # the question
-      echo -ne "Select one of the following: "
       for i in $2 ;
       do
          # echo  $i
@@ -117,7 +117,8 @@ pickalineandplay() {
    fi
    [ -f $1 ] || { echo "No such file '$1'"; return 1; }
    touch "./.tmp1"
-   
+  
+   echo "reading the $1  file..."
    FOUND=0
    while read line; do    
       col1=$(echo $line  | awk '{print $1}')
@@ -126,8 +127,10 @@ pickalineandplay() {
          FOUND=1 
          #echo "line=$line"
          http=$(echo "$line" | sed -e 's/.*http:/http:/g' -e 's/#.*//g' )
-         echo "http=$http"
-         #echo "==>COL1=$col1, line=$line"
+         # echo "http=$http"
+         # echo "==>COL1=$col1, line=$line"
+
+         # treat some entries as proprietary:
          if [ "$col1" == "ham" ];then
             play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash start &"
          elif [ "$col1" == "start" ];then
@@ -148,13 +151,15 @@ pickalineandplay() {
    return 1
 }
 
-POSANS=$(buildposanswers "./radiolist")
+echo "Reading the $RADIOLIST ..."
+POSANS=$(buildposanswers $RADIOLIST)
 QUESTION=""
 question "$QUESTION" "$POSANS" "$1"
 RET=$?
 # echo "ANS=$ANS"; exit 0
 [ $RET -ne 0 ] && { echo "ERROR: Answer was ${ANS}, now exit";exit 1; }
-pickalineandplay "./radiolist" "$ANS"
+pickalineandplay $RADIOLIST "$ANS"
 RET=$?
 exit $RET
+
 

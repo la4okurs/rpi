@@ -89,7 +89,12 @@ buildposanswers() {
    [ -f $TMPRESFILE1 ] && rm $TMPRESFILE1
    [ -f $TMPRESFILE2 ] && rm $TMPRESFILE2
    while read line; do    
-      echo $line  | awk '{print $1}' >>$TMPRESFILE1
+      colen=$(echo $line  | awk '{print $1}')
+      # echo "colen=${colen}X"
+      if [ ! "$colen" = "#" ];then
+         # echo $line  | awk '{print $1}' >>$TMPRESFILE1
+         echo $colen >>$TMPRESFILE1
+      fi
    done < $1
    # replace NL wit SP
    tr '\n' ' ' < $TMPRESFILE1 >$TMPRESFILE2
@@ -119,9 +124,8 @@ pickalineandplay() {
       if [ "$col1" = "$2" ];then
          FOUND=1 
          #echo "line=$line"
-         http=$(echo "$line" | sed -e 's/.*::[ /t]*//g')
          http=$(echo "$line" | sed -e 's/.*http:/http:/g')
-         #echo "==>col111=$col1, line=$line"
+         #echo "==>COL1=$col1, line=$line"
          if [ "$col1" == "ham" ];then
             play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash start &"
          elif [ "$col1" == "start" ];then
@@ -134,7 +138,7 @@ pickalineandplay() {
             #play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""http://streaming.radio.co/s9fa0dff72/listen  start &"
             play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""$http start &"
          fi
-         echo "play=$play"
+         echo "now doing '$play'"
          eval "$play"
          return 0
       fi

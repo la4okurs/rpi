@@ -23,7 +23,11 @@ question() {
    # out: ANS  # answer
    #
    while true;do
-      [ -z "$3" ] && echo "$1"  # the question
+      if [ -z "$3" ];then
+          echo "Select one of the following:"
+      else
+          echo "$1"  # the question
+      fi
       for i in $2 ;
       do
          # echo  $i
@@ -153,7 +157,7 @@ pickalineandplay() {
 
 # echo "Reading the $RADIOLIST ..."
 POSANS=$(buildposanswers $RADIOLIST)
-QUESTION="Select one of the following"
+QUESTION=""
 question "$QUESTION" "$POSANS" "$1"
 RET=$?
 # echo "ANS=$ANS"; exit 0

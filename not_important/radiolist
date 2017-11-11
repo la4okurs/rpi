@@ -1,8 +1,9 @@
 # You may add URLs to this list yourself...
+start  :: # DO NOT REMOVE THIS LINE
 stop   :: # DO NOT REMOVE THIS LINE
 status :: # DO NOT REMOVE THIS LINE
-ham    :: # DO NOT REMOVE THIS LINE
  
+ham    :: http://51.174.165.11:8888/hls/stream.m3u8
 bob    :: http://listen.57fm.com:80/dtracks              # Bob Dylan
 johnny :: http://streaming.radio.co/s9fa0dff72/listen    # Johnny Cash
 nrk    :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p13_aac_h

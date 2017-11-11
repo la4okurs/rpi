@@ -12,62 +12,142 @@ question() {
    # QUESTION="Select one of the following"
    # POSANS="nrk p4 ham john status stop" 
    # question "$QUESTION" "$POSANS"
-   # out: ARG
+   # question "$QUESTION" "$POSANS" "$ARG" # format used no question is wanted,
+   #                                       # when answer is already selected as third argument
+   #                                       # when caller is like 'bash thisscript yes'
+   # RET=$?
+   # echo "ANS=$ANS"
+   # echo "RET=$RET"
+   # out: ANS  # answer
+   #
    while true;do
-      echo "$1"
+      [ -z "$3" ] && echo "$1"  # the question
+      echo -ne "Select one of the following: "
       for i in $2 ;
       do
-         echo $i
+         # echo  $i
+         echo -ne "$i, "
       done
-      echo
-      echo -ne "Your answer: "
-      read ANS
+      if [ -z "$3" ];then
+         echo
+         # echo -ne "Your answer: "
+         read ANS
+      else
+         ANS=$3
+      fi
       #echo "ANS=$ANS"
       FOUND=0
       for i in $2;
       do
          if [ "$ANS" = "$i" ];then
+            echo;echo "You selected '$ANS'"
             FOUND=1
-            ARG=$ANS
+            return 0
             break # as found
          fi
       done
-      if [ $FOUND -eq 0 ];then
-         echo;echo "Not in the list. Please again:"
-         continue
-      fi
-      if [ $FOUND -eq 1 ];then
-         break
+      if [ $FOUND -ne 1 ];then
+         echo
+         if [ -z "$3" ];then
+            echo "'$ANS' is not in the list. Please again:"
+            continue 
+         else
+            echo "ERROR: The given '$3' is not allowed."
+            ANS="illegal" 
+            return 1
+            break 
+         fi 
       fi
    done
 }
 
-if [ $# -eq 0 ];then
-   QUESTION="Select one of the following"
-   POSANS="nrk p4 ham john status stop" 
-   question "$QUESTION" "$POSANS"
-   # ARG is here valid as a string
-else
-   ARG="$1"
-fi
+readanddisplayfile() {
+   # call function like this: 'readanddisplayfile file'
+   # filename in $1
+   if [ -z "$1" ];then
+      echo "readanddisplayfile(): no file specified"
+      return 1
+   fi
+   [ -f $1 ] || { echo "No such file '$1'"; return 1; }
+   while read line; do    
+      echo $line    
+   done < $1
+   return 0
+}
 
-echo "You selected: ${ARG}. Just a second...."
+buildposanswers() {
+   # call function like this: 'buildposanswers file'
+   # filename in $1
+   if [ -z "$1" ];then
+      echo "buildposanswers(): no file specified"
+      return 1
+   fi
+   [ -f $1 ] || { echo "buildposanswers():No such file '$1'"; return 1; }
+   
+   TMPRESFILE1="./.tmp1"
+   TMPRESFILE2="./.tmp2"
+   [ -f $TMPRESFILE1 ] && rm $TMPRESFILE1
+   [ -f $TMPRESFILE2 ] && rm $TMPRESFILE2
+   while read line; do    
+      echo $line  | awk '{print $1}' >>$TMPRESFILE1
+   done < $1
+   # replace NL wit SP
+   tr '\n' ' ' < $TMPRESFILE1 >$TMPRESFILE2
+   mv $TMPRESFILE2 $TMPRESFILE1
+   cat $TMPRESFILE1
+   return 0
+}
 
-if [ "$ARG" = "john" ];then
-   bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash http://streaming.radio.co/s9fa0dff72/listen  start &
-elif [ "$ARG" = "p4" ];then
-   # bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash http://streaming.radio.co/s9fa0dff72/listen  start &
-   bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash http://stream.p4.no/p4_mp3_hq start &
-elif [ "$ARG" = "nrk" ];then
-   bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p13_aac_h start &
-elif [ "$ARG" = "ham" ];then
-   bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash start &
-elif [ "$ARG" = "status" ];then
-   bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash status
-elif [ "$ARG" = "stop" ];then
-   bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash stop
-else
-   :
-fi
-exit 0
+pickalineandplay() {
+   # call function like this: 'pickalineandplay file'
+   # filename in $1
+   if [ -z "$1" ];then
+      echo "pickalineandplay(): no file specified"
+      return 1
+   fi
+   if [ -z "$2" ];then
+      echo "ERROR: pickalineandplay(): This call has two arguments"
+      return 1
+   fi
+   [ -f $1 ] || { echo "No such file '$1'"; return 1; }
+   touch "./.tmp1"
+   
+   FOUND=0
+   while read line; do    
+      col1=$(echo $line  | awk '{print $1}')
+      # echo "==>col1=$col1"
+      if [ "$col1" = "$2" ];then
+         FOUND=1 
+         #echo "line=$line"
+         http=$(echo "$line" | sed -e 's/.*::[ /t]*//g')
+         http=$(echo "$line" | sed -e 's/.*http:/http:/g')
+         #echo "==>col111=$col1, line=$line"
+         if [ "$col1" == "ham" ];then
+            play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash start &"
+         elif [ "$col1" == "start" ];then
+            play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash start &"
+         elif [ "$col1" == "stop" ];then
+            play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash stop &"
+         elif [ "$col1" == "status" ];then
+            play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash status"
+         else
+            #play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""http://streaming.radio.co/s9fa0dff72/listen  start &"
+            play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""$http start &"
+         fi
+         echo "play=$play"
+         eval "$play"
+         return 0
+      fi
+   done < $1
+   return 1
+}
 
+POSANS=$(buildposanswers "./radiolist")
+QUESTION=""
+question "$QUESTION" "$POSANS" "$1"
+RET=$?
+[ $RET -ne 0 ] && { echo "ERROR: Answer was ${ANS}, now exit";exit 1; }
+#echo "ANS=$ANS"
+pickalineandplay "./radiolist" "$ANS"
+RET=$?
+exit $RET

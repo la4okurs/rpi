@@ -1,4 +1,3 @@
-
 #/bin/bash
 #
 # Just a quick hack script to quickly test my new wonderful Raspberry Pi based
@@ -11,19 +10,17 @@ RADIOLIST="./radiolist"
 
 question() {
    # call like this:
-   # QUESTION="Select one of the following"
-   # POSANS="nrk p4 ham john status stop" 
-   # question "$QUESTION" "$POSANS"
-   # question "$QUESTION" "$POSANS" "$ARG" # format used no question is wanted,
-   #                                       # when answer is already selected as third argument
-   #                                       # when caller is like 'bash thisscript yes'
+   # #QUESTION=""
+   # QUESTION="Select one of these:"
+   # question "$QUESTION" "yes no" "$1"
+   # question "$QUESTION" "$POSANS" "$1"
    # RET=$?
-   # echo "ANS=$ANS"
-   # echo "RET=$RET"
-   # out: ANS  # answer
+   ## out: ANS  # answer
+   # echo "ANS=$ANS"; exit 0
    #
    while true;do
-      if [ -z "$3" ];then
+      # if [ -z "$3" ];then
+      if [ -z "$1" ];then
           echo "Select one of the following:"
       else
           echo "$1"  # the question
@@ -157,7 +154,8 @@ pickalineandplay() {
 
 # echo "Reading the $RADIOLIST ..."
 POSANS=$(buildposanswers $RADIOLIST)
-QUESTION=""
+#QUESTION=""
+QUESTION="Select one to stream/control from:"
 question "$QUESTION" "$POSANS" "$1"
 RET=$?
 # echo "ANS=$ANS"; exit 0
@@ -165,5 +163,3 @@ RET=$?
 pickalineandplay $RADIOLIST "$ANS"
 RET=$?
 exit $RET
-
-

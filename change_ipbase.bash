@@ -8,7 +8,7 @@
 # Advice: Do not change the IP base if not knowing your present base
 #         You may find the 'getip' program useful to check IPv4 LAN and WAN (base) addresses
 #
-# Author: Steinar Wenaas/LA7XQ
+# Author: Steinar/LA7XQ
 #
 
 FILE="/etc/dhcpcd.conf"  # file that defines IP addresses in late Raspians

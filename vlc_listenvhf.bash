@@ -40,6 +40,16 @@ THISSCRIPT=$(basename $0)
 
 PSPROG="/usr/bin/vlc"
 PROG="/usr/bin/cvlc" # Program which is wanted to restart if it stops
+[ -f $PROG ] || { 
+   echo "ERROR:$PROG not found.
+   echo "Try first:"
+   echo "sudo apt-get update"
+   echo "(sudo apt-get purge vlc)"
+   echo "sudo apt-get install vlc"
+   echo "Now exit until above is done"
+   exit 1'
+}
+
 
 #PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8"
 PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8"
@@ -184,3 +194,4 @@ case $1 in
    *) usage_exit
       ;;
 esac
+

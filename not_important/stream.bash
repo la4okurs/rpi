@@ -119,7 +119,7 @@ pickalineandplay() {
    fi
    [ -f $1 ] || { echo "No such file '$1'"; return 1; }
   
-   echo "reading the $1  file..."
+   echo "reading the $1 file..(try also the '$ bash $(basename $0) dump' ):"
    FOUND=0
    while read line; do    
       POS1=$(echo "$line" | cut -c1)
@@ -171,3 +171,5 @@ RET=$?
 pickalineandplay $RADIOLIST "$ANS"
 RET=$?
 exit $RET
+
+

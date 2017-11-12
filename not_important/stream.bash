@@ -102,6 +102,7 @@ buildposanswers() {
    tr '\n' ' ' < $TMPRESFILE1 >$TMPRESFILE2
    mv $TMPRESFILE2 $TMPRESFILE1
    cat $TMPRESFILE1
+   rm  $TMPRESFILE1
    return 0
 }
 
@@ -117,7 +118,6 @@ pickalineandplay() {
       return 1
    fi
    [ -f $1 ] || { echo "No such file '$1'"; return 1; }
-   # touch "./.tmp1"
   
    echo "reading the $1  file..."
    FOUND=0

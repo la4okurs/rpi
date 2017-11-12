@@ -93,16 +93,16 @@ buildposanswers() {
    while read line; do
       POS1=$(echo "$line" | cut -c1)
       [ "$POS1" = "#" ] && continue
+      [ "$POS1" = "" ] && continue # new
       colen=$(echo $line | awk -F "::" '{print $1}')
-      #echo "colen=${colen}X"
+      # echo "colen=${colen}X"
       # echo $line  | awk -F "::" '{print $1}' >>$TMPRESFILE1
       echo $colen >>$TMPRESFILE1
    done < $1
-   # replace NL wit SP
-   tr '\n' ' ' < $TMPRESFILE1 >$TMPRESFILE2
+   tr '\n' ' ' < $TMPRESFILE1 >$TMPRESFILE2 # replace /n with SP
    mv $TMPRESFILE2 $TMPRESFILE1
    cat $TMPRESFILE1
-   rm  $TMPRESFILE1
+   rm  $TMPRESFILE1 # cleanup
    return 0
 }
 
@@ -124,6 +124,7 @@ pickalineandplay() {
    while read line; do    
       POS1=$(echo "$line" | cut -c1)
       [ "$POS1" = "#" ] && continue
+      [ "$POS1" = "" ] && continue # new
       col1=$(echo $line | awk -F "::" '{print $1}' | awk '{print $1}')
       [ -z "$col1" ] && continue
       if [ "$col1" = "$2" ];then
@@ -132,13 +133,21 @@ pickalineandplay() {
          # echo "http=$http"
          # echo "==>COL1=$col1, line=$line"
 
-         # treat some entries as proprietary:
+         # treat some entries in $RADILIST as proprietary:
          if [ "$col1" == "start" ];then
             play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash start &"
          elif [ "$col1" == "stop" ];then
             play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash stop &"
          elif [ "$col1" == "status" ];then
             play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash status"
+         elif [ "$col1" == "dump" ];then
+            if [ -f $RADIOLIST ];then
+               cat $RADIOLIST
+               return 0
+            else
+               echo "Can't find the $RADIOLIST"
+               return 1
+            fi
          else
             #play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""http://streaming.radio.co/s9fa0dff72/listen  start &"
             play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""$http start &"
@@ -155,7 +164,7 @@ pickalineandplay() {
 POSANS=$(buildposanswers $RADIOLIST)
  
 #QUESTION=""
-QUESTION="Select one to stream/control from:"
+QUESTION="Select one below to stream/control (4 first are control):"
 question "$QUESTION" "$POSANS" "$1"
 RET=$?
 [ $RET -ne 0 ] && { echo "ERROR: Answer was ${ANS}, now exit";exit 1; }

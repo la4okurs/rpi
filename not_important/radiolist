@@ -1,10 +1,17 @@
-# You may add URLs to this list yourself...
+# You may add new URLs lines to this file yourself in the 'streams' and 'podcast' sections below
+# Be sure to keep the two '::' as field seperator (no other spaces needed if not wanted)
+# This file is read by the stream.bash program
 start  :: # DO NOT REMOVE THIS LINE
 stop   :: # DO NOT REMOVE THIS LINE
 status :: # DO NOT REMOVE THIS LINE
- 
+dump   :: # DO NOT REMOVE THIS LINE
+
+# streams: 
 ham    :: http://51.174.165.11:8888/hls/stream.m3u8
 bob    :: http://listen.57fm.com:80/dtracks              # Bob Dylan
 johnny :: http://streaming.radio.co/s9fa0dff72/listen    # Johnny Cash
 nrk    :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p13_aac_h
 p4     :: http://stream.p4.no/p4_mp3_hq
+
+# podcasts:
+qstla  :: http://84.214.218.74:2222/qstlalast.mp3        # via LA8KR

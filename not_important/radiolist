@@ -3,6 +3,8 @@
 # This file is read by the stream.bash program using the rpi/vlc_listenvhf.bash
 start  :: # DO NOT REMOVE THIS LINE, listening at myradio.no server live stream (scanned VHF repeaters)
 stop   :: # DO NOT REMOVE THIS LINE
+status :: # DO NOT REMOVE THIS LINE
+dump   :: # DO NOT REMOVE THIS LINE
 
 # experimental streams (you may edit the list yourself): 
 ham    :: http://51.174.165.11:8888/hls/stream.m3u8      # listening at myradio.no server proxy stream, live stream !
@@ -15,5 +17,5 @@ p13    :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p13_aac_h # NRK P13
 p4     :: http://stream.p4.no/p4_mp3_hq                  # P4
 
 # podcasts:
-qstla  :: http://84.214.218.74:2222/qstlalast.mp3        # "QSTLA SSB søndager via LA8KR, honor to LA8BP"
+qstla  :: http://84.214.218.74:2222/qstlalast.mp3        # "QSTLA SSB at Sundays via LA8KR, honor to LA8BP"
 

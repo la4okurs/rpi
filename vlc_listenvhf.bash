@@ -37,9 +37,12 @@
 
 
 THISSCRIPT=$(basename $0)
-
 PSPROG="/usr/bin/vlc"
 PROG="/usr/bin/cvlc" # Program which is wanted to restart if it stops
+#PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8"
+PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8"
+OWNPIDS=$(pgrep -f $THISSCRIPT)
+THISPROCESS=$$
 [ -f $PROG ] || { 
    echo;echo "ERROR:$PROG not found."
    echo "Try first:"
@@ -51,17 +54,6 @@ PROG="/usr/bin/cvlc" # Program which is wanted to restart if it stops
    exit 1
 }
 
-
-#PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8"
-PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8"
-
-OWNPIDS=$(pgrep -f $THISSCRIPT)
-THISPROCESS=$$
-
-old_usage_exit() {
-   echo "Usage: $THISSCRIPT <start|stop|status|--help>"
-   exit 0
-}
 
 usage_exit() {
    # echo "Usage: $THISSCRIPT <start [jack]|stop|status|--help>"
@@ -95,9 +87,6 @@ usage_exit() {
    exit 0
 }
 
-
-# kill all scripts having the same script name as this one, but
-# leave this (the last started) script run
 killscriptofthistype() {
    for i in $OWNPIDS;do
       if [ ! "$i" = "$THISPROCESS" ];then
@@ -117,16 +106,11 @@ killandstart() {
          PROGARGUMENTS="$1"
       fi
       PROGG="$PROG $PROGARGUMENTS"
-      #echo "killandstart:\$PROG=$PROG, \$PROGARGUMENTS=$PROGARGUMENTS"
-      
-      #$PROGG >/dev/null 2>&1 &
       $PROGG 2>&1 | grep -i "input error" &  # vlc specific pot. errors
       sleep 1
       if pgrep -f $PSPROG>/dev/null 2>&1; then
          # $PROG is running
-         # echo -ne "==>$(date +%H:%M:%S): $PSPROG restarts: "
          echo "==>$(date +%H:%M:%S): $PSPROG restarts: "
-         # ps -ef | grep "$PSPROG " | grep -v grep
          if [ -z "$1" ];then
             echo "Now listening radio VHF stream at myradio.no Adjust your audio volume."
             echo "Notice: Silence now before radio squelch opens is normal. Stay tuned..."
@@ -153,11 +137,7 @@ fi
 
 if echo "$1" | grep -q '^http://' ; then
    DIFFURL="$1"
-   # echo "before shift: \@1=$1"
-   # echo "before shift: \@2=$2"
    shift
-   # echo "after shift: \@1=$1"
-   # echo "after shift: \@2=$2"
 else
    echo
    echo " === HAM VHF RADIO RECEIVER AND INTERNET STREAM RECEIVER ==="

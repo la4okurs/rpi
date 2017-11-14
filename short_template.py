@@ -1,7 +1,12 @@
 #!/bin/env/python
 # -*- coding: utf-8 -*-
 #
-# TEXT AREA explaining what the program is doing, any licensies, copyrights etc
+# TEXT AREA explaining what the program is doing, any copyrights, licensies, etc
+#
+# Copyright 2017 MyCompany
+#
+# Licensed under the ... License, Version X.X
+#
 # This program will ....
 #
 # Author: 

@@ -7,7 +7,7 @@
 #
 # Licensed under the ... License, Version X.X
 #
-# This program will ....
+# This program will do ...
 #
 # Author: 
 #

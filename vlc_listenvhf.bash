@@ -63,7 +63,7 @@ usage_exit() {
    echo "ERROR: You forgot to specify either you want to "start", "stop", "status" etc...."
    echo "       Just add this word as the last word in the command line"
    echo
-   # sleep 2
+   # 
    echo "       Press ENTER to see examples..."
    read
    echo "Usage: $THISSCRIPT [ http://...] <start |stop|status|--help>"
@@ -98,7 +98,7 @@ killscriptofthistype() {
 killandstart() {
    while true;do
       kill -9 $(pgrep -f $PSPROG) > /dev/null 2>&1
-      sleep 1
+      
       if [ -z "$1" ];then
          # do not change PROGARGUMENTS as current station is myradio.no server
          :
@@ -107,7 +107,7 @@ killandstart() {
       fi
       PROGG="$PROG $PROGARGUMENTS"
       $PROGG 2>&1 | grep -i "input error" &  # vlc specific pot. errors
-      sleep 1
+      
       if pgrep -f $PSPROG>/dev/null 2>&1; then
          # $PROG is running
          echo "==>$(date +%H:%M:%S): $PSPROG restarts: "
@@ -154,9 +154,9 @@ case $1 in
       echo "I'll do..."
       killscriptofthistype
       kill -9 $(pgrep -f $PSPROG) > /dev/null 2>&1
-      sleep 1
+      
       ps -ef | grep "$PSPROG " | grep -v grep
-      sleep 1
+      
       kill -9 $$ > /dev/null 2>&1 # at last kill myself too !
       exit 1
       ;;
@@ -177,4 +177,3 @@ case $1 in
    *) usage_exit
       ;;
 esac
-

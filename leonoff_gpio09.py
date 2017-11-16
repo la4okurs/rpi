@@ -4,7 +4,6 @@
 # TEXT AREA explaining what the program is doing, any copyrights, licenses, etc
 #
 # Copyright 2017 MyLittleCompany
-#
 # Licensed under the ... License, Version X.X
 #
 # This program will turn on/off a LED on the bread bord or on a RPI HAT board

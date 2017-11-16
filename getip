@@ -53,7 +53,7 @@ isRPI() {
 }
 
 pinglocalNorouterNeeded() {
-   nmap -v -sn 192.168.1.0/24 | grep -B1 "Host is up"
+   nmap -v -sn ${BASE}.0/24 | grep -B1 "Host is up"
 }
 
 pingtest() {

@@ -150,7 +150,8 @@ pickalineandplay() {
             fi
          else
             #play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""http://streaming.radio.co/s9fa0dff72/listen  start &"
-            play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""$http start &"
+            #play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""$http start &" # org
+            play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""\"$http\" start &"
          fi
          echo "now doing '$play'"
          eval "$play"
@@ -171,5 +172,3 @@ RET=$?
 pickalineandplay $RADIOLIST "$ANS"
 RET=$?
 exit $RET
-
-

@@ -21,13 +21,13 @@ import time
 # GLOBAL DATA AREA
 GPIOPORT=25           # defines which GPIO port (Notice NOT the same as PHYSICAL pin no!) to work on,GPIO25 = phys pin 22
                       # Notice: This pin has to be wired up from the RPI to the bread bord first
-                      # If you wire up other pin, this GPIO number must be 
+                      # If you wire up other pin, this GPIOPORT number must be 
                       # changed accordingly
                           
 GPIO.setmode(GPIO.BCM)        # Set GPIO pinout scheme a la Broadcom Inc.
 GPIO.setwarnings(False)       # optional, just to avoid a GPIO warning printed out on screen
 GPIO.setup(GPIOPORT,GPIO.OUT) # prepare the GPIOPORT's usage, should the pin be an output or input pin
-                              # here GPIOPORT port is to used as an OUTput device
+                              # here GPIOPORT port is to be used as an OUTput device
 
 
 # FUNCTION AREA

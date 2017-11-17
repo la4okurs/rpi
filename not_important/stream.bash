@@ -5,7 +5,7 @@
 #
 # Author: Steinar/LA7XQ
 #
-VLC_LISTENVHF_PATH="/home/pi/rpi"
+VLC_LISTENVHF_PATH="${HOME}/rpi"
 RADIOLIST="./radiolist"
 
 question() {

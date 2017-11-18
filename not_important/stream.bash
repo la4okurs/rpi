@@ -75,6 +75,7 @@ question() {
 readanddisplayfile() {
    # call function like this: 'readanddisplayfile file'
    # filename in $1
+   # routine currently not in use
    if [ -z "$1" ];then
       echo "readanddisplayfile(): no file specified"
       return 1

@@ -4,7 +4,7 @@
 start  :: # DO NOT REMOVE THIS LINE, listening at myradio.no server live stream (scanned VHF repeaters)
 stop   :: # DO NOT REMOVE THIS LINE
 status :: # DO NOT REMOVE THIS LINE
-dump   :: # DO NOT REMOVE THIS LINE
+list   :: # DO NOT REMOVE THIS LINE
 
 # experimental streams (you may edit the list yourself): Bruce Frederick Joseph Springsteen
 ham    :: http://51.174.165.11:8888/hls/stream.m3u8      # listening at myradio.no server proxy stream, live stream !

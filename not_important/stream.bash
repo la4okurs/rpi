@@ -169,7 +169,7 @@ pickalineandplay() {
 # echo "Reading the $RADIOLISTFILE ..."
 POSANS=$(buildposanswers $RADIOLISTFILE)
  
-#QUESTION=""
+#QUESTION="" # gives std routine question is left empty
 QUESTION="Select one below to stream/control (4 first are control):"
 question "$QUESTION" "$POSANS" "$1"
 RET=$?

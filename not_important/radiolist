@@ -19,6 +19,8 @@ nyhet  :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_alltid_nyheter_aac_h #
 p13    :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p13_aac_h # NRK P13
 p4     :: http://stream.p4.no/p4_mp3_hq                  # P4
 
+
 # podcasts:
 qstla  :: http://84.214.218.74:2222/qstlalast.mp3        # "QSTLA SSB at Sundays via LA8KR, honor to LA8BP"
 la4o   :: http://84.214.218.74:2222/qstoslo.mp3          # QST OSLO "LA4O NYTT"
+test   :: http://84.214.218.74:2222/news.mp3             # for testing new sampling rate on podcasts

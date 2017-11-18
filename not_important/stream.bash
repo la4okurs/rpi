@@ -5,8 +5,17 @@
 #
 # Author: Steinar/LA7XQ
 #
-VLC_LISTENVHF_PATH="${HOME}/rpi"
-RADIOLIST="./radiolist"
+
+FIRSTLETTER=$(echo $(dirname $0) | cut -c1)
+if [ "$FIRSTLETTER" = "/" ];then
+   PATH_CALLEDPROG=$(dirname $0)
+else
+   PATH_CALLEDPROG=$(pwd)/$(dirname $0)
+fi
+RADIOLISTFILE=${PATH_CALLEDPROG}/radiolist
+
+# vlc_listenvhf.bash is one above directory relative to this program:
+VLC_LISTENVHF_PATH="${PATH_CALLEDPROG}/.."
 
 question() {
    # call like this:
@@ -130,8 +139,6 @@ pickalineandplay() {
       if [ "$col1" = "$2" ];then
          FOUND=1 
          http=$(echo "$line" | sed -e 's/.*http:/http:/g' -e 's/#.*//g' )
-         # echo "http=$http"
-         # echo "==>COL1=$col1, line=$line"
 
          # treat some entries in $RADILIST as proprietary:
          if [ "$col1" == "start" ];then
@@ -141,16 +148,14 @@ pickalineandplay() {
          elif [ "$col1" == "status" ];then
             play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash status"
          elif [ "$col1" == "dump" ];then
-            if [ -f $RADIOLIST ];then
-               cat $RADIOLIST
+            if [ -f $RADIOLISTFILE ];then
+               cat $RADIOLISTFILE
                return 0
             else
-               echo "Can't find the $RADIOLIST"
+               echo "Can't find the $RADIOLISTFILE"
                return 1
             fi
          else
-            #play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""http://streaming.radio.co/s9fa0dff72/listen  start &"
-            #play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""$http start &" # org
             play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""\"$http\" start &"
          fi
          echo "now doing '$play'"
@@ -161,14 +166,14 @@ pickalineandplay() {
    return 1
 }
 
-# echo "Reading the $RADIOLIST ..."
-POSANS=$(buildposanswers $RADIOLIST)
+# echo "Reading the $RADIOLISTFILE ..."
+POSANS=$(buildposanswers $RADIOLISTFILE)
  
 #QUESTION=""
 QUESTION="Select one below to stream/control (4 first are control):"
 question "$QUESTION" "$POSANS" "$1"
 RET=$?
 [ $RET -ne 0 ] && { echo "ERROR: Answer was ${ANS}, now exit";exit 1; }
-pickalineandplay $RADIOLIST "$ANS"
+pickalineandplay $RADIOLISTFILE "$ANS"
 RET=$?
 exit $RET

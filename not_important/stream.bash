@@ -145,9 +145,14 @@ pickalineandplay() {
       col1=$(echo $line | awk -F "::" '{print $1}' | awk '{print $1}')
       [ -z "$col1" ] && continue
       if [ "$col1" = "$2" ];then
-         FOUND=1 
-         http=$(echo "$line" | sed -e 's/.*http:/http:/g' -e 's/#.*//g' )
-
+         FOUND=1
+         if echo "$line" | grep "http:"; then
+            HTTP=$(echo "$line" | sed -e 's/.*http:/http:/g' -e 's/#.*//g' ) # http
+         fi
+         if echo "$line" | grep "rtmp:"; then
+            HTTP=$(echo "$line" | sed -e 's/.*rtmp:/rtmp:/g' -e 's/#.*//g' ) # rtmp
+         fi
+         # echo "HTTP=$HTTP"
          # treat some entries in $RADILIST as proprietary:
          if [ "$col1" == "start" ];then
             play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash start $GUI &"
@@ -164,7 +169,7 @@ pickalineandplay() {
                return 1
             fi
          else
-            play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""\"$http\" start $GUI &"
+            play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""\"$HTTP\" start $GUI &"
          fi
          echo "now doing '$play'"
          eval "$play"
@@ -185,4 +190,3 @@ RET=$?
 pickalineandplay $RADIOLISTFILE "$ANS"
 RET=$?
 exit $RET
-

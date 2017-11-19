@@ -175,7 +175,7 @@ pickalineandplay() {
 POSANS=$(buildposanswers $RADIOLISTFILE)
  
 #QUESTION="" # gives std routine question is left empty
-QUESTION="Select one below to stream (type 'gui' to get player GUI,4 first are control):"
+QUESTION="Select one below to stream. Type 'gui' if GUI wanted, stop.\n4 first are control):"
 question "$QUESTION" "$POSANS" "$1"
 RET=$?
 [ $RET -ne 0 ] && { echo "ERROR: Answer was ${ANS}, now exit";exit 1; }

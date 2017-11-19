@@ -5,7 +5,6 @@
 #
 # Author: Steinar/LA7XQ
 #
-
 FIRSTLETTER=$(echo $(dirname $0) | cut -c1)
 if [ "$FIRSTLETTER" = "/" ];then
    PATH_CALLEDPROG=$(dirname $0)
@@ -16,6 +15,7 @@ RADIOLISTFILE=${PATH_CALLEDPROG}/radiolist
 
 # vlc_listenvhf.bash is one above directory relative to this program:
 VLC_LISTENVHF_PATH="${PATH_CALLEDPROG}/.."
+GUI=""
 
 question() {
    # call like this:
@@ -61,6 +61,10 @@ question() {
          echo
          if [ -z "$3" ];then
             echo "'$ANS' is not in the list. Please again:"
+            if [ "$ANS" = "gui" ];then
+               echo "I'll turn on the play bar as well for you now...."
+               GUI=$ANS
+            fi
             continue 
          else
             echo "ERROR: The given '$3' is not allowed."
@@ -143,7 +147,7 @@ pickalineandplay() {
 
          # treat some entries in $RADILIST as proprietary:
          if [ "$col1" == "start" ];then
-            play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash start &"
+            play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash start $GUI &"
          elif [ "$col1" == "stop" ];then
             play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash stop &"
          elif [ "$col1" == "status" ];then
@@ -157,7 +161,7 @@ pickalineandplay() {
                return 1
             fi
          else
-            play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""\"$http\" start &"
+            play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""\"$http\" start $GUI &"
          fi
          echo "now doing '$play'"
          eval "$play"
@@ -171,7 +175,7 @@ pickalineandplay() {
 POSANS=$(buildposanswers $RADIOLISTFILE)
  
 #QUESTION="" # gives std routine question is left empty
-QUESTION="Select one below to stream/control (4 first are control):"
+QUESTION="Select one below to stream (type 'gui' to get player GUI,4 first are control):"
 question "$QUESTION" "$POSANS" "$1"
 RET=$?
 [ $RET -ne 0 ] && { echo "ERROR: Answer was ${ANS}, now exit";exit 1; }

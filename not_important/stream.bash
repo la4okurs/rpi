@@ -51,7 +51,10 @@ question() {
       for i in $2;
       do
          if [ "$ANS" = "$i" ];then
-            echo;echo "You selected '$ANS'"
+            echo
+            echo -ne "You selected '$ANS'"
+            [ -z "$GUI" ] || echo -ne " and vlc GUI will show up.(Notice: Running without GUI saves a lot of CPU cycles!)"
+            echo
             FOUND=1
             return 0
             break # as found
@@ -182,3 +185,4 @@ RET=$?
 pickalineandplay $RADIOLISTFILE "$ANS"
 RET=$?
 exit $RET
+

@@ -46,7 +46,6 @@ else
    PROG="/usr/bin/cvlc" # Program which is wanted to restart if it stops
 fi
 
-#PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8"
 PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8"
 OWNPIDS=$(pgrep -f $THISSCRIPT)
 THISPROCESS=$$
@@ -113,6 +112,7 @@ killandstart() {
          PROGARGUMENTS="$1"
       fi
       PROGG="$PROG $PROGARGUMENTS"
+      #echo "PROGARGUMENTS=$PROGARGUMENTS"
       $PROGG 2>&1 | grep -i "input error" &  # vlc specific pot. errors
       
       if pgrep -f $PSPROG>/dev/null 2>&1; then
@@ -142,7 +142,10 @@ if [ ! -x $PROG ];then
    exit 1
 fi
 
-if echo "$1" | grep -q '^http://' ; then
+if echo "$1" | grep -q '^http://' ; then     # org 
+   DIFFURL="$1"
+   shift
+elif echo "$1" | grep -q '^rtmp://' ; then 
    DIFFURL="$1"
    shift
 else
@@ -184,4 +187,3 @@ case $1 in
    *) usage_exit
       ;;
 esac
-

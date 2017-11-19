@@ -9,7 +9,7 @@ list   :: # DO NOT REMOVE THIS LINE
 # experimental streams (you may edit the list yourself): Bruce Frederick Joseph Springsteen
 ham    :: http://51.174.165.11:8000/stream           # myradio.no My Proxy Icecast stream
 ham2   :: http://51.174.165.11:8888/hls/stream.m3u8  # myradio.no My Proxy (currently LIVE PLAYER) HLS stream made for Apple devices HTTP Live Streaming
-ham3   :: rtmp://84.214.218.74:4444/live             # myradio.no prim. stream made as Adobe’s RealTimeMessagingProtocol(RTMP), nice on MX player Android, not for Apple, slow startup stream
+ham3   :: rtmp://84.214.218.74:4444/live             # myradio.no (p-stream)made: I made it for Anroid (MX player).Adobe’s RealTimeMessagingProtocol(RTMP),slow start on Microsoft
 bob    :: http://listen.57fm.com:80/dtracks          # Bob Dylan
 finnm  :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p1_finnmark_aac_h # "Finnmarksendingen NRK"
 bruce  :: http://67.212.166.178:9000/;stream/            # Bruce Frederick Joseph Springsteen (Notice: not always active stream?)
@@ -21,8 +21,10 @@ nyhet  :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_alltid_nyheter_aac_h #
 p13    :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p13_aac_h # NRK P13
 p4     :: http://stream.p4.no/p4_mp3_hq                  # P4
 
-
 # podcasts:
-qstla  :: http://84.214.218.74:2222/qstlalast.mp3  # "QSTLA SSB at Sundays via LA8KR, honor to LA8BP"
-la4o   :: http://84.214.218.74:2222/qstoslo.mp3    # QST OSLO "LA4O NYTT"
-test   :: http://84.214.218.74:2222/news.mp3       # URL for voice podcast testing, bitrate change from 192kb/s to 64kb/s
+podqstla  :: http://84.214.218.74:2222/qstlalast.mp3  # "QSTLA SSB at Sundays via LA8KR, honor to LA8BP"
+poddram   :: http://84.214.218.74:2222/qstdrammen.mp3 # QST Drammen
+podfollo  :: http://84.214.218.74:2222/qstfollo.mp3   # QST Follo       
+podmj     :: http://84.214.218.74:2222/qstmjoes.mp3   # QST Mjøsbyene
+podnyhet  :: http://84.214.218.74:2222/news.mp3       # URL for news podcast, mainly for bitrate change testing from 192kb/s to 64kb/s
+podoslo   :: http://84.214.218.74:2222/qstoslo.mp3    # QST OSLO "LA4O NYTT"

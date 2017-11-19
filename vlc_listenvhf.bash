@@ -35,10 +35,17 @@
 # usage_exit() function below
 #
 
-
 THISSCRIPT=$(basename $0)
 PSPROG="/usr/bin/vlc"
-PROG="/usr/bin/cvlc" # Program which is wanted to restart if it stops
+
+GUIQ=$(echo "$@" | sed -e 's/.*gui.*/gui/g')
+#echo "GUIQ=$GUIQ"
+if [ "$GUIQ" = "gui" ];then
+   PROG="/usr/bin/vlc"  # Program which is wanted to restart if it stops
+else
+   PROG="/usr/bin/cvlc" # Program which is wanted to restart if it stops
+fi
+
 #PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8"
 PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8"
 OWNPIDS=$(pgrep -f $THISSCRIPT)
@@ -177,3 +184,4 @@ case $1 in
    *) usage_exit
       ;;
 esac
+

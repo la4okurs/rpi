@@ -137,7 +137,7 @@ pickalineandplay() {
    fi
    [ -f $1 ] || { echo "No such file '$1'"; return 1; }
   
-   echo "reading the $1 file..(try also the '$ bash $(basename $0) list' ):"
+   # echo "reading the $1 file..(try also the '$ bash $(basename $0) list' ):"
    FOUND=0
    while read line; do    
       POS1=$(echo "$line" | cut -c1)
@@ -172,7 +172,7 @@ pickalineandplay() {
          else
             play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""\"$HTTP\" start $GUI &"
          fi
-         echo "now doing '$play'"
+         # echo "now doing '$play'"
          eval "$play"
          return 0
       fi

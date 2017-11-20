@@ -53,7 +53,7 @@ question() {
       do
          if [ "$ANS" = "$i" ];then
             echo
-            echo -ne "You selected '$ANS'"
+            echo -ne "You selected '$ANS'.I'll check the radio list..."
             [ -z "$GUI" ] || echo -ne " and vlc GUI will show up.(Notice: Running without GUI saves a lot of CPU cycles!)"
             echo
             FOUND=1
@@ -64,13 +64,13 @@ question() {
       if [ $FOUND -ne 1 ];then
          echo
          if [ -z "$3" ];then
-            echo "'$ANS' is not in the list. Please again:"
+            echo "==>'$ANS' is not in the radiolist. Please again:"
             if [ "$ANS" = "gui" ];then
-               echo "I'll turn on the play bar as well for you now...."
+               echo "==>But OK, I'll turn on the play bar as well for you now...."
                GUI=$ANS
             fi
             if [ "$ANS" = "debug" ];then
-               echo "I'll turn ON the std. err printouts as well...."
+               echo "==>But OK, I'll turn ON the std. err printouts as well...."
                DEBUG=1
             fi
             continue 

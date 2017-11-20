@@ -16,7 +16,7 @@ RADIOLISTFILE=${PATH_CALLEDPROG}/radiolist
 # vlc_listenvhf.bash is one above directory relative to this program:
 VLC_LISTENVHF_PATH="${PATH_CALLEDPROG}/.."
 GUI=""
-
+DEBUG=0
 question() {
    # call like this:
    # #QUESTION=""
@@ -41,7 +41,7 @@ question() {
          echo -ne "$i "
       done
       if [ -z "$3" ];then
-         echo
+         echo;echo
          echo -ne "Your answer: "
          read ANS
       else
@@ -68,6 +68,10 @@ question() {
             if [ "$ANS" = "gui" ];then
                echo "I'll turn on the play bar as well for you now...."
                GUI=$ANS
+            fi
+            if [ "$ANS" = "debug" ];then
+               echo "I'll turn ON the std. err printouts as well...."
+               DEBUG=1
             fi
             continue 
          else
@@ -170,9 +174,14 @@ pickalineandplay() {
                return 1
             fi
          else
-            play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""\"$HTTP\" start $GUI &"
+            if [ $DEBUG -eq 0 ];then
+               # put all errors in the trash bin
+               play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""\"$HTTP\" start $GUI >/dev/null 2>&1 &"
+            else
+               play="bash ${VLC_LISTENVHF_PATH}/vlc_listenvhf.bash ""\"$HTTP\" start $GUI &"
+            fi
          fi
-         # echo "now doing '$play'"
+         [ $DEBUG -ne 0 ] && echo "now doing '$play'"
          eval "$play"
          return 0
       fi
@@ -184,7 +193,7 @@ pickalineandplay() {
 POSANS=$(buildposanswers $RADIOLISTFILE)
  
 #QUESTION="" # gives std routine question is left empty
-QUESTION="Select one below to stream. Type 'gui' if GUI wanted, 'stop' to stop.(4 first are control):"
+QUESTION="Select one option below. Cmds like 'gui','debug' also possible.(4 first are control):"
 question "$QUESTION" "$POSANS" "$1"
 RET=$?
 [ $RET -ne 0 ] && { echo "ERROR: Answer was ${ANS}, now exit";exit 1; }

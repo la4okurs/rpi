@@ -78,7 +78,7 @@ pingtest() {
       elif [ $TA -lt $AVMINIMUM ];then
          echo "RESULT: ACCEPTABLE, average found: $AV ms (less than $TM ms)"
       elif [ $TA -lt $AVVERYMINIMUM ];then
-         echo "RESULT: SLOW, very slow ping time! (average found:$AV ms)"
+         echo "RESULT: SLOW, slow ping time! (average found:$AV ms)"
       else
          echo "RESULT: EXTREMELY SLOW, too high ping time! (average found:$AV ms)"
       fi

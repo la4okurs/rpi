@@ -10,11 +10,12 @@ AVMINIMUM=5000  # eq. 5 ms average ping cycle time
 AVVERYMINIMUM=50000  # eq. 50 ms average ping cycle time
 AVECELENT=1000  # eq. 1 ms average ping cycle time
 QUIET=0
+HSTR=$(echo "$@" | sed -e 's/.*-h/-h/g' -e 's/-h.*/-h/g')
+
 getLAN() {
    ip addr | egrep -e "inet.*global" | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | head -n 1
 }
 
-HSTR=$(echo "$@" | sed -e 's/.*-h/-h/g' -e 's/-h.*/-h/g')
 for i in "$@";do
    if [ "$HSTR" = "-h" ];then
       echo "Usage:$(basename $0) [-w|-l|-p|-pr|-a|-q]"

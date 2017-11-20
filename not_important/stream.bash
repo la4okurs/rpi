@@ -37,11 +37,12 @@ question() {
       for i in $2 ;
       do
          # echo  $i
-         echo -ne "$i, "
+         # echo -ne "$i, "
+         echo -ne "$i "
       done
       if [ -z "$3" ];then
          echo
-         # echo -ne "Your answer: "
+         echo -ne "Your answer: "
          read ANS
       else
          ANS=$3

@@ -193,7 +193,7 @@ pickalineandplay() {
 POSANS=$(buildposanswers $RADIOLISTFILE)
  
 #QUESTION="" # gives std routine question is left empty
-QUESTION="Select one option below. Cmds like 'gui','debug' also possible.(4 first are control):"
+QUESTION="Select one option below.Pre cmds like 'gui','debug' also possible.(4 next are control):"
 question "$QUESTION" "$POSANS" "$1"
 RET=$?
 [ $RET -ne 0 ] && { echo "ERROR: Answer was ${ANS}, now exit";exit 1; }

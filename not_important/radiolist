@@ -8,7 +8,7 @@ list   :: # DO NOT REMOVE THIS LINE
 
 # experimental streams (you may edit the list yourself): Bruce Frederick Joseph Springsteen
 ham    :: http://51.174.165.11:8000/stream           # myradio.no My Proxy public stream (currently the myradio.no LIVE PLAYER)
-ham2   :: http://51.174.165.11:8888/hls/stream.m3u8  # myradio.no My Proxy  HLS stream made for Apple devices HTTP Live Streaming
+ham2   :: http://51.174.165.11:8888/hls/stream.m3u8  # myradio.no My Proxy HLS stream made for Apple devices HTTP Live Streaming
 ham3   :: rtmp://84.214.218.74:4444/live             # myradio.no (p-stream) I coded it for Anroid (MX player).Adobe’s RealTimeMessagingProtocol(RTMP),slow start on Microsoft
 bob    :: http://listen.57fm.com:80/dtracks          # Bob Dylan
 bruce  :: http://67.212.166.178:9000/;stream/            # Bruce Frederick Joseph Springsteen (Notice: not always active stream?)

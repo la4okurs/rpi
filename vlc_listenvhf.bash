@@ -46,7 +46,8 @@ else
    PROG="/usr/bin/cvlc" # Program which is wanted to restart if it stops
 fi
 
-PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8"
+#PROGARGUMENTS="http://51.174.165.11:8888/hls/stream.m3u8"
+PROGARGUMENTS="http://51.174.165.11:8000/stream"
 OWNPIDS=$(pgrep -f $THISSCRIPT)
 THISPROCESS=$$
 [ -f $PROG ] || { 
@@ -142,18 +143,19 @@ if [ ! -x $PROG ];then
    exit 1
 fi
 
-if echo "$1" | grep -q '^http://' ; then     # org 
+if echo "$1" | grep -q '^http://' ; then
+   # main hyper text protocol
    DIFFURL="$1"
    shift
-elif echo "$1" | grep -q '^rtmp://' ; then 
+elif echo "$1" | grep -q '^rtmp://' ; then
+   # Adobe RTMP (Flash) support, ok usage for Android MX player 
    DIFFURL="$1"
    shift
 else
-   echo
-   echo " === HAM VHF RADIO RECEIVER AND INTERNET STREAM RECEIVER ==="
    DIFFURL=""
 fi
-# echo "DIFFURL=$DIFFURL"
+echo
+echo " === HAM VHF RADIO RECEIVER AND INTERNET STREAM RECEIVER ==="
 
 case $1 in
    start)

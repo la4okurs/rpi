@@ -189,6 +189,17 @@ pickalineandplay() {
    return 1
 }
 
+[ -f /usr/bin/cvlc ] || {
+   echo;echo "$(basename $0): ERROR: /usr/bin/cvlc not found."
+   echo "Try first installing vlv and cvlc by doing:"
+   echo "sudo apt-get update"
+   echo "(sudo apt-get purge vlc)"
+   echo "sudo apt-get autoremove vlc"
+   echo "sudo apt-get install vlc"
+   echo "Now exit until above is done"
+   exit 1
+}
+
 # echo "Reading the $RADIOLISTFILE ..."
 POSANS=$(buildposanswers $RADIOLISTFILE)
  

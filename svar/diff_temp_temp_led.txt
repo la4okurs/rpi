@@ -1,0 +1,14 @@
+pi@raspberrypi:~/rpi/svar $ diff temp.py temp_led.py 
+32a33
+> import ledonoff_gpio25
+54a56,60
+>       if c < -1.0:
+>          ledonoff_gpio25.turnledon()
+>       else:
+>          ledonoff_gpio25.turnledoff()
+> 
+60a67
+>    ledonoff_gpio25.turnledoff()  # optinal, but secure LED is OFF on start of this program
+63a71
+> 
+pi@raspberrypi:~/rpi/svar $ 

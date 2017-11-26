@@ -5,6 +5,7 @@
 #
 # Author: Steinar/LA7XQ
 #
+
 FIRSTLETTER=$(echo $(dirname $0) | cut -c1)
 if [ "$FIRSTLETTER" = "/" ];then
    PATH_CALLEDPROG=$(dirname $0)
@@ -189,6 +190,10 @@ pickalineandplay() {
    return 1
 }
 
+setvolumblackboxRPI() {
+   amixer -c 0 sset PCM 100%
+}
+
 [ -f /usr/bin/cvlc ] || {
    echo;echo "$(basename $0): ERROR: /usr/bin/cvlc not found."
    echo "Try first installing vlv and cvlc by doing:"
@@ -199,6 +204,10 @@ pickalineandplay() {
    echo "Now exit until above is done"
    exit 1
 }
+
+# select audio sink
+# set volume
+setvolumblackboxRPI
 
 # echo "Reading the $RADIOLISTFILE ..."
 POSANS=$(buildposanswers $RADIOLISTFILE)

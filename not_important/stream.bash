@@ -210,7 +210,16 @@ setvolumblackboxRPI() {
          fi
       done
    fi
-   [ -z "$DEVICE" ] || amixer -c 0 sset $DEVICE ${1}%
+   [ $DEBUG -eq 0 ] || echo "DEVICE=$DEVICE"
+   if [ ! -z "$DEVICE" ];then
+      if [ $DEBUG -eq 0 ];then
+         amixer -c 0 sset $DEVICE ${1}% >/dev/null 2>&1
+         amixer get $DEVICE ${1}% >/dev/null 2>&1
+      else
+         amixer -c 0 sset $DEVICE ${1}%
+         amixer get $DEVICE ${1}%
+      fi
+   fi
 }
 
 [ -f /usr/bin/cvlc ] || {

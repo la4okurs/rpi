@@ -203,7 +203,7 @@ setvolumblackboxRPI() {
    done
    if [ $FOUND -eq 0 ];then
       for i in $DEVICES;do
-         if [ "$i" = "Master" ];then
+         if [ "$i" = "PCM" ];then
             DEVICE="$i"
             FOUND=1
             break

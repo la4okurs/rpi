@@ -191,7 +191,26 @@ pickalineandplay() {
 }
 
 setvolumblackboxRPI() {
-   amixer -c 0 sset PCM 100%
+   DEVICES=$(amixer scontrols | grep "Simple mixer control" | awk -F "Simple mixer control" '{print $3}' | tr -d "'" | awk -F "," '{print $1}' | awk '{print $1}' | sort | uniq)
+   DEVICE=""
+   FOUND=0
+   for i in $DEVICES;do
+      if [ "$i" = "Master" ];then
+         DEVICE="$i"
+         FOUND=1
+         break
+      fi
+   done
+   if [ $FOUND -eq 0 ];then
+      for i in $DEVICES;do
+         if [ "$i" = "Master" ];then
+            DEVICE="$i"
+            FOUND=1
+            break
+         fi
+      done
+   fi
+   [ -z "$DEVICE" ] || amixer -c 0 sset $DEVICE ${1}%
 }
 
 [ -f /usr/bin/cvlc ] || {
@@ -207,7 +226,7 @@ setvolumblackboxRPI() {
 
 # select audio sink
 # set volume
-setvolumblackboxRPI
+setvolumblackboxRPI 95  # %
 
 # echo "Reading the $RADIOLISTFILE ..."
 POSANS=$(buildposanswers $RADIOLISTFILE)

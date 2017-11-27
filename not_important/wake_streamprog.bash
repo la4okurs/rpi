@@ -11,7 +11,7 @@ STREAMPROG="$HOME/rpi/not_important/stream.bash"
 
 ##@reboot /bin/bash /home/pi/rpi/not_important/wake_streamprog.bash start >/dev/null 2>&1 &
 ##@reboot /bin/bash /home/pi/rpi/not_important/wake_streamprog.bash nrk >/dev/null 2>&1 &
-#@reboot /bin/bash /home/pi/rpi/not_important/wake_streamprog.bash ham >/dev/null 2>&1 &
+#@reboot /bin/bash $HOME/rpi/not_important/wake_streamprog.bash nrk >/dev/null 2>&1 &
 
 THISSCRIPT=$(basename $0)
 OWNPIDS=$(pgrep -f $THISSCRIPT)

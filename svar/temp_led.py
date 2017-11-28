@@ -53,7 +53,7 @@ def calc_celsius():
       c = (f - 32 ) * 0.56
       time.sleep(0.5)
       print c,f
-      if c < -1.0:
+      if c < 0.0:
          ledonoff_gpio25.turnledon()
       else:
          ledonoff_gpio25.turnledoff()

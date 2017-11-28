@@ -29,7 +29,7 @@ for i in "$@";do
       echo "Example 8: $(basename $0) -pr # ping rotate test towards router"
       echo "Example 9: $(basename $0) -o  # search for open ports on your own WAN address"
       echo "Example 10:$(basename $0) -oo  # search for open ports on any WAN"
-      echo "Example 11:$(basename $0) -ooo # Which SSID am I connected to over Wi-Fi"
+      echo "Example 11:$(basename $0) -ooo # Which SSID am I connected to ?"
       exit 0
    fi
 done

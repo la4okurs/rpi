@@ -53,12 +53,12 @@ setvolumblackboxRPI() {
 }
 
 manualquestions() {
-   YOUR_LAN_ADDR=$(hostname -I)
+   YOUR_LAN_ADDR=$(hostname -I | awk '{print $1}')
    echo "Your IP address: $YOUR_LAN_ADDR"
    echo
    echo -ne "Give remote IP addr: "
    read IP
-   if [ "$IP"="$YOUR_LAN_ADDR" ];then
+   if [ "$IP" = "$YOUR_LAN_ADDR" ];then
       echo "Oups: better start program with a volume argument given"
       echo "      as in example 2 below"
       usage_exit

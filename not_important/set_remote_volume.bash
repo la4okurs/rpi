@@ -9,6 +9,7 @@ IP=""
 CONTRL=Master
 VOLUME=85
 DEBUG=0
+
 usage_exit() {
    echo "Usage:$(basename $0)"
    echo "Ex1: $(basename $0)"
@@ -17,34 +18,36 @@ usage_exit() {
 }
 
 setvolumblackboxRPI() {
-   # DEVICES=$(amixer controls | awk -F "'" '{print $2}' | awk '{print $1}' | sort | uniq)
-   DEVICES=$(amixer scontrols | grep "Simple mixer control" | awk -F "Simple mixer control" '{print $2}' | tr -d "'" | awk -F "," '{print $1}' | awk '{print $1}' | sort | uniq)
-   DEVICE=""
+   # if Master is found, use it
+   # test for PCM next...
+   # SCONTROLS=$(amixer controls | awk -F "'" '{print $2}' | awk '{print $1}' | sort | uniq)
+   SCONTROLS=$(amixer scontrols | grep "Simple mixer control" | awk -F "Simple mixer control" '{print $2}' | tr -d "'" | awk -F "," '{print $1}' | awk '{print $1}' | sort | uniq)
+   SCONTROL=""
    FOUND=0
-   for i in $DEVICES;do
+   for i in $SCONTROLS;do
       if [ "$i" = "Master" ];then
-         DEVICE="$i"
+         SCONTROL="$i"
          FOUND=1
          break
       fi
    done
    if [ $FOUND -eq 0 ];then
-      for i in $DEVICES;do
+      for i in $SCONTROLS;do
          if [ "$i" = "PCM" ];then
-            DEVICE="$i"
+            SCONTROL="$i"
             FOUND=1
             break
          fi
       done
    fi
-   [ $DEBUG -eq 0 ] || echo "DEVICE=$DEVICE"
-   if [ ! -z "$DEVICE" ];then
+   [ $DEBUG -eq 0 ] || echo "SCONTROL=$SCONTROL"
+   if [ ! -z "$SCONTROL" ];then
       if [ $DEBUG -eq 0 ];then
-         amixer -c 0 sset $DEVICE ${1}% >/dev/null 2>&1
-         amixer get $DEVICE ${1}% >/dev/null 2>&1
+         amixer -c 0 sset $SCONTROL ${1}% >/dev/null 2>&1
+         amixer get $SCONTROL ${1}% >/dev/null 2>&1
       else
-         amixer -c 0 sset $DEVICE ${1}%
-         amixer get $DEVICE ${1}%
+         amixer -c 0 sset $SCONTROL ${1}%
+         amixer get $SCONTROL ${1}%
       fi
    fi
 }

@@ -64,7 +64,7 @@ def calc_celsius():
 # MAIN AREA
 if __name__ == "__main__":
 
-   ledonoff_gpio25.turnledoff()  # optinal, but secure LED is OFF on start of this program
+   ledonoff_gpio25.turnledoff()  # optional, but secure LED is OFF on start of this program
    calc_celsius()
 
    sys.exit(0)

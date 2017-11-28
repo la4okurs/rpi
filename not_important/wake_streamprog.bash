@@ -1,12 +1,10 @@
 #!/bin/bash
 #
-# Script Status: 90% done
 #
 # Author: Steinar/LA7XQ
 #
-#
 # just info:
-# @reboot /bin/bash $HOME/rpi/not_important/set_remote_volume.bash 70
+# @reboot /bin/bash $HOME/rpi/not_important/set_volume.bash 70
 # @reboot /bin/bash $HOME/rpi/not_important/wake_streamprog.bash johnny 
 
 DEBUG=0 # 0 or 1

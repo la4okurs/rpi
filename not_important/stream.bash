@@ -7,7 +7,7 @@
 #
 #
 # Info:
-# @reboot /bin/bash $HOME/rpi/not_important/set_remote_volume.bash 70
+# @reboot /bin/bash $HOME/rpi/not_important/set_volume.bash 70
 # @reboot /bin/bash $HOME/rpi/not_important/wake_streamprog.bash johnny >/dev/null 2>&1 &
 #
 
@@ -240,7 +240,7 @@ setvolumblackboxRPI() {
 
 # select audio sink
 # set volume
-# setvolumblackboxRPI 95  # %, now better use /home/pi/rpi/not_important/set_remote_volume.bash instead
+# setvolumblackboxRPI 95  # %, now better use /home/pi/rpi/not_important/set_volume.bash instead
 
 # echo "Reading the $RADIOLISTFILE ..."
 POSANS=$(buildposanswers $RADIOLISTFILE)
@@ -253,4 +253,3 @@ RET=$?
 pickalineandplay $RADIOLISTFILE "$ANS"
 RET=$?
 exit $RET
-

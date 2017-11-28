@@ -4,15 +4,14 @@
 #
 # Author: Steinar/LA7XQ
 #
+#
+# just info:
+# @reboot /bin/bash $HOME/rpi/not_important/set_remote_volume.bash 70
+# @reboot /bin/bash $HOME/rpi/not_important/wake_streamprog.bash johnny 
 
 DEBUG=0 # 0 or 1
 GETIPPROG="$HOME/rpi/getip"
 STREAMPROG="$HOME/rpi/not_important/stream.bash"
-
-##@reboot /bin/bash /home/pi/rpi/not_important/wake_streamprog.bash start >/dev/null 2>&1 &
-##@reboot /bin/bash /home/pi/rpi/not_important/wake_streamprog.bash nrk >/dev/null 2>&1 &
-#@reboot /bin/bash $HOME/rpi/not_important/wake_streamprog.bash nrk >/dev/null 2>&1 &
-
 THISSCRIPT=$(basename $0)
 OWNPIDS=$(pgrep -f $THISSCRIPT)
 THISPROCESS=$$

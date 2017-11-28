@@ -20,6 +20,8 @@ nyhet  :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_alltid_nyheter_aac_h #
 p13    :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p13_aac_h # NRK P13
 p4     :: http://stream.p4.no/p4_mp3_hq               # P4
 finnm  :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p1_finnmark_aac_h # "Finnmarksendingen NRK" # just a try, local 
+fuzz1  :: http://the1920sradionetwork.mediaplayer.whro.org/128   # old and fuzzy, but kind of good
+fuzz2  :: http://streaming.rubinbroadcasting.com/kcea            # old and fuzzy, but kind of good
 
 # podcasts:
 podqstla  :: http://84.214.218.74:2222/qstlalast.mp3  # QSTLA SSB at Sundays via 145.700 MHz LA8KR, honor to LA8BP Eirik

@@ -18,7 +18,7 @@ usage_exit() {
 
 setvolumblackboxRPI() {
    #DEVICES=$(amixer scontrols | grep "Simple mixer control" | awk -F "Simple mixer control" '{print $2}' | tr -d "'" | awk -F "," '{print $1}' | awk '{print $1}' | sort | uniq)
-   DEVICES=$(amixer controls | awk -F "'" '{print $2}' | grep Playback | awk '{print $1}' | sort | uniq)
+   DEVICES=$(amixer controls | awk -F "'" '{print $2}' | awk '{print $1}' | sort | uniq)
    DEVICE=""
    FOUND=0
    for i in $DEVICES;do

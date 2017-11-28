@@ -28,7 +28,8 @@ for i in "$@";do
       echo "Example 7: $(basename $0) -a  # scan any on the local network (LAN side)"
       echo "Example 8: $(basename $0) -pr # ping rotate test towards router"
       echo "Example 9: $(basename $0) -o  # search for open ports on your own WAN address"
-      echo "Example 10:$(basename $0) -oo # search for open ports on any WAN"
+      echo "Example 10:$(basename $0) -oo  # search for open ports on any WAN"
+      echo "Example 11:$(basename $0) -ooo # Which SSID am I connected to over Wi-Fi"
       exit 0
    fi
 done
@@ -189,6 +190,8 @@ case "$1" in
         echo "Finding open ports may take some time..."
         sudo nmap -Pn -sS $ANS | grep -i -E "[0-9]\/"
         exit 0;;
+   -ooo) sudo iwconfig 2>&1 | grep SSID
+        exit $?;;
    *)   echo -ne "My IP LAN address is: ";getLAN;getWAN;;
    #*)   echo "ERROR:wrong usage, see $(basename $0) --help ";exit 1;;
 esac

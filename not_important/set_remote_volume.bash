@@ -6,6 +6,8 @@
 echo -ne "Give remote IP addr: "
 read IP
 
+ssh pi@${IP} "amixer scontents;echo $?"
+
 echo -ne "Give control: [Master/PCM (try both)]: " 
 read CONTRL
 

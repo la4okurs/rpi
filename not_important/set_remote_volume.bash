@@ -3,7 +3,8 @@
 # quick hack script
 # Author: Steinar/LA7XQ
 #
-
+# Programs sets local or remote volum
+#
 # Only initial values:
 IP=""
 CONTRL=Master
@@ -59,8 +60,9 @@ manualquestions() {
    echo -ne "Give remote IP addr: "
    read IP
    if [ "$IP" = "$YOUR_LAN_ADDR" ];then
-      echo "Oups: better start program with a volume argument given"
-      echo "      as in example 2 below"
+      echo "Oups: As this is your own local IP address, better"
+      echo "start $(basename $0) with a volume argument given"
+      echo "as in example 2 below:"
       usage_exit
    fi
    ssh pi@${IP} "amixer scontents;echo $?"

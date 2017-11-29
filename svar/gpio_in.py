@@ -37,4 +37,4 @@ if __name__ == "__main__":
       print i                  # i gets the value 1 or 0
       time.sleep(0.2)          # sleep to offload the CPU
    
-   sys.exit(0) # Exit 0 = success to outer bash shell
+   sys.exit(0) # Exit 0 = success to outer bash shell transfer

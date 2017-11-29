@@ -17,7 +17,7 @@ import subprocess            # possible call shell cmds
 import time
 
 # GLOBAL DATA AREA
-GPIO.setmode(GPIO.BCM)       # BCM for GPIO numbering
+GPIO.setmode(GPIO.BCM)       # BCM = Broadcom Inc defined GPIO pinning scheme
 #GPIO.setmode(GPIO.BOARD)     # BOARD for physical pin numbering
 
 gpioport = 23 # phys pin 16

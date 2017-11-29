@@ -12,7 +12,7 @@
 
 # IMPORT AREA
 import sys 
-import RPi.GPIO as GPIO      # import RPi.GPIO module alis to GPIO
+import RPi.GPIO as GPIO      # import RPi.GPIO module alias to GPIO
 import subprocess            # possible call shell cmds
 import time
 

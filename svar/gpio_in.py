@@ -34,7 +34,7 @@ if __name__ == "__main__":
    while True:
       # read button 1 or 0 as result:
       i = GPIO.input(gpioport) # read level og the gpioport pin
-      print i
+      print i                  # i gets the value 1 or 0
       time.sleep(0.2)          # sleep to offload the CPU
    
    sys.exit(0) # Exit 0 = success to outer bash shell

@@ -24,12 +24,13 @@ for i in "$@";do
       echo "Example 3: $(basename $0) -w  # get only WAN address"
       echo "Example 4: $(basename $0) -l  # get own LAN address"
       echo "Example 5: $(basename $0) -e  # get wireless SSIDs seen/Wireless HW capabilities listed"
-      echo "Example 6: $(basename $0) -p  # ping test towards router"
-      echo "Example 7: $(basename $0) -a  # scan any on the local network (LAN side)"
-      echo "Example 8: $(basename $0) -pr # ping rotate test towards router"
-      echo "Example 9: $(basename $0) -o  # search for open ports on your own WAN address"
-      echo "Example 10:$(basename $0) -oo  # search for open ports on any WAN"
-      echo "Example 11:$(basename $0) -ooo # Which SSID am I connected to ?"
+      echo "Example 6: $(basename $0) -a  # scan any on the local network (LAN side)"
+      echo "Example 7: $(basename $0) -n  # get number of hosts up (LAN side)"
+      echo "Example 8: $(basename $0) -p  # ping test towards router"
+      echo "Example 9: $(basename $0) -pr # ping rotate test towards router"
+      echo "Example 10:$(basename $0) -o  # search for open ports on your own WAN address"
+      echo "Example 11:$(basename $0) -oo  # search for open ports on any WAN"
+      echo "Example 12:$(basename $0) -ooo # Which SSID am I connected to ?"
       exit 0
    fi
 done
@@ -62,10 +63,10 @@ pingtest() {
    local taken
    taken=10
    #taken=8 # number of ping samples taken
-   echo "ping test towards router..."
-   if ping -c 1 ${BASE}.1 | grep -E "time=.*ms$" >/dev/null 2>&1;then
-      echo;echo "please wait, $taken samples of 'ping ${BASE}.1' now taken..."       
-      SUMMARY=$(ping -c $taken ${BASE}.1 | grep "rtt.*min.*=" | sed -e 's/.*=//g')
+   #echo "ping test towards router..."
+   if ping -c 1 ${1} | grep -E "time=.*ms$" >/dev/null 2>&1;then
+      echo;echo "please wait, $taken samples of 'ping ${1}' now taken..."       
+      SUMMARY=$(ping -c $taken ${1} | grep "rtt.*min.*=" | sed -e 's/.*=//g')
       AVMIN=$(echo $SUMMARY | awk -F "/" '{print $1}')
       AV=$(echo $SUMMARY | awk -F "/" '{print $2}')
       AVMAX=$(echo $SUMMARY | awk -F "/" '{print $3}')
@@ -86,7 +87,7 @@ pingtest() {
       fi
       echo "(Acceptable limit by program set to be $TM ms)"
    else 
-      echo "ERROR: No answer pinging this address ${BASE}.1"
+      echo "ERROR: No answer pinging this address ${1}"
       exit 1
    fi
 }
@@ -97,7 +98,7 @@ pingrotatetest() {
    echo "(Stop test with Ctrl C)"
    for i in {1..10};do
       echo; echo "ping test $i towards router running..."
-      pingtest | grep -i -E "average found|No answer"
+      pingtest ${BASE}.1 | grep -i -E "average found|No answer"
    done
 }
 
@@ -147,11 +148,11 @@ getWAN() {
 
 maybepingtest() {
    echo
-   echo -n "Do you want to add the ping test? [y/n] "
+   echo -n "Do you want to add the ping test towards the router? [y/n] "
    read ans
    ans=$(echo $ans | cut -c 1)
    if [ "$ans" = "y" -o "$ans" = "Y" ];then
-      pingtest
+      pingtest ${BASE}.1
    else
       echo "OK, that's it then."
    fi
@@ -163,7 +164,7 @@ isRPI
 echo "My hostname is: $(hostname)"
 echo "You are logged in as user: $(whoami)"
 case "$1" in
-   -p)  pingtest; echo;exit 0;;
+   -p)  pingtest ${BASE}.1; echo;exit 0;;
    -pr) pingrotatetest; echo;exit 0;;
    -w)  getWAN; echo;exit 0;;
    -l)  echo -ne "My IP LAN address is: ";getLAN;echo;exit 0;;
@@ -172,6 +173,11 @@ case "$1" in
    -a)  echo;echo -ne "My IP LAN address is: ";getLAN
         echo;echo "start local scan on ${BASE}.0/24 (be patient)...";
         nmap -v -sn ${BASE}.0/24 | sed -e 's/Nmap //g' | grep -B1 -i "up"
+        exit 0;;
+   -n)  echo;echo -ne "My IP LAN address is: ";getLAN
+        echo;echo "start local scan on ${BASE}.0/24 (be patient)...";
+        echo
+        nmap -v -sn ${BASE}.0/24 | sed -e 's/Nmap //g' 2>/dev/null | grep "hosts up"
         exit 0;;
    -o)  IPWAN=$(curl -s http://www.ipmotivation.com/ | grep "IP Address:"  | awk -F":" '{print $2}' | awk '{print $1}')
         echo "Finding open ports may take some time..."

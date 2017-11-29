@@ -21,7 +21,7 @@ GPIO.setmode(GPIO.BCM)       # BCM = Broadcom Inc defined GPIO pinning scheme
 #GPIO.setmode(GPIO.BOARD)     # BOARD for physical pin numbering
 
 gpioport = 23 # phys pin 16
-GPIO.setup(gpioport, GPIO.IN) # set port/pin as an input
+GPIO.setup(gpioport, GPIO.IN) # set port/pin as an INput pin
 GPIO.setup(gpioport, GPIO.IN,  pull_up_down=GPIO.PUD_DOWN) # input port
 #GPIO.setup(gpioport, GPIO.IN, pull_up_down=GPIO.PUD_UP)   # input port
 

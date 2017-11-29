@@ -5,9 +5,9 @@
 # Copyright 2017 MyLittleCompany
 # Licensed under the ... License, Version X.X
 #
-# This program will do..
+# This program will do....text to come here...
 #
-# Author:
+# Author: Steinar/LA7XQ
 #
 # Doc:
 # https://sourceforge.net/p/raspberry-gpio-python/wiki/Inputs/

@@ -13,8 +13,6 @@
 # https://sourceforge.net/p/raspberry-gpio-python/wiki/Inputs/
 #
 #@reboot /bin/bash $HOME/rpi/not_important/set_volume.bash 75 # %
-##00 07-23 * * * /bin/bash $HOME/rpi/not_important/wake_streamprog.bash nrk >/dev/null 2>&1 &
-##03 07-23 * * * /bin/bash $HOME/rpi/not_important/wake_streamprog.bash stop >/dev/null 2>&1 &
 #@reboot /usr/bin/python $HOME/rpi/not_important/gpio_in_callbacks_start_stream.py >/dev/null 2>&1 &
 
 
@@ -73,6 +71,9 @@ if __name__ == "__main__":
    GPIO.add_event_detect(gpioport, GPIO.RISING, callback=my_callback, bouncetime=200) # in ms
  
    # GPIO.add_event_callback(gpioport, my_callback_one) # if more functions, introduce them
+   ledblueforstreams.turnledon()
+   time.sleep(1)
+   ledblueforstreams.turnledoff()
    
    print "I will now sleep for %s seconds" % (sleeptime)
    print "If key pressed I will leave this main program"

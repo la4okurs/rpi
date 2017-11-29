@@ -197,7 +197,9 @@ case "$1" in
         sudo nmap -Pn -sS $ANS | grep -i -E "[0-9]\/"
         exit 0;;
    -ooo) sudo iwconfig 2>&1 | grep SSID
-        exit $?;;
+        RET=$?
+        [ $RET -ne 0 ] && { echo "No SSID found, Are you not on Wi-Fi ?"; }
+        exit $RET;;
    *)   echo -ne "My IP LAN address is: ";getLAN;getWAN;;
    #*)   echo "ERROR:wrong usage, see $(basename $0) --help ";exit 1;;
 esac

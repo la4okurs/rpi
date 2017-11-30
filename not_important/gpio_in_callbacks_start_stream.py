@@ -82,6 +82,8 @@ if __name__ == "__main__":
    # GPIO.add_event_callback(gpioport, my_callback_one) # if more functions, introduce them
    ledblueforstreams.turnledon()
    time.sleep(1)
+   print "SILENCE"
+   out = subprocess.check_output("/bin/bash /home/pi/rpi/not_important/wake_streamprog.bash stop >/dev/null 2>&1 &",shell=True)
    ledblueforstreams.turnledoff()
    
    print "I will now sleep for %s seconds" % (sleeptime)

@@ -1,6 +1,6 @@
 # You may add new URLs lines to this file yourself in the 'streams' and 'podcast' sections below
 # Be sure to keep the two '::' as field seperator (no other spaces needed if not wanted)
-# This file is read by the stream.bash program using the rpi/vlc_listenvhf.bash
+# This file is read by the radio_cmd.bash program using the rpi/vlc_listenvhf.bash
 start  :: # DO NOT REMOVE THIS LINE, listening at myradio.no server live stream (scanned VHF repeaters)
 stop   :: # DO NOT REMOVE THIS LINE
 status :: # DO NOT REMOVE THIS LINE

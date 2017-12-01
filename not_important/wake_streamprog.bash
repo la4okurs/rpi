@@ -9,7 +9,7 @@
 
 DEBUG=0 # 0 or 1
 GETIPPROG="$HOME/rpi/getip"
-STREAMPROG="$HOME/rpi/not_important/stream.bash"
+STREAMPROG="$HOME/rpi/not_important/radio_cmd.bash"
 THISSCRIPT=$(basename $0)
 OWNPIDS=$(pgrep -f $THISSCRIPT)
 THISPROCESS=$$
@@ -24,10 +24,10 @@ echoo() {
 }
 
 usage_exit() {
-   echo "Usage: $(basename $0) <stream.bash radio channel>"
+   echo "Usage: $(basename $0) <radio_cmd.bash radio channel>"
    echo "       example: $(basename $0) p4"
    echo
-   echo "See also the usage for the $HOME/rpi/not_important/stream.bash"
+   echo "See also the usage for the $HOME/rpi/not_important/radio_cmd.bash"
    exit 1
 }
 

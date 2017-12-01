@@ -9,6 +9,10 @@ pi@raspberrypi:~/rpi/not_important $ bash radio_cmd.bash
 
 Any time you may run status from:  $ bash radio_cmd.bash status
 
-Feel free to add entries in the file not_important/radiolist.txt  which is read by the
+Feel free to add entries in the file not_important/radiolist.txt  which is read by the radio_cmd.bash program
 
-radio_cmd.bash program
+For install in the car, I recommend the 'radio_button.bash' program instead. Then you can just push a button to switch for
+
+new stations: start it by the command $bash radio_button.bash  and put it as a script started on boot up of the RPI
+
+- Steinar/LA7XQ

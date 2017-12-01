@@ -21,5 +21,6 @@ kill_earlier gpio_in_callbacks_start_stream.py
 
 python $HOME/rpi/not_important/gpio_in_callbacks_start_stream.py > /dev/null 2>&1 &
 echo
-echo "Press the button for a new stream. Last stream selected will silence the radio"
+echo "Press the GPIO23 (phys pin 16) GPIO.IN mounted button for a new stream. Last stream selected will silence the radio"
+echo "The LED lits permanent when staying on the ham radio stream"
 echo

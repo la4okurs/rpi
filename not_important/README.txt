@@ -5,10 +5,10 @@ To start on RPI:
 
 $ cd rpi/not_important
 
-pi@raspberrypi:~/rpi/not_important $ bash stream.bash
+pi@raspberrypi:~/rpi/not_important $ bash radio_cmd.bash
 
-Any time you may run status from:  $ bash stream.bash status
+Any time you may run status from:  $ bash radio_cmd.bash status
 
 Feel free to add entries in the file not_important/radiolist.txt  which is read by the
 
-stream.bash program
+radio_cmd.bash program

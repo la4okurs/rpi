@@ -6,7 +6,7 @@
 
 DEBUG=0 # 0 or 1
 GETIPPROG="$HOME/rpi/getip"
-STREAMPROG="$HOME/rpi/not_important/radio_cmd.bash
+STREAMPROG="$HOME/rpi/not_important/radio_cmd.bash"
 
 echoo() {
    # get rid of many echoes

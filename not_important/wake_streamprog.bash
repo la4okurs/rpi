@@ -2,21 +2,11 @@
 #
 #
 # Author: Steinar/LA7XQ
-#
-# just info:
-# @reboot /bin/bash $HOME/rpi/not_important/set_volume.bash 70
-# @reboot /bin/bash $HOME/rpi/not_important/wake_streamprog.bash johnny 
+# 
 
 DEBUG=0 # 0 or 1
 GETIPPROG="$HOME/rpi/getip"
-STREAMPROG="$HOME/rpi/not_important/radio_cmd.bash"
-THISSCRIPT=$(basename $0)
-OWNPIDS=$(pgrep -f $THISSCRIPT)
-THISPROCESS=$$
-
-# own user:
-# @reboot /bin/bash $HOME/rpi/not_important/wake_streamprog.bash p4 >/dev/null 2>&1 
-
+STREAMPROG="$HOME/rpi/not_important/radio_cmd.bash
 
 echoo() {
    # get rid of many echoes
@@ -32,8 +22,9 @@ usage_exit() {
 }
 
 killscriptofthistype() {
-   for i in $OWNPIDS;do
-      if [ ! "$i" = "$THISPROCESS" ];then
+   # call like 'killscriptofthistype $$'
+   for i in $(pgrep -f $(basename $0));do
+      if [ ! "$i" = "$$" ];then
          kill -9 $i > /dev/null 2>&1
       fi
    done

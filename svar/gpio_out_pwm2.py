@@ -5,7 +5,7 @@
 # Copyright 2017 MyLittleCompany
 # Licensed under the ... License, Version X.X
 # 
-# This programs shows GPIO PWM usage,duty cycle change from 0% to 100%
+# This program shows GPIO PWM usage,duty cycle change from 0% to 100%
 # used to dim up/dim down a LED (Nice for Christmas !)
 #
 # This example use physical pin numbering scheme as BOARD pinning is used

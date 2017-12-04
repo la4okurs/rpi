@@ -5,7 +5,7 @@
 # Copyright 2017 MyLittleCompany
 # Licensed under the ... License, Version X.X
 #
-# This program give a short blink based on the GPIO Pulse Width Modulation scheme
+# This program gives a short blink based on the GPIO Pulse Width Modulation scheme
 # The example also use physical pin numbering scheme as BOARD pinning is used
 #
 # Author: Steinar/LA7XQ
@@ -30,8 +30,8 @@ GPIO.setup(gpioport, GPIO.OUT)
 # MAIN AREA
 if __name__ == "__main__":
    p = GPIO.PWM(gpioport, 0.5)  # prepare output pin for PWM with frequency 0.5 Hz 
-   p.start(2)                   # start with duty cycle 2 % (will cause a short blink)
-   raw_input("Press return to stop blinking:") # use input statement if using Python3
+   p.start(2)                   # start PWM with duty cycle 2 %, i.e will cause a short LED blink. (range 0-100)
+   raw_input("Press return to stop blinking:") # use input(" ") statement if using Python3
    p.stop()                     # stop PWM
 
    # proper GPIO cleanup as well as return to outer shell with no expected errors:

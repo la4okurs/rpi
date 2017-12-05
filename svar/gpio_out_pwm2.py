@@ -30,7 +30,7 @@ import sys
 
 
 # GLOBAL DATA AREA
-GPIO.setmode(GPIO.BOARD)        # BOARD mens use PHYSICAL RPI pin scheme
+GPIO.setmode(GPIO.BOARD)        # BOARD means use PHYSICAL RPI pin scheme
 gpioport=22                     # here phys pin 22  (GPIO25)
 GPIO.setup(gpioport, GPIO.OUT)
 

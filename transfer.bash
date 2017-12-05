@@ -4,12 +4,21 @@
 #
 # This script transfers files through secure copy
 #
-# Notice!! Be sure to change your FROM_USER, FROM_UPLOAD_DIR and ssh PORT before using this script
+# Notice!! Be sure to change your FROM_IP, USER and PORT before using this script
 #
-FROM_USER="rpi@192.168.0.237"
-FROM_UPLOAD_DIR="/home/rpi/rpi"
+FROM_IP="192.168.0.237"
+USER="rpi"
 PORT=37
 
+FROM_USER="${USER}@${FROM_IP}"
+FROM_UPLOAD_DIR="/home/${USER}/rpi"
+if [ "$FROM_IP" = "$(hostname -I | awk '{print $1}')" ]; then
+   echo "This is your source host $(hostname -I)"
+   echo "Do not try to destroy the source host"
+   echo "Now exit"
+   exit 1
+fi
+ 
 if [ -d $(pwd)/rpi ];then
    echo "You have already an existing $(pwd)/rpi directory"
    echo "I don't like to destroy any local files you have" 

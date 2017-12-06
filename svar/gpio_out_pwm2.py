@@ -44,7 +44,7 @@ GPIO.setup(gpioport, GPIO.OUT)  # define the gpioport to be an GPIO OUTPUT PORT
 if __name__ == "__main__":
 
    p = GPIO.PWM(gpioport, 50)  # define the gpioport to use Pulse Width Modulation with a frequency of 50Hz
-   p.start(0)                  # start the PWM (actually force voltageto the pin)
+   p.start(0)                  # start the PWM (actually force voltage to the pin)
    try:
       while True:
          # glow up the LED: 

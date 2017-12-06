@@ -6,7 +6,7 @@
 # Licensed under the ... License, Version X.X
 # 
 # This program shows GPIO PWM usage,duty cycle change from 0% to 100%
-# used to dim up/dim down a LED (Nice for Christmas !)
+# used to dim up/dim down a LED (Nice as a Christmas light template and should give you some ideas!)
 #
 # This example use physical pin numbering scheme as BOARD pinning is used
 # This program is using GPIO Pulse Width Modulation scheme

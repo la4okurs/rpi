@@ -58,7 +58,7 @@ if __name__ == "__main__":
             time.sleep(0.1)        # free some CPU cycles in the loop
    except KeyboardInterrupt:
       # execute this block if Ctrl C=KeyboardInterrupt is typed on the keyboard
-      print "I am the exception code that avoid the code to bail out"
+      print "I am the exception block that avoid the code to bail out"
 
    # continue here after running the print statement above
    p.stop() # Stop the PWM scheme. PWM will also stop if the instance variable 'p' goes out of scope

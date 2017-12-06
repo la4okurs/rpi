@@ -32,7 +32,7 @@ import sys
 # GLOBAL DATA AREA
 GPIO.setmode(GPIO.BOARD)        # BOARD means use PHYSICAL RPI pin scheme
 gpioport=22                     # here phys pin 22  (GPIO25)
-GPIO.setup(gpioport, GPIO.OUT)
+GPIO.setup(gpioport, GPIO.OUT)  # define the gpioport to be an GPIO OUTPUT PORT
 
 
 # FUNCTION AREA
@@ -43,26 +43,26 @@ GPIO.setup(gpioport, GPIO.OUT)
 # MAIN AREA
 if __name__ == "__main__":
 
-   p = GPIO.PWM(gpioport, 50)  # frequency=50Hz
-   p.start(0)
+   p = GPIO.PWM(gpioport, 50)  # define the gpioport to use Pulse Width Modulation with a frequency of 50Hz
+   p.start(0)                  # start the PWM (actually force voltageto the pin)
    try:
       while True:
          # glow up the LED: 
          for dc in range(0, 101, 5):
-            p.ChangeDutyCycle(dc)  # increase the duty cycle 0-100% ("dim up part")
+            p.ChangeDutyCycle(dc)  # increase from 0% to 100% duty cycle, step of 5 % ("dim up part")
             time.sleep(0.1)        # free some CPU cycles in the loop
          
          # dim the LED:
          for dc in range(100, -1, -5):
-            p.ChangeDutyCycle(dc)  # decrease the duty cycle 100-0% ("dim down part")
+            p.ChangeDutyCycle(dc)  # decrease the duty cycle from 100% to 0% ("dim down part")
             time.sleep(0.1)        # free some CPU cycles in the loop
    except KeyboardInterrupt:
-      # executes this block if Ctrl C is typed on the keyboard
+      # execute this block if Ctrl C=KeyboardInterrupt is typed on the keyboard
       print "I am the exception code that avoid the code to bail out"
 
-
-   p.stop() # Note that PWM will also stop if the instance variable 'p' goes out of scope.
+   # continue here after running the print statement above
+   p.stop() # Stop the PWM scheme. PWM will also stop if the instance variable 'p' goes out of scope
 
    # proper GPIO cleanup as well as return to outer shell with no expected errors:
-   GPIO.cleanup()
-   sys.exit(0) # All exits back to outer shell should leave 0 if no error(s) and >< 0 if failing
+   GPIO.cleanup() # reset the GPIO setup
+   sys.exit(0)    # All exits back to outer shell should leave 0 if no error(s) and >< 0 if failing

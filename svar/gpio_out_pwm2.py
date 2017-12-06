@@ -5,8 +5,9 @@
 # Copyright 2017 MyLittleCompany
 # Licensed under the ... License, Version X.X
 # 
-# This program shows GPIO PWM usage,duty cycle change from 0% to 100%
-# used to dim up/dim down a LED (Nice as a Christmas light template and should give you some ideas!)
+# This program shows GPIO PWM usage,duty cycle change from 0% to 100%  and reverse it,
+# used to glow up/dim down a LED (Nice as a Christmas light template and should
+# give you some ideas!)
 #
 # This example use physical pin numbering scheme as BOARD pinning is used
 # This program is using GPIO Pulse Width Modulation scheme
@@ -15,7 +16,7 @@
 # This example also shows a keyboard interrupt handling, ie code to
 # fetch a keyboard interrupt and handle it, see the try/except handling
 # This latter to ensure that we will run a proper finish of code
-# as p.stop() and GPIO.cleanup() will be performed
+# as p.stop() and GPIO.cleanup() then will be performed
 #
 # I regard this Python example to be a proper way of writing 
 # 

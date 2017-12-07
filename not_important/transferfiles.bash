@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Script Status: Not finished, more to do....
+# Script Status: NOTICE !! Not finished, more to do....
 #
 # Author: Steinar/LA7XQ
 #

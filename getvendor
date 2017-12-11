@@ -39,4 +39,4 @@ for num in $(seq 1 $NOOFSCANS);do
       fi
    done < "$TMP1"
 done
-[ -f $TMP1 ] && rm -f $TMP  # cleanup
+[ -f $TMP1 ] && rm -f $TMP1  # cleanup

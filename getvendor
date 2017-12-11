@@ -2,7 +2,7 @@
 #
 # The program gives overview over vendors on the MAC addresses found
 # on local network
-# Run the program as sudo
+# The program arps as sudo
 #
 # Author: Steinar/LA7XQ
 #

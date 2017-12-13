@@ -1,4 +1,9 @@
 #!/bin/bash
+#
+# Script status: Work in progress....
+#
+# Author: Steinar/LA7XQ
+#
 TMP_SER="./tmp_ser"
 TMP_SER_SHA="${TMP_SER}.sha256sum"
 

@@ -26,6 +26,16 @@ TMPS_NOT_KEYFILES="$TMP_SER $TMP_SER_SHA $TMP_PASSWD $TMP_PASSWD_SHA $TMP_RES $T
 SHASUM="/usr/bin/sha256sum"
 LA7XPASSWD="abc"  # not to be used anyhow
 
+isRPI() {
+   # return 0 if its a RPI
+   if cat /proc/cpuinfo | grep -q -i -E 'Hardware.*BCM2'; then
+     if cat /proc/cpuinfo | grep -q -i -E "(^model name.*ARMv6-compatible processor|ARMv7.*processor)";then
+        return 0
+     fi
+   fi
+   return 1
+}
+
 cleanup() {
    for i in $TMPS;do
       rm -f $i
@@ -99,6 +109,15 @@ establish_files() {
       touch $i
    done
 }
+
+isRPI
+RET=$?
+if [ $RET -ne 0 ];then
+   echo "ERROR: This host ($(hostname)) is likely not an RPI"
+   echo "You should run this script on an RPI only"
+   echo "Now exit"
+   exit 1
+fi
 
 if [ $# -ne 1 -a $# -ne 2 ];then
    usage_exit

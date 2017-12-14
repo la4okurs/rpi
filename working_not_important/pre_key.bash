@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Script status: work in progress, more to come....
+# Script status: Work in progress...., more code to be added
 #
-# Author: Steinari/LA7XQ
+# Author: Steinar/LA7XQ
 #
 
 GOWNER="steinar.wenaas@gmail.com"

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Script status: Not finished, code yet to be added/tested
+# Script status: Work in progress...., more code to be added
 #
 # Use this script to clone from the master USB stick mounted in the Linux Laptop
 # or mounted on the RPI itself

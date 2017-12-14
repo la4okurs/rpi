@@ -12,7 +12,7 @@ OUIFILE="./oui.txt"
 
 if [ ! -f $OUIFILE ];then
    echo "$(basename $0):ERROR: File $OUIFILE not found"
-   echo "Perform first an '\$ wget http://standards.ieee.org/develop/regauth/oui/oui.txt' on this directory"
+   echo "Perform first an '\$ pushd $HOME;wget http://standards.ieee.org/develop/regauth/oui/oui.txti;popd' on your directory"
    echo "Now exit"
    exit 1
 fi

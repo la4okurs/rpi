@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Script status: Work in progress....
+# Script status: Work in progress...., more code to be added
 #
 # Author: Steinar/LA7XQ
 #

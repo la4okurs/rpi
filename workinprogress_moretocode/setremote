@@ -1,0 +1,8 @@
+#!/bin/bash
+SETVOL="bash /home/pi/rpi/myradio/set_volume.bash 65"  # 0 = min volume, 100=max volume
+STATION="bash /home/pi/rpi/myradio/cradio.bash finnm"
+#STATION="bash /home/pi/rpi/myradio/cradio.bash nrk"
+#STATION="bash /home/pi/rpi/myradio/cradio.bash bob"
+#STATION="bash /home/pi/rpi/myradio/cradio.bash johnny"
+ssh pi@192.168.0.13 "$SETVOL;$STATION"
+exit $?

@@ -27,7 +27,7 @@ if [ -z "$MEMSTIC_BASEDIR" ];then
    echo "MEMSTIC_BASEDIR is empty"
    echo "MEMSTIC_BASEDIR=$MEMSTIC_BASEDIR"
    echo
-   echo "Is the USB not mounted?"
+   echo "Is the USB stick not mounted?"
    echo "Try a 'df -h'"
    echo "No sense to continue. Now exit"
    exit 1

@@ -41,7 +41,6 @@ EOF
 rev=$(sudo cat /proc/cpuinfo | grep -i "^revision" | awk '{print $NF}')
 [ -z "$rev" ] && { echo "This PC is likely not an RPI PC"; exit 1; }
 line=$(grep $rev /tmp/rpi_models)
-echo "line=$line"
 model=$(echo $line | awk '{ print $4,$5,$6}')
 echo "$line ==> RPI $model"
 echo;echo "============== OS/DISTRO ============:"

@@ -28,6 +28,7 @@ getGATEWAY() {
       GATEWAYIP_SAVE=""
       for i in $GATEWAYIP;do
          if [ ! -z "$i" ];then
+            # echo $i  # TBD, delete later
             if [ ! "$i" = "$GATEWAYIP_SAVE" ];then
                GATEWAYIP_SAVE=$i
             fi
@@ -71,6 +72,7 @@ if [ $RET_GATEWAYIP -ne 0 ];then
    exit 1
 fi 
 
+
 BASE=""
 BASE=$(echo "$GATEWAYIP" | awk -F"." '{printf $1"."$2"."$3}')
 #echo "BASE=$BASE"
@@ -83,6 +85,8 @@ if [ "$BASE" = "" ];then
 fi
 
 echo " ===  $(basename $0) ===  hack script laget av Steinar";echo
+# echo "Gateway is       : $GATEWAYIP" # TBD, optional printout
+
 isRPI() {
    # return 0 if its a RPI
    if cat /proc/cpuinfo | egrep -q -i -e "(Hardware.*BCM270[89])"; then
@@ -170,7 +174,7 @@ getWAN() {
    fi
    
    # Then try to pass the gateway...
-   echo -ne "My IP WAN address is: "
+   echo -ne "IP WAN address is: "
    if ! type curl >/dev/null 2>&1 ;then
       echo "ERROR: curl missing. Try '$ sudo apt-get install curl' first. Then try again $(basename $0)"
       exit 1
@@ -203,23 +207,23 @@ maybepingtest() {
 isRPI
 #RET=$?
 
-echo "My hostname is: $(hostname)"
+echo "Hostname is: $(hostname)"
 echo "You are logged in as user: $(whoami)"
 case "$1" in
    # -p)  pingtest ${BASE}.1; echo;exit 0;;
    -p)  pingtest ${GATEWAYIP}; echo;exit 0;;
    -pr) pingrotatetest; echo;exit 0;;
    -w)  getWAN; echo;exit 0;;
-   -l)  echo "My IP LAN address is:";getLAN;echo;exit 0;;
-   -q)  QUIET=1;echo "My IP LAN address is:";getLAN;getWAN;;
+   -l)  echo "IP LAN address is:";getLAN;echo;exit 0;;
+   -q)  QUIET=1;echo "IP LAN address is:";getLAN;getWAN;;
    -e)  getiwlist; echo;exit 0;;
-   -a)  echo;echo "My IP LAN address is:";getLAN
+   -a)  echo;echo "IP LAN address is:";getLAN
         # echo;echo "start local scan on ${BASE}.0/24 (be patient)...";
         echo;echo "start local scan on ${GATEWAYIP}/24 (be patient)...";
         # nmap -v -sn ${BASE}.0/24 | sed -e 's/Nmap //g' | grep -B1 -i "up"
         nmap -v -sn ${GATEWAYIP}/24 | sed -e 's/Nmap //g' | grep -B1 -i "up"
         exit 0;;
-   -n)  echo;echo "My IP LAN address is:";getLAN
+   -n)  echo;echo "IP LAN address is:";getLAN
         echo;echo "start local scan on ${GATEWAYIP}/24 (be patient)...";
         echo
         nmap -v -sn ${GATEWAYIP}/24 | sed -e 's/Nmap //g' 2>/dev/null | grep "hosts up"
@@ -245,12 +249,13 @@ case "$1" in
         RET=$?
         [ $RET -ne 0 ] && { echo "No SSID found, Are you not on Wi-Fi ?"; }
         exit $RET;;
-   *)   echo "My IP LAN address is:"
+   *)   echo "IP LAN address is:"
         getLAN
         getWAN;;
    #*)   echo "ERROR:wrong usage, see $(basename $0) --help ";exit 1;;
 esac
 
+echo "Gateway is       : $GATEWAYIP" # TBD, optional printout
 NOOFSCANS=2
 
 for num in $(seq 1 $NOOFSCANS);do
@@ -263,7 +268,9 @@ for num in $(seq 1 $NOOFSCANS);do
       #echo "extra my_LINK=$my_LINK"
       #echo "ip_list=$ip_list"
       for i in $ip_list;do
-          if [ "$i" = "${my_LAN}" ];then
+          if [ "$i" = "${GATEWAYIP}" ];then
+             echo "$i <== gateway (may be an router)"
+          elif [ "$i" = "${my_LAN}" ];then
               isRPI
               RET=$?
               if [ $RET -eq 0 ];then

@@ -13,7 +13,35 @@ QUIET=0
 HSTR=$(echo "$@" | sed -e 's/.*-h/-h/g' -e 's/-h.*/-h/g')
 
 getLAN() {
-   ip addr | egrep -e "inet.*global" | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | head -n 1
+   ip addr | egrep -e "inet.*global" | grep -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | awk '{print "    ", $2,$NF}'
+}
+
+getGATEWAY() {
+   local NOOFIPS
+   local i
+   NOOFIPS=$(route -ne | grep "0.0.0.0" | awk '{print $2}' | grep -v "0.0.0.0" | wc -l)
+   if [ $NOOFIPS -eq 1 ];then
+      GATEWAYIP=$(route -ne | grep "0.0.0.0" | awk '{print $2}' | grep -v "0.0.0.0")
+      GATEWAYIP_SAVE=$GATEWAYIP
+   else
+      GATEWAYIP=$(route -ne | grep "0.0.0.0" | awk '{print $2}' | grep -v "0.0.0.0")
+      GATEWAYIP_SAVE=""
+      for i in $GATEWAYIP;do
+         if [ ! -z "$i" ];then
+            if [ ! "$i" = "$GATEWAYIP_SAVE" ];then
+               GATEWAYIP_SAVE=$i
+            fi
+         fi 
+      done
+   fi 
+   if [ ! -z "$GATEWAYIP_SAVE" ];then
+      GATEWAYIP=$GATEWAYIP_SAVE
+      echo "$GATEWAYIP"
+      return 0
+   else
+      echo ""
+      return 1
+   fi
 }
 
 for i in "$@";do
@@ -35,7 +63,17 @@ for i in "$@";do
    fi
 done
 
-BASE=$(getLAN | awk -F"." '{printf $1"."$2"."$3}')
+GATEWAYIP=$(getGATEWAY)
+RET_GATEWAYIP=$?
+if [ $RET_GATEWAYIP -ne 0 ];then
+   echo "ERROR: Is your own network disabled or link down?"
+   echo "Check wireless access or cable if you're wired up"
+   exit 1
+fi 
+
+BASE=""
+BASE=$(echo "$GATEWAYIP" | awk -F"." '{printf $1"."$2"."$3}')
+#echo "BASE=$BASE"
 if [ "$BASE" = "" ];then
    echo "BASE=$BASE"
    echo "Is your own network disabled or link down?"
@@ -56,7 +94,8 @@ isRPI() {
 }
 
 pinglocalNorouterNeeded() {
-   nmap -v -sn ${BASE}.0/24 | grep -B1 "Host is up"
+   # nmap -v -sn ${BASE}.0/24 | grep -B1 "Host is up"
+   nmap -v -sn ${GATEWAYIP}/24 | grep -B1 "Host is up"
 }
 
 pingtest() {
@@ -98,7 +137,8 @@ pingrotatetest() {
    echo "(Stop test with Ctrl C)"
    for i in {1..10};do
       echo; echo "ping test $i towards router running..."
-      pingtest ${BASE}.1 | grep -i -E "average found|No answer"
+      # pingtest ${BASE}.1 | grep -i -E "average found|No answer"
+      pingtest ${GATEWAYIP} | grep -i -E "average found|No answer"
    done
 }
 
@@ -120,8 +160,9 @@ getiwlist() {
 
 getWAN() {
    # First of all test path to router...
-   if ! ping -c 2 ${BASE}.1 >/dev/null 2>&1;then
-      echo "ERROR: Can't ping your router on address ${BASE}.1"
+   # if ! ping -c 2 ${BASE}.1 >/dev/null 2>&1;then
+   if ! ping -c 2 ${GATEWAYIP} >/dev/null 2>&1;then
+      echo "ERROR: Can't ping your router on address ${GATEWAYIP}"
       echo "       Check connection path from your position towards the router !"
       echo "       (either the eth wire or the WiFi path)"
       echo "Try '$(basename $0) -a' as well"
@@ -152,7 +193,8 @@ maybepingtest() {
    read ans
    ans=$(echo $ans | cut -c 1)
    if [ "$ans" = "y" -o "$ans" = "Y" ];then
-      pingtest ${BASE}.1
+      # pingtest ${BASE}.1
+      pingtest ${GATEWAYIP}
    else
       echo "OK, that's it then."
    fi
@@ -164,20 +206,23 @@ isRPI
 echo "My hostname is: $(hostname)"
 echo "You are logged in as user: $(whoami)"
 case "$1" in
-   -p)  pingtest ${BASE}.1; echo;exit 0;;
+   # -p)  pingtest ${BASE}.1; echo;exit 0;;
+   -p)  pingtest ${GATEWAYIP}; echo;exit 0;;
    -pr) pingrotatetest; echo;exit 0;;
    -w)  getWAN; echo;exit 0;;
-   -l)  echo -ne "My IP LAN address is: ";getLAN;echo;exit 0;;
-   -q)  QUIET=1;echo -ne "My IP LAN address is: ";getLAN;getWAN;;
+   -l)  echo "My IP LAN address is:";getLAN;echo;exit 0;;
+   -q)  QUIET=1;echo "My IP LAN address is:";getLAN;getWAN;;
    -e)  getiwlist; echo;exit 0;;
-   -a)  echo;echo -ne "My IP LAN address is: ";getLAN
-        echo;echo "start local scan on ${BASE}.0/24 (be patient)...";
-        nmap -v -sn ${BASE}.0/24 | sed -e 's/Nmap //g' | grep -B1 -i "up"
+   -a)  echo;echo "My IP LAN address is:";getLAN
+        # echo;echo "start local scan on ${BASE}.0/24 (be patient)...";
+        echo;echo "start local scan on ${GATEWAYIP}/24 (be patient)...";
+        # nmap -v -sn ${BASE}.0/24 | sed -e 's/Nmap //g' | grep -B1 -i "up"
+        nmap -v -sn ${GATEWAYIP}/24 | sed -e 's/Nmap //g' | grep -B1 -i "up"
         exit 0;;
-   -n)  echo;echo -ne "My IP LAN address is: ";getLAN
-        echo;echo "start local scan on ${BASE}.0/24 (be patient)...";
+   -n)  echo;echo "My IP LAN address is:";getLAN
+        echo;echo "start local scan on ${GATEWAYIP}/24 (be patient)...";
         echo
-        nmap -v -sn ${BASE}.0/24 | sed -e 's/Nmap //g' 2>/dev/null | grep "hosts up"
+        nmap -v -sn ${GATEWAYIP}/24 | sed -e 's/Nmap //g' 2>/dev/null | grep "hosts up"
         exit 0;;
    -o)  IPWAN=$(curl -s http://www.ipmotivation.com/ | grep "IP Address:"  | awk -F":" '{print $2}' | awk '{print $1}')
         echo "Finding open ports may take some time..."
@@ -200,18 +245,18 @@ case "$1" in
         RET=$?
         [ $RET -ne 0 ] && { echo "No SSID found, Are you not on Wi-Fi ?"; }
         exit $RET;;
-   *)   echo -ne "My IP LAN address is: ";getLAN;getWAN;;
+   *)   echo "My IP LAN address is:"
+        getLAN
+        getWAN;;
    #*)   echo "ERROR:wrong usage, see $(basename $0) --help ";exit 1;;
 esac
 
-#echo -ne "My IP LAN address is: "
-#getLAN
 NOOFSCANS=2
 
 for num in $(seq 1 $NOOFSCANS);do
    if type nmap 2>/dev/null | grep -q '/.*/';then
       echo;echo -n " ---- SCAN $num ON MY LAN network ---(BASE=${BASE}.x)---:";echo
-      ip_list=$(nmap -sn ${BASE}.0/24 | sed -e 's/[Nn]map/steinar/g' | grep report | awk '{print $NF}') # just to have a little fun
+      ip_list=$(nmap -sn ${GATEWAYIP}/24 | sed -e 's/[Nn]map/steinar/g' | grep report | awk '{print $NF}') # just to have a little fun
       my_LAN=$(ip -f inet addr | grep inet | awk '{print $2}' | awk -F'/' '{print $1}' | grep -v "127.0.0" | head -1)
       my_LINK=$(ip addr | egrep -i -e "(scope global)" | grep -v inet6 | awk '{ print $NF}')
       #echo "extra my_LAN=$my_LAN"

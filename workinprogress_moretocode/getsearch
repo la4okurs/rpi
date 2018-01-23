@@ -1,0 +1,57 @@
+#!/bin/bash -x
+
+# hack script, not at all finished..."
+
+if [ $# -ne 1 ];then
+   echo "ERROR:"
+   echo "Usage: $(basename $0) <file-name>"
+   exit 1
+fi
+if which "$1";then       # is the file $1 currently installed on my machine?
+   echo "Yes, $1 is installed. Do Ctrl C if stop now wanted"
+   read
+fi
+echo "Try to find releated pkg...."
+apt-cache search "$1" # find related pkg
+echo "Try to find releated pkg...."
+PKG=$(apt-cache search "$1" | awk '{print $1}') # find related pkg
+NOOFLINES=$(echo "$PKG" | wc -l)
+if [ $NOOFLINES -ne 1 ];then
+   exit 0
+fi
+echo "PKG=$PKG"
+echo "----------- dependencies:-----"
+apt-cache depends $PKG  # list dependencies
+echo "Consider to install by doing 'sudo apt-get install $PKG'"
+exit 0
+
+echo "I'll will install that package if not Cntr C typed"
+sudo apt-get purge $PKG
+sudo apt-get install $PKG
+echo;echo "Now try to find $1"
+which "$1"
+exit 0
+
+# ------- To consider later---------
+dpkg --get-selections   # list installed packages
+lsusb                   # list USB devices
+lsblk                   # list block devices (disks, cd, sd cards etc)
+ls -Slhr                # list files, size order, biggest files as last file,h=human
+ls -lhtr                # list files, date order, last modified file as last listed
+df -h                   # list mounted devices, report file system disk space usage
+sudo du -sh .           # disk usage , current directory
+sudo umount fs          # unmount file system (ex: before removing SDcard)
+ps -ef                  # list processes, check processes currently running, when it was started etc
+   ps -ef | grep  nginx  # list processes, filter on nginx, eg. check if process nginx runs
+pgrep -f program        # find process ID for the process called 'program'
+   pgrep -f nginx       # find process ID for the program nginx
+kill -9 23415           # kill process ID 23415 (may also take 'sudo kill -9 23415'
+kill -9 $(pgrep -f nginx) # kill all processes involving the nginx program
+
+  
+# packages/files:
+# which atd
+apt-cache search pico2wave # find package name to the not yet installed bin picowave program
+dpkg --get-selections  # whick packages are currently installed
+dpkg -S /usr/sbin/atd | awk -F: ‘{print $1}’ # find related package of a file
+dpkg -L package                              # Show files installed by package

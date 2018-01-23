@@ -7,13 +7,12 @@ if [ $# -ne 1 ];then
    echo "Usage: $(basename $0) <file-name>"
    exit 1
 fi
-if which "$1";then       # is the file $1 currently installed on my machine?
-   echo "Yes, $1 is installed. Do Ctrl C if stop now wanted"
+if which "$1";then
+   echo "Yes, $1 is already installed. Do Ctrl C if stop now wanted"
    read
 fi
 echo "Try to find releated pkg...."
 apt-cache search "$1" # find related pkg
-echo "Try to find releated pkg...."
 PKG=$(apt-cache search "$1" | awk '{print $1}') # find related pkg
 NOOFLINES=$(echo "$PKG" | wc -l)
 if [ $NOOFLINES -ne 1 ];then

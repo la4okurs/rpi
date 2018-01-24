@@ -1,5 +1,5 @@
-Some useful Linux commands/programs (first cut):
-================================================
+Some useful Linux commands/programs (first cut, fast typed in here):
+====================================================================
 .                       # denotes current directory
 ..                      # denotes mother directory, the directory above the current directory
 bash myprogram          # start a bash prog called 'myprogram' (better call it myprog.sh or .bash)

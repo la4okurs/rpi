@@ -1,7 +1,7 @@
-Some useful Linux commands/programi (first cut):
+Some useful Linux commands/programs (first cut):
 ================================================
-.                       # current directory
-..                      # mother directory, a directory above the current directory
+.                       # denotes current directory
+..                      # denotes mother directory, the directory above the current directory
 bash myprogram          # start a bash prog called 'myprogram' (better call it myprog.sh or .bash)
 python myprog           # start a python program called 'myprog' (better call it myprog.py)
 mkdir dir1              # example: create a directory called 'dir1' below the current directory

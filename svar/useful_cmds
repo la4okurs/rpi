@@ -1,0 +1,59 @@
+Some useful Linux commands/programi (first cut):
+================================================
+.                       # current directory
+..                      # mother directory, a directory above the current directory
+bash myprogram          # start a bash prog called 'myprogram' (better call it myprog.sh or .bash)
+python myprog           # start a python program called 'myprog' (better call it myprog.py)
+mkdir dir1              # example: create a directory called 'dir1' below the current directory
+cat myfile              # dump myfile to screen  (dump to std out device = the screen)
+more myfile             # dump myfile to screen, but stop when the screen is full
+head -n 3 myfile        # dump header of myfile        (dump only 3 first lines to screen)
+tail -n 3 myfile        # dump tail (footer) of myfile (dump only 3 last  lines  to screen)
+cat myfile > file1      # dump myfile to another file called file1 (instead of dump to screen)
+cat myfile >> file1     # append even more to file1    ( '>>' means append)
+cat myfile >file1 2>&1  # dump to file1 (including error messages), eg. let 2=std err also redirect
+diff file1 file2        # list differences between files, file1 and file2
+diff -r dir1 dir2       # list differences between directories, -r  means do recursive check
+which vlc               # example: get path of program vlc
+find <dir>              # list all files and directories below the <dir>
+   find .               # example: list all files and directories below current directory
+lsusb                   # list USB devices
+lsblk                   # list block devices (disks, cd, sd cards etc)
+ls -Slhr                # list files, list in size order, biggest files as last file,h=human
+ls -lhtr                # list files, list in date order, last modified file as last listed
+chmod u+x myfile        # append (upgrade) own access to execute access, u=user, x=excute
+   sudo chmod 0755 file # example: change to full own access, read and exec. access for all others
+df -h                   # list mounted devices, report file system disk space usage
+du -sh <dir>            # list disk usage, example:'du -sh .' # list disk usage on curr. directory
+sudo umount /media/...  # unmount file sys (ex: action to be done ahead of removing USB stick etc)
+ps -ef                  # list running processes, when it was started, by whom etc
+   ps -ef | grep  nginx  # example: check if the nginx program is running
+pgrep -f program        # find process ID (mother and child) of a process called 'program'
+   pgrep -f nginx       # example: find process ID of the program 'nginx'
+kill -9                 # hard kill,ex: 'kill -9 23415' ('sudo kill -9 23415')
+kill -9 $(pgrep -f /usr/sbin/nginx) # example: kill all processes involving the /usr/sbin/nginx
+whoami                  # which user am I logged in as
+file myfile             # which type of file is 'myfile'  (is it a .txt file,a .zip file,ASCII etc)
+man ls                  # dump the manual for the 'ls' program
+nano, vim, leafpad, emacs # some popular editors
+
+# install/packages etc:
+sudo apt-get upgrade       # update the package list
+sudo apt-get install pack  # install a package (here called 'pack')
+sudo apt-get purge pack    # purge (remove) a package (including conf removal)
+apt-cache search myprog    # find package name to the not yet installed bin program myprog
+dpkg --get-selections      # list packages currently installed
+dpkg -S /usr/bin/vlc       # example: Search to get the package name for the binary program vlc
+   dpkg -S $(which ls)     # example: find package name to the ls program
+dpkg -L package            # Show files inside a package (here inside the package 'package')
+
+sudo apt-get update        # update the package list
+sudo apt-get install <package> # install a package, example: 'sudo apt-get install vlc'
+sudo apt-get purge  <package>  # remove a package including conf files
+
+unzip myfile.zip           # inflate a .zip file, eg. "pack out" a zip file
+gunzip myfile.tar.gz       # gunzip an archive ( .tar file), the result will be a .tar file
+tar xvf myfile.tar         # unpack an archive file (.tar file) to separate files
+git clone <git archive)    # download from a git repository
+    git clone http://github.com/la4okurs/rpi # example: download from the la4okurs git repo rpi(.git)
+wget http://....           # download file(s) from a http (or possibly https site)

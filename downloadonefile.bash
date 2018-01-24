@@ -5,22 +5,32 @@
 #
 # Author: Steinar/LA7XQ
 #
-#
-#
 
 THISSCRIPT=$(basename $0)
+WGET=/usr/bin/wget
 
 usage_exit() {
-   echo "Usage:   $ bash $THISSCRIPT <filename>  # Notice: give no path to file"
+   echo "Usage:   $ bash $THISSCRIPT <filename>  # Notice: Do not use path to file"
    echo "Usage:   $ bash $THISSCRIPT --help"
-   echo "Example: $ bash $THISSCRIPT listenvhf.bash  # As seen, no path given"
+   echo "Example: $ bash $THISSCRIPT getip       # As seen, no path given"
    exit 0
 }
 
+
+# Check that 1 argument is used when calling the script
 if [ $# -eq 0 ];then
    echo ""
    echo "ERROR: You forgot to specify which file to download"
    usage_exit
+fi
+
+
+# Check if the program 'wget' is present as this script is using the wget program
+# Exit if not found
+if [ ! -f $WGET ];then
+   echo "ERROR: Can not find the program $WGET"
+   echo "       Install it by  giving 'sudo apt-get install wget'"
+   exit 1
 fi
 
 case $1 in

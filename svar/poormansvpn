@@ -1,0 +1,15 @@
+1. Anvender du Linux kan du - uten kostnad - eller noe program, med kun en
+eneste kommando sette opp en VPN server med secure tunnel, using Dynamic port forwarding, socket
+at port 9999:
+
+$ ssh -D 9999 pi@51.174.164.102 -p 30  
+
+vips, har du nå satt opp en kryptert Proxy, VPN server helt på egen hånd
+
+2. Gå inn i Firefox i settingene (Advanced|Network|Settings) og til
+   'Manual Proxy config'. Sett her for SOCKS Host:127.0.0.1 og for port: 9999 som  du hadde satt opp i pkt. 1 i din VPN/ssh server.
+
+(Kan nevne: Ordet SOCKS Host er fordi man nå kjører videre med en annen type protokol type
+SOCKS, men det er vel 'beyond the scope' for vårt lille kurs. Denne protokol har endel flere nyttige egenskaper
+Med dette oppsett kan man f.eks se et remote LAN nettverk
+- Steinar

@@ -1,5 +1,5 @@
-Some useful Linux commands/programs (first cut, fast typed in here):
-====================================================================
+Some useful Linux commands/programs/files (first cut, fast typed in here):
+==========================================================================
 .                       # denotes current directory
 ..                      # denotes mother directory, the directory above the current directory
 bash myprogram          # start a bash prog called 'myprogram' (better call it myprog.sh or .bash)
@@ -69,3 +69,28 @@ ssh -D 9999 pi@81.167.10.72 -p 30  # ssh login at 81.167.10.74 at port 30 (see /
 scp -P 30 ./srcfile pi@81.167.10.72:/home/pi # secure cp local file ./srcfile to remote machine using it's destination port 30
 # more advanced:
 ssh -D 9999 paul@51.174.164.13 -p 38 # ssh login at remote port 38 and open a socket to listen at port 9999 specifies a local “Dynamic” application-level port forwarding.
+
+# --- NETWORK CONFIG FILES ---- (valid for Raspbian Stretch >= 29-11-2017):
+# For Static IP file example:
+$ cat /etc/dhcpcd.conf   # or static LAN IPs
+....add lines like:....
+interface eth0              (check with 'ifconfig -a'):
+static ip_address=10.0.0.39/24 
+static routers=10.0.0.1
+static domian_name_servers=8.8.8.8 8.8.4.4   # the dns name servers
+
+# Wi-FI network example format:
+$ cat /etc/wpa_supplicant/wpa_supplicant.conf   # Wi-Fi network search file
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+country=NO
+
+network={
+	ssid="4G-Mobile-WiFi-5435"
+	psk="tye7867fgt"
+	key_mgmt=WPA-PSK
+}
+network={
+        .....
+}
+

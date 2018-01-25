@@ -16,17 +16,18 @@ mv file1 file2          # move file1 to file2 (file1 will disappear).file1,2 may
 diff file1 file2        # list differences between files, file1 and file2
 diff -r dir1 dir2       # list differences between directories, -r  means do recursive check
 which vlc               # example: get path of program vlc
-find <dir>              # list all files and directories below the <dir>
-   find .               # example: list all files and directories below current directory
+find <dir>              # list all files and directories below the directory named <dir>
+   find . -type f       # example: list all files below current directory (-type f    means list only files, not directories)
 lsusb                   # list USB devices
 lsblk                   # list block devices (disks, cd, sd cards etc)
 ls -Slhr                # list files, list in size order, biggest files as last file,h=human
 ls -lhtr                # list files, list in date order, last modified file as last listed
 chmod u+x myfile        # append (upgrade) own access to execute access, u=user, x=excute
    sudo chmod 0755 file # example: change to full own access, read and exec. access for all others
-df -h                   # list mounted devices, report file system disk space usage
+df                      # list mounted devices, report file system disk space usage (show number of bytes)  
+   df -h                # example: list mounted devices, report file system disk space usage, h=human,showing in MB and GB
 du -sh <dir>            # list disk usage, example:'du -sh .' # list disk usage on curr. directory
-sudo umount /media/...  # unmount file sys (ex: action to be done ahead of removing USB stick etc)
+sudo umount /media/...  # unmount file system at /device..., example: 'sudo umount /media/pi/0443-B119' # unmount my USB stick
 ps -ef                  # list running processes, when it was started, by whom etc
    ps -ef | grep  nginx  # example: check if the nginx program is running
 pgrep -f program        # find process ID (mother and child) of a process called 'program'
@@ -58,3 +59,11 @@ tar xvf myfile.tar         # unpack an archive file (.tar file) to separate file
 git clone <git archive)    # download from a git repository
     git clone http://github.com/la4okurs/rpi # example: download from the la4okurs git repo rpi(.git)
 wget http://....           # download file(s) from a http (or possibly https site)
+
+# secure shell (login and copy):
+ssh pi@81.167.10.72        # ssh login at 81.167.10.74 at port 22 (default port) as user pi
+ssh pi@81.167.10.72 -p 30  # ssh login at 81.167.10.74 at port 30 (see /etc/ssh/sshd_config)
+ssh -D 9999 pi@81.167.10.72 -p 30  # ssh login at 81.167.10.74 at port 30 (see /etc/ssh/sshd_config)
+scp -P 30 ./srcfile pi@81.167.10.72:/home/pi # secure cp local file ./srcfile to remote machine using it's destination port 30
+# more advanced:
+ssh -D 9999 paul@51.174.164.13 -p 38 # ssh login at remote port 38 and open a socket to listen at port 9999 specifies a local “Dynamic” application-level port forwarding.

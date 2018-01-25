@@ -6,7 +6,8 @@ bash myprogram          # start a bash prog called 'myprogram' (better call it m
 python myprog           # start a python program called 'myprog' (better call it myprog.py)
 mkdir dir1              # example: create a directory called 'dir1' below the current directory
 cat myfile              # dump myfile to screen  (dump to std out device = the screen)
-more myfile             # dump myfile to screen, but stop when the screen is full
+man ls | less           # dump the manual to fill the screen only, use arrow up/down to scroll
+more myfile             # dump myfile to screen,stop when screen is full. Hint better use 'less' 
 head -n 3 myfile        # dump header of myfile        (dump only 3 first lines to screen)
 tail -n 3 myfile        # dump tail (footer) of myfile (dump only 3 last  lines  to screen)
 cat myfile > file1      # dump myfile to another file called file1 (instead of dump to screen)
@@ -37,6 +38,7 @@ kill -9 $(pgrep -f /usr/sbin/nginx) # example: kill all processes involving the 
 whoami                  # which user am I logged in as
 file myfile             # which type of file is 'myfile'  (is it a .txt file,a .zip file,ASCII etc)
 man ls                  # dump the manual for the 'ls' program
+    man ls | less       # example: dump the manual to fill screen, use arrow up/down to scroll
 nano, vim, leafpad, emacs # some popular editors
 
 # install/packages etc:
@@ -67,4 +69,3 @@ ssh -D 9999 pi@81.167.10.72 -p 30  # ssh login at 81.167.10.74 at port 30 (see /
 scp -P 30 ./srcfile pi@81.167.10.72:/home/pi # secure cp local file ./srcfile to remote machine using it's destination port 30
 # more advanced:
 ssh -D 9999 paul@51.174.164.13 -p 38 # ssh login at remote port 38 and open a socket to listen at port 9999 specifies a local “Dynamic” application-level port forwarding.
-

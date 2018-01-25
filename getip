@@ -192,16 +192,17 @@ getWAN() {
 }
 
 maybepingtest() {
-   echo
-   echo -n "Do you want to add the ping test towards the router? [y/n] "
-   read ans
-   ans=$(echo $ans | cut -c 1)
-   if [ "$ans" = "y" -o "$ans" = "Y" ];then
-      # pingtest ${BASE}.1
-      pingtest ${GATEWAYIP}
-   else
-      echo "OK, that's it then."
-   fi
+   while true;do
+      echo
+      echo -n "Do you want to add the ping test towards the router? [y/n] "
+      read ans
+      ans=$(echo $ans | cut -c 1)
+      case "$ans" in
+         y|Y) pingtest ${GATEWAYIP};break;;
+         n|N) echo "OK, that's it then.";break;;
+         *)   continue;;
+      esac
+   done
 }
 
 isRPI
@@ -295,3 +296,4 @@ if [ $QUIET -eq 0 ];then
 fi
 echo;echo "(Other faster options available, type '$(basename $0) --help' too see)" 
 exit 0
+

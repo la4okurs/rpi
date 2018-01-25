@@ -67,3 +67,4 @@ ssh -D 9999 pi@81.167.10.72 -p 30  # ssh login at 81.167.10.74 at port 30 (see /
 scp -P 30 ./srcfile pi@81.167.10.72:/home/pi # secure cp local file ./srcfile to remote machine using it's destination port 30
 # more advanced:
 ssh -D 9999 paul@51.174.164.13 -p 38 # ssh login at remote port 38 and open a socket to listen at port 9999 specifies a local “Dynamic” application-level port forwarding.
+

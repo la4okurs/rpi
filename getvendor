@@ -8,7 +8,7 @@
 #
 
 TMP1="./arp.tmp1"
-OUIFILE="./oui.txt"
+OUIFILE="$HOME/oui.txt"
 
 if [ ! -f $OUIFILE ];then
    echo "$(basename $0):ERROR: File $OUIFILE not found"

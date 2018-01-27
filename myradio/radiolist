@@ -14,6 +14,7 @@ ham3   :: http://51.174.165.11:8888/hls/stream.m3u8   # myradio.no My Proxy HLS 
 beat   :: http://www.beatlesradio.com:8000/stream/    # Beatles radio station
 bob    :: http://listen.57fm.com:80/dtracks           # Bob Dylan
 bruce  :: http://67.212.166.178:9000/;stream/         # Bruce Frederick Joseph Springsteen (Notice: not always active stream?)
+dire   :: http://m4a-64.cdn107.com/05/44/24/0544246022.m4a # Dire Straits (Not a radio station ?)
 elvis  :: http://s2.fastcast4u.com:9246/;stream/1     # Elvis Presley Radio station (Notice: stream often inactive)
 johnny :: http://streaming.radio.co/s9fa0dff72/listen # Johnny Cash
 nrk    :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p1_ostlandssendingen_aac_h # "Østlandssendingen NRK"
@@ -21,6 +22,9 @@ nrkl    :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p1_ostlandssendingen_
 nyhet  :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_alltid_nyheter_aac_h # Alltid nyheter
 p13    :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p13_aac_h # NRK P13
 p4     :: http://stream.p4.no/p4_mp3_hq               # P4
+sat    :: http://stream.radioh.no:443/scan128         # Scandinavian Satellite Radio
+#vestf  :: http://https://radio.nrk.no/direkte/p1_vestfold # NRK P1/Vestfold
+vestf  :: http://nrk-mms-live.online.no/nrk_radio_p1_vestfold_mp3_l # NRK P1/Vestfold
 finnm  :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p1_finnmark_aac_h # "Finnmarksendingen NRK" # just a try, local 
 fuzz1  :: http://the1920sradionetwork.mediaplayer.whro.org/128   # old and fuzzy, but kind of good
 fuzz2  :: http://streaming.rubinbroadcasting.com/kcea            # old and fuzzy, but kind of good
@@ -33,3 +37,5 @@ podmj     :: http://84.214.218.74:2222/qstmjoes.mp3   # QST Mjøsbyene
 podnyhet  :: http://84.214.218.74:2222/news.mp3       # URL for test of new ham podcasts based on bitrate 64kb/s
 podoslo   :: http://84.214.218.74:2222/qstoslo.mp3    # QST OSLO "LA4O NYTT"
 podcw     :: http://84.214.218.74:2222/qstcw.mp3      # QSTLA CW
+
+

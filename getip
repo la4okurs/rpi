@@ -48,7 +48,7 @@ getGATEWAY() {
 
 for i in "$@";do
    if [ "$HSTR" = "-h" ];then
-      echo "Usage:$(basename $0) [-w|-l|-p|-pr|-a|-k|-q]"
+      echo "Usage:$(basename $0) [-q|-k|-w|-l|-e|-a|-n|-p|-pr|-o|-oo|-ooo]"
       echo "Example 1: $(basename $0)     # get /WAN/LAN addresses"
       echo "Example 2: $(basename $0) -q  # quiet mode, no questions (no ping test)"
       echo "Example 3: $(basename $0) -k  # keep on doing scanning (100 scans),skip ping test"

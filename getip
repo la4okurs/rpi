@@ -1,9 +1,10 @@
 #!/bin/bash
 #
 # The program gives overview over your LAN and WAN properties
+# 
 # Author: Steinar/LA7XQ
 #         hack script skrevet av Steinar i full fart
-# First check if any help is requested tru '--help','-h' etc:
+# For help, use '--help','-h' etc:
 
 # You may adjust the accepted ping time towards your router in AVMINIMUM:
 AVMINIMUM=5000  # eq. 5 ms average ping cycle time

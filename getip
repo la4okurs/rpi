@@ -47,19 +47,20 @@ getGATEWAY() {
 
 for i in "$@";do
    if [ "$HSTR" = "-h" ];then
-      echo "Usage:$(basename $0) [-w|-l|-p|-pr|-a|-q]"
+      echo "Usage:$(basename $0) [-w|-l|-p|-pr|-a|-k|-q]"
       echo "Example 1: $(basename $0)     # get /WAN/LAN addresses"
       echo "Example 2: $(basename $0) -q  # quiet mode, no questions (no ping test)"
-      echo "Example 3: $(basename $0) -w  # get only WAN address"
-      echo "Example 4: $(basename $0) -l  # get own LAN address"
-      echo "Example 5: $(basename $0) -e  # get wireless SSIDs seen/Wireless HW capabilities listed"
-      echo "Example 6: $(basename $0) -a  # scan any on the local network (LAN side)"
-      echo "Example 7: $(basename $0) -n  # get number of hosts up (LAN side)"
-      echo "Example 8: $(basename $0) -p  # ping test towards router"
-      echo "Example 9: $(basename $0) -pr # ping rotate test towards router"
-      echo "Example 10:$(basename $0) -o  # search for open ports on your own WAN address"
-      echo "Example 11:$(basename $0) -oo  # search for open ports on any WAN"
-      echo "Example 12:$(basename $0) -ooo # Which SSID am I connected to ?"
+      echo "Example 3: $(basename $0) -k  # keep on doing scanning (100 scans),skip ping test"
+      echo "Example 4: $(basename $0) -w  # get only WAN address"
+      echo "Example 5: $(basename $0) -l  # get own LAN address"
+      echo "Example 6: $(basename $0) -e  # get wireless SSIDs seen/Wireless HW capabilities listed"
+      echo "Example 7: $(basename $0) -a  # scan any on the local network (LAN side)"
+      echo "Example 8: $(basename $0) -n  # get number of hosts up (LAN side)"
+      echo "Example 9: $(basename $0) -p  # ping test towards router"
+      echo "Example 10: $(basename $0) -pr # ping rotate test towards router"
+      echo "Example 11:$(basename $0) -o  # search for open ports on your own WAN address"
+      echo "Example 12:$(basename $0) -oo  # search for open ports on any WAN"
+      echo "Example 13:$(basename $0) -ooo # Which SSID am I connected to ?"
       exit 0
    fi
 done
@@ -210,6 +211,7 @@ isRPI
 
 echo "Hostname is: $(hostname)"
 echo "You are logged in as user: $(whoami)"
+MANYSCANS=0
 case "$1" in
    # -p)  pingtest ${BASE}.1; echo;exit 0;;
    -p)  pingtest ${GATEWAYIP}; echo;exit 0;;
@@ -217,6 +219,7 @@ case "$1" in
    -w)  getWAN; echo;exit 0;;
    -l)  echo "IP LAN address is:";getLAN;echo;exit 0;;
    -q)  QUIET=1;echo "IP LAN address is:";getLAN;getWAN;;
+   -k)  QUIET=1;echo "IP LAN address is:";getLAN;getWAN;MANYSCANS=1;;
    -e)  getiwlist; echo;exit 0;;
    -a)  echo;echo "IP LAN address is:";getLAN
         # echo;echo "start local scan on ${BASE}.0/24 (be patient)...";
@@ -257,8 +260,15 @@ case "$1" in
 esac
 
 echo "Gateway is       : $GATEWAYIP" # TBD, optional printout
-NOOFSCANS=2
 
+if [ $MANYSCANS -eq 1 ];then
+   NOOFSCANS=100
+   echo
+   echo "will now keep on scanning doing $NOOFSCANS scans...."
+   echo "stop script with Ctrl C..."
+else
+   NOOFSCANS=2
+fi
 for num in $(seq 1 $NOOFSCANS);do
    if type nmap 2>/dev/null | grep -q '/.*/';then
       echo;echo -n " ---- SCAN $num ON MY LAN network ---(BASE=${BASE}.x)---:";echo
@@ -296,4 +306,5 @@ if [ $QUIET -eq 0 ];then
 fi
 echo;echo "(Other faster options available, type '$(basename $0) --help' too see)" 
 exit 0
+
 

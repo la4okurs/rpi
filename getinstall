@@ -26,7 +26,7 @@ echo
 if [ $RET -ne 0 ];then
    eccho "'$1' seems NOT installed on your host $(hostname)"
    eccho "Type ENTER if named packages for $1 is wanted searched for: ";read
-   echo "'$1' search for in these packages:"
+   echo "'$1' search and found these packages:"
    # apt-cache --full search "$1"  # full meta inspection
    apt-cache search "$1"  # do not need an Inet connection
    echo;eccho "(Notice: Above package list rely on your last"

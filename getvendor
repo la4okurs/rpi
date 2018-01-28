@@ -64,4 +64,4 @@ for num in $(seq 1 $NOOFSCANS);do
    done < "$TMP1"
 done
 [ -f $TMP1 ] && rm -f $TMP1  # cleanup
-echo;echo "(You may also try 'bash $(basename $0) --help'    to have more options"
+echo;echo "(You may also try 'bash $(basename $0) --help'    to have more options)"

@@ -8,18 +8,30 @@
 # Author: Steinar/LA7XQ
 #         hack script skrevet av Steinar i full fart
 #
+exit_help() {
+   echo  "The list package <-----vs.-----> files utility"
+   echo  "Usage: $(basename $0) [-y] binary # check a binary is installed. If not, list which package(s) to install"
+   echo  "Usage: $(basename $0) -p|--pack <packet name> # check if the <package> is installed and if installed, list its files"
+   echo
+   echo  "ex1:   $(basename $0) tcpdump     # check if the binary  'tcpdump'  is installed and if not, list which package(s) to install"
+   echo  "ex2:   $(basename $0) -p dnsutils # check if the package 'dnsutils' is installed and if installed, list its files"
+   exit 1
+}
+
 QUIET=1
-if [ ! $# -eq 0 -a "$1" = "-y" ];then
-   QUIET=0
-   shift
+if [ $# -ne 0 ];then
+   case "$1" in
+      -y) QUIET=0;shift;;
+      -p|--pack ) dpkg -L "$2"; exit 0;; # list files in an already installed package $2
+      -h|--help ) exit_help;;
+      *)  ;;
+   esac
 fi
 
 if [ $# -eq 0 ];then
    echo "ERROR: Wrong usage"
-   echo "Usage: $(basename $0) [-y] <program name for checking whether installed or not>"
-   echo "Ex1: $(basename $0) nslookup  # you ask whether 'nslookup' is installed or not"
-   echo "Ex2: $(basename $0) -y vlc    # just run to check 'vlc' is installed or not (no question)"
-   exit 1
+   echo
+   exit_help
 fi
 
 eccho() {
@@ -30,8 +42,8 @@ which "$1"
 RET=$?
 echo
 if [ $RET -ne 0 ];then
-   echo "'$1' seems NOT installed on your host $(hostname)"
-   echo -ne "Type ENTER if named packages for $1 is wanted searched for: ";
+   echo "The binary '$1' seems NOT installed on your host $(hostname)"
+   echo;echo -ne "Type ENTER if named packages for $1 is wanted searched for: ";
    [ $QUIET -ne 0 ] && read
    echo "'$1' search and found these packages:"
    # apt-cache --full search "$1"  # full meta inspection
@@ -51,3 +63,7 @@ else
    echo -ne "$(basename $0): Package here: $(dpkg -S $(which "$1"))";echo # search inside machine to see if prog $1 is currently installed
    echo
 fi
+
+
+
+

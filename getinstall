@@ -31,8 +31,8 @@ which "$1"
 RET=$?
 echo
 if [ $RET -ne 0 ];then
-   eccho "'$1' seems NOT installed on your host $(hostname)"
-   eccho "Type ENTER if named packages for $1 is wanted searched for: ";
+   echo "'$1' seems NOT installed on your host $(hostname)"
+   echo -ne "Type ENTER if named packages for $1 is wanted searched for: ";
    [ $QUIET -ne 0 ] && read
    echo "'$1' search and found these packages:"
    # apt-cache --full search "$1"  # full meta inspection

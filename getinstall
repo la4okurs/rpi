@@ -8,11 +8,18 @@
 # Author: Steinar/LA7XQ
 #         hack script skrevet av Steinar i full fart
 #
+QUIET=1
+if [ ! $# -eq 0 -a "$1" = "-y" ];then
+   echo YES
+   QUIET=0
+   shift
+fi
+
 if [ $# -eq 0 ];then
    echo "ERROR: Wrong usage"
-   echo "Usage: $(basename $0) <program name for checking whether installed or not>"
+   echo "Usage: $(basename $0) [-y] <program name for checking whether installed or not>"
    echo "Ex1: $(basename $0) nslookup  # you ask whether 'nslookup' is installed or not"
-   echo "Ex2: $(basename $0) vlc       # you ask whether 'vlc' is installed or not"
+   echo "Ex2: $(basename $0) -y vlc    # just run to check 'vlc' is installed or not (no question)"
    exit 1
 fi
 
@@ -25,7 +32,8 @@ RET=$?
 echo
 if [ $RET -ne 0 ];then
    eccho "'$1' seems NOT installed on your host $(hostname)"
-   eccho "Type ENTER if named packages for $1 is wanted searched for: ";read
+   eccho "Type ENTER if named packages for $1 is wanted searched for: ";
+   [ $QUIET -ne 0 ] && read
    echo "'$1' search and found these packages:"
    # apt-cache --full search "$1"  # full meta inspection
    apt-cache search "$1"  # do not need an Inet connection

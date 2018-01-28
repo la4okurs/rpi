@@ -60,10 +60,8 @@ else
    echo 
    echo -ne "$(basename $0): File here:    $(whereis $1)";echo
    # dpkg --get-selections | grep "$1"
-   echo -ne "$(basename $0): Package here: $(dpkg -S $(which "$1"))";echo # search inside machine to see if prog $1 is currently installed
+   echo -ne "$(basename $0): Package here: $(dpkg -S $(which "$1") | awk -F ':' '{print $1}')";echo # search inside machine to see if prog $1 is currently installed
    echo
 fi
-
-
 
 

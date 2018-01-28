@@ -1,0 +1,22 @@
+# This file explains how to install the text2speech program 'pico2wave' and test it
+===================================================================================
+#
+# Author: Steinar/LA7XQ
+#
+# Do the following steps to install:
+
+cd                                     # ensure being on the home directory
+rm -r ./rpi                            # remove the old rpi tree
+git clone http://github.com/la4okurs/rpi  # download the la4okurs files to your RPI
+cd rpi                                 # change directory to be on the 'rpi' directory
+# bash getchkinstall pico2wave           # my script to get the package name of the 'pico2wave' text2speech program
+sudo apt-get install libttspico-utils  # install the correct text2speech package
+/usr/bin/pico2wave --help              # try it. Run the program to see options how to play.
+/usr/bin/pico2wave -w filename.wav "Good morning! I feel fine today"   # record a file to the output .wav file
+aplay filename.wav                     # play the file
+
+
+# Did you hear the sound?
+# You may now better run the '$ bash test_text2speech.bash' program as well
+#
+# Best regards and 73 from Steinar/LA7XQ

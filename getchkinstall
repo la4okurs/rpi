@@ -58,10 +58,10 @@ if [ $RET -ne 0 ];then
    echo "'$1' search and found these packages:"
    # apt-cache --full search "$1"  # full meta inspection
    apt-cache search "$1"  # do not need an Inet connection
-   echo;eccho "(Notice: Above package list rely on your last"
-   eccho "'sudo apt-get update' done)"
-   eccho "or better:"
-   eccho "'sudo apt-get --fix-missing update' done)"
+   #echo;eccho "(Notice: Above package list rely on your last"
+   #eccho "'sudo apt-get update' done)"
+   #eccho "or better:"
+   #eccho "'sudo apt-get --fix-missing update' done)"
    echo
    eccho "Nothing is yet installed."
    eccho "Try to perform 'sudo apt-get install package' on one of the packages found abovei to install"

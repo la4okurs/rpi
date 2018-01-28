@@ -10,7 +10,6 @@
 #
 QUIET=1
 if [ ! $# -eq 0 -a "$1" = "-y" ];then
-   echo YES
    QUIET=0
    shift
 fi

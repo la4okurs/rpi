@@ -1,7 +1,8 @@
 #!/bin/bash
 #
-# The program tries to find out whether a program is installed or not
-# and when not installed tries to find an approriate package
+# The program list out all files of a specified package or
+# list out all packages currently installed on this host
+# The program do also list all files in a package installed
 #
 # Status: More to come on this script....
 # 
@@ -14,7 +15,8 @@ exit_help() {
    echo  "Usage: $(basename $0) -p|--pack <packet name> # check if the <package> is installed and if installed, list its files"
    echo
    echo  "ex1:   $(basename $0) tcpdump     # check if the binary  'tcpdump'  is installed and if not, list possible package(s) to install"
-   echo  "ex2:   $(basename $0) -p dnsutils # check if the package 'dnsutils' is installed and if installed, list its files"
+   echo  "ex2:   $(basename $0) -p          # list out all packages already installed on this host"
+   echo  "ex3:   $(basename $0) -p dnsutils # check if the package 'dnsutils' is installed and if installed, list its files"
    exit 1
 }
 
@@ -22,7 +24,15 @@ QUIET=1
 if [ $# -ne 0 ];then
    case "$1" in
       -y) QUIET=0;shift;;
-      -p|--pack ) dpkg -L "$2"; exit 0;; # list files in an already installed package $2
+      # -p|--pack ) dpkg -L "$2"; exit 0;; # list files in an already installed package $2
+      -p|--pack ) if [ -z "$2" ];then
+                     echo "List of all packages already installed on $(hostname):"
+                     dpkg --get-selections
+                  else
+                     # echo "These releated packages are already installed on $(hostname):"
+                     dpkg -L "$2"; exit 0 # list all files in the already installed package $2
+                  fi
+                  exit 0;; 
       -h|--help ) exit_help;;
       *)  ;;
    esac

@@ -1,14 +1,34 @@
 #!/bin/bash
 #
-# The program gives overview over vendors on the MAC addresses found
-# on local network
-# The program arps as sudo
+# The program gives vendor overview on the local (private LAN network)
+# The program also perform arp scan.....
 #
 # Author: Steinar/LA7XQ
 #
 
 TMP1="./arp.tmp1"
 OUIFILE="$HOME/oui.txt"
+NOOFSCANS=100
+exit_help() {
+   echo;echo "Usage: $(basename $0) [<OPTIONS>]"
+   echo "OPTIONS ARE:"
+   echo "$(basename $0) -h|--help # print help"
+   echo "$(basename $0) -k|--keep # keep on scanning $NOOFSCANS scans"
+   [ -f $TMP1 ] && rm -f $TMP1  # cleanup if ever used
+   exit 1
+}
+
+if [ $# -ne 0 ];then
+   case "$1" in
+      -k|--keep) ;;
+      *)         exit_help;;  # includes -h|--h
+   esac
+   echo "will now perform scan $NOOFSCANS times..."
+   echo "Stop by typing Ctrl C"
+else
+   # default is just running 2 scans
+   NOOFSCANS=2
+fi
 
 if [ ! -f $OUIFILE ];then
    echo "$(basename $0):ERROR: File $OUIFILE not found"
@@ -16,15 +36,13 @@ if [ ! -f $OUIFILE ];then
    echo "Now exit"
    exit 1
 fi
-
-NOOFSCANS=2
+if [ ! -f /usr/bin/arp-scan ];then
+   echo "$(basename $0):ERROR: /usr/bin/arp-scan not found"
+   echo "Install by 'sudo apt-get install arp-scan' first. Now exit"
+   exit 1
+fi   
 for num in $(seq 1 $NOOFSCANS);do
    echo;echo -n " ---- SCAN $num for others on the LAN network ------:";echo
-   if [ ! -f /usr/bin/arp-scan ];then
-      echo "$(basename $0):ERROR: /usr/bin/arp-scan not found"
-      echo "Try '$ sudo apt-get install arp-scan' . Now exit"
-      exit 1
-   fi   
  
    sudo arp-scan --retry=6 --ignoredups --localnet > $TMP1
 
@@ -46,3 +64,4 @@ for num in $(seq 1 $NOOFSCANS);do
    done < "$TMP1"
 done
 [ -f $TMP1 ] && rm -f $TMP1  # cleanup
+echo;echo "(You may also try 'bash $(basename $0) --help'    to have more options"

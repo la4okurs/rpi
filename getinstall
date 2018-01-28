@@ -42,7 +42,8 @@ if [ $RET -ne 0 ];then
    eccho "or better:"
    eccho "'sudo apt-get --fix-missing update' done)"
    echo
-   eccho "Try to perform 'sudo apt-get install package' on one of the packages found above"
+   eccho "Nothing is yet installed."
+   eccho "Try to perform 'sudo apt-get install package' on one of the packages found abovei to install"
 else
    eccho "'$1' seems installed on your host $(hostname)"
    echo 

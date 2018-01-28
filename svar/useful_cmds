@@ -16,7 +16,7 @@ cat myfile >file1 2>&1  # dump to file1 (including error messages), eg. let 2=st
 mv file1 file2          # move file1 to file2 (file1 will disappear).file1,2 may be directories
 diff file1 file2        # list differences between files, file1 and file2
 diff -r dir1 dir2       # list differences between directories, -r  means do recursive check
-which vlc               # example: get path of program vlc
+   which vlc            # example: get pathname(s) of the file vlc (which would be executed in the current environment)
 find <dir>              # list all files and directories below the directory named <dir>
    find . -type f       # example: list all files below current directory (-type f    means list only files, not directories)
 lsusb                   # list USB devices
@@ -46,11 +46,11 @@ sudo apt-get upgrade       # update the package list
 sudo apt-get install pack  # install a package (here called 'pack')
 sudo apt-get purge pack    # purge (remove) a package (including conf removal)
 apt-cache search myprog    # find package name to the not yet installed bin program myprog
-dpkg --get-selections      # list packages currently installed
+dpkg --get-selections      # list all packages already installed on this host
 dpkg -S /usr/bin/vlc       # example: Search to get the package name for the binary program vlc
-   dpkg -S $(which ls)     # example: find package name to the ls program
-dpkg -L package            # Show files inside a package (here inside the package 'package')
-
+   dpkg -S $(which ls)     # example: find corresponding package name to the binary ls program
+dpkg -L package            # Show files inside an already installed package (here inside the package 'package')
+                           # If no package-name is given, list all pacakges already installed on this host
 sudo apt-get update        # update the package list
 sudo apt-get install <package> # install a package, example: 'sudo apt-get install vlc'
 sudo apt-get purge  <package>  # remove a package including conf files

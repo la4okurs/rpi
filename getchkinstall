@@ -10,10 +10,10 @@
 #
 exit_help() {
    echo  "The list package <-----vs.-----> files utility"
-   echo  "Usage: $(basename $0) [-y] binary # check a binary is installed. If not, list which package(s) to install"
+   echo  "Usage: $(basename $0) [-y] binary # check a binary is installed. If not, list possible package(s) to install"
    echo  "Usage: $(basename $0) -p|--pack <packet name> # check if the <package> is installed and if installed, list its files"
    echo
-   echo  "ex1:   $(basename $0) tcpdump     # check if the binary  'tcpdump'  is installed and if not, list which package(s) to install"
+   echo  "ex1:   $(basename $0) tcpdump     # check if the binary  'tcpdump'  is installed and if not, list possible package(s) to install"
    echo  "ex2:   $(basename $0) -p dnsutils # check if the package 'dnsutils' is installed and if installed, list its files"
    exit 1
 }

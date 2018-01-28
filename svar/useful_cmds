@@ -6,13 +6,12 @@ bash myprogram          # start a bash prog called 'myprogram' (better call it m
 python myprog           # start a python program called 'myprog' (better call it myprog.py)
 mkdir dir1              # example: create a directory called 'dir1' below the current directory
 cat myfile              # dump myfile to screen  (dump to std out device = the screen)
-man ls | less           # dump the manual to fill the screen only, use arrow up/down to scroll
-more myfile             # dump myfile to screen,stop when screen is full. Hint better use 'less' 
-head -n 3 myfile        # dump header of myfile        (dump only 3 first lines to screen)
-tail -n 3 myfile        # dump tail (footer) of myfile (dump only 3 last  lines  to screen)
 cat myfile > file1      # dump myfile to another file called file1 (instead of dump to screen)
 cat myfile >> file1     # append even more to file1    ( '>>' means append)
-cat myfile >file1 2>&1  # dump to file1 (including error messages), eg. let 2=std err also redirect
+cat myfile >file1 2>&1  # dump to file1 (including error messages), eg. let 2=std err also redirectn ls | less           # dump the manual to fill the screen only, use arrow up/down to scroll
+head -n 3 myfile        # dump header of myfile        (dump only 3 first lines to screen)
+tail -n 3 myfile        # dump tail (footer) of myfile (dump only 3 last  lines  to screen)
+more myfile             # dump myfile to screen,stop when screen is full. Hint better use 'less' 
 mv file1 file2          # move file1 to file2 (file1 will disappear).file1,2 may be directories
 diff file1 file2        # list differences between files, file1 and file2
 diff -r dir1 dir2       # list differences between directories, -r  means do recursive check

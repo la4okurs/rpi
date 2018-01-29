@@ -16,15 +16,44 @@ if [ ! -f /usr/bin/aplay ];then
    echo "Hint: install it by doing 'sudo apt-get install alsa-utils' first"
    exit 1
 fi
-if [ ! -f $TEXT2SPEECHPROG ];then
-   echo "ERROR The text2speech program called '$TEXT2SPEECHPROG' is not yet installed"
+if [ ! -f /usr/bin/aplay ];then
+   echo "ERROR: The  /usr/bin/aplay program seems not to be installed on your RPI"
+   echo "Hint: install it by doing 'sudo apt-get install alsa-utils' first"
+   exit 1
+fi
+if [ ! -f /usr/bin/amixer ];then
+   echo "ERROR The /usr/bin/amixer program is not yet installed"
    echo "Hint: install it by doing 'sudo apt-get install libttspico-utils' first"
    exit 1
 fi
+quest_bin() {
+   RET=0
+   while true;do
+      echo
+      echo -ne "$1 [$2/$3]?: "
+      read ans
+      ans=$(echo $ans | cut -c 1)
+      case "$ans" in
+         $2) RET=1;break;;
+         $3) RET=2;break;;
+         *)  continue;;
+      esac
+   done
+   return $RET
+}
 
 echo "INFO: Type Ctrl C when you want to quit"
 SOUNDFILE="./mysound.wav"
 rm -f $SOUNDFILE
+quest_bin "Do you want audio output to jack(j) or HDMI(h)" "j" "h"
+RET=$?
+if [ $RET -eq 1 ];then
+   /usr/bin/amixer cset numid=3 1 >/dev/null 2>&1
+elif [ $RET -eq 2 ];then
+   /usr/bin/amixer cset numid=3 2 >/dev/null 2>&1
+else
+   :
+fi
 
 INTROTEXT="Good morning! I am the text to speech program script made by lima alfa 7 ex ray quebec! Steinar. Now you can try. Have fun !"
 echo "$INTROTEXT"
@@ -41,3 +70,4 @@ do
    aplay $SOUNDFILE                               # play the sound file
    rm -f $SOUNDFILE                               # clean up after playing
 done
+

@@ -5,7 +5,7 @@
 # Author: Steinar/LA7XQ
 #         hack bash script skrevet av Steinar i full fart
 #
-# Remember to possibly adjust your headphone volume
+# Remember to select audio output to RPI audio jack or HDMI and possibly adjust volume of your headphones
 #
 
 TEXT2SPEECHPROG="/usr/bin/pico2wave"

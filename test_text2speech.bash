@@ -31,7 +31,7 @@ echo "$INTROTEXT"
 /usr/bin/pico2wave -w $SOUNDFILE "$INTROTEXT"
 aplay $SOUNDFILE
 echo;echo "NOTICE: You may need to select the audio jack connector (for headphnoes) or HDMI sound speakers on RPI first"
-echo " Remember to adjust volume as well"
+echo "        Remember to adjust volume as well"
 rm -f $SOUNDFILE
 while true
 do

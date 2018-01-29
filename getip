@@ -14,13 +14,15 @@ QUIET=0
 HSTR=$(echo "$@" | sed -e 's/.*-h/-h/g' -e 's/-h.*/-h/g')
 
 getLAN() {
-   ip addr | egrep -e "inet.*global" | grep -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | awk '{print "    ", $2,$NF}'
+   echo -ne "IP LAN address is:"
+   # ip addr | egrep -e "inet.*global" | grep -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | awk '{print "    ", $2,$NF}'
+   ip addr | egrep -e "inet.*global" | grep -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | awk '{print "", $2,$NF}'
 }
 
 getGATEWAY() {
    local NOOFIPS
    local i
-   #ROUTECMD="route -ne"
+   ROUTECMD="route -ne"
    ROUTECMD="/bin/netstat -r"
 
    NOOFIPS=$($ROUTECMD | grep "0.0.0.0" | awk '{print $2}' | grep -v "0.0.0.0" | wc -l)
@@ -221,17 +223,15 @@ case "$1" in
    -p)  pingtest ${GATEWAYIP}; echo;exit 0;;
    -pr) pingrotatetest; echo;exit 0;;
    -w)  getWAN; echo;exit 0;;
-   -l)  echo "IP LAN address is:";getLAN;echo;exit 0;;
-   -q)  QUIET=1;echo "IP LAN address is:";getLAN;getWAN;;
-   -k)  QUIET=1;echo "IP LAN address is:";getLAN;getWAN;MANYSCANS=1;;
+   -l)  getLAN;echo;exit 0;;
+   -q)  QUIET=1;getLAN;getWAN;;
+   -k)  QUIET=1;getLAN;getWAN;MANYSCANS=1;;
    -e)  getiwlist; echo;exit 0;;
-   -a)  echo;echo "IP LAN address is:";getLAN
-        # echo;echo "start local scan on ${BASE}.0/24 (be patient)...";
+   -a)  echo;getLAN
         echo;echo "start local scan on ${GATEWAYIP}/24 (be patient)...";
-        # nmap -v -sn ${BASE}.0/24 | sed -e 's/Nmap //g' | grep -B1 -i "up"
         nmap -v -sn ${GATEWAYIP}/24 | sed -e 's/Nmap //g' | grep -B1 -i "up"
         exit 0;;
-   -n)  echo;echo "IP LAN address is:";getLAN
+   -n)  echo;getLAN
         echo;echo "start local scan on ${GATEWAYIP}/24 (be patient)...";
         echo
         nmap -v -sn ${GATEWAYIP}/24 | sed -e 's/Nmap //g' 2>/dev/null | grep "hosts up"
@@ -257,10 +257,8 @@ case "$1" in
         RET=$?
         [ $RET -ne 0 ] && { echo "No SSID found, Are you not on Wi-Fi ?"; }
         exit $RET;;
-   *)   echo "IP LAN address is:"
-        getLAN
+   *)   getLAN
         getWAN;;
-   #*)   echo "ERROR:wrong usage, see $(basename $0) --help ";exit 1;;
 esac
 
 echo "Gateway is       : $GATEWAYIP" # TBD, optional printout
@@ -310,8 +308,3 @@ if [ $QUIET -eq 0 ];then
 fi
 echo;echo "(Other faster options available, type '$(basename $0) --help' too see)" 
 exit 0
-
-
-
-
-

@@ -284,7 +284,7 @@ for num in $(seq 1 $NOOFSCANS);do
       #echo "ip_list=$ip_list"
       for i in $ip_list;do
           if [ "$i" = "${GATEWAYIP}" ];then
-             echo "$i <== gateway (may be an router)"
+             echo "$i <== gateway (most likely an router)"
           elif [ "$i" = "${my_LAN}" ];then
               isRPI
               RET=$?

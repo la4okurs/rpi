@@ -18,7 +18,9 @@ echo "INFO: Type Ctrl C when you want to quit"
 SOUNDFILE="./mysound.wav"
 rm -f $SOUNDFILE
 
-/usr/bin/pico2wave -w $SOUNDFILE "Good morning! I am the text2speech program. Now you can try"
+INTROTEXT="Good morning! I am the text to speech program. Now you can try"
+echo "$INTROTEXT"
+/usr/bin/pico2wave -w $SOUNDFILE "$INTROTEXT"
 aplay $SOUNDFILE
 rm -f $SOUNDFILE
 
@@ -31,4 +33,5 @@ do
    /usr/bin/pico2wave -w $SOUNDFILE "$ANS"        # create the sound file
    aplay $SOUNDFILE                               # play the sound file
    rm -f $SOUNDFILE                               # clean up after playing
-done 
+done
+

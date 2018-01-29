@@ -30,14 +30,13 @@ INTROTEXT="Good morning! I am the text to speech program script made by lima alf
 echo "$INTROTEXT"
 /usr/bin/pico2wave -w $SOUNDFILE "$INTROTEXT"
 aplay $SOUNDFILE
+echo;echo "Now play back...listen, you may need to adjust volume"
+echo "for your headphones (or select HDMI output)"
 rm -f $SOUNDFILE
-
 while true
 do
    echo
    echo -ne "Input some new text (or Ctrl C): ";read ANS
-   echo "Now play back...listen, you may need to adjust volume"
-   echo "for your headphones (or select HDMI output)"
    /usr/bin/pico2wave -w $SOUNDFILE "$ANS"        # create the sound file
    aplay $SOUNDFILE                               # play the sound file
    rm -f $SOUNDFILE                               # clean up after playing

@@ -42,7 +42,6 @@ quest_bin() {
    return $RET
 }
 
-echo "INFO: Type Ctrl C when you want to quit"
 SOUNDFILE="./mysound.wav"
 rm -f $SOUNDFILE
 quest_bin "Do you want audio output to jack(j) or HDMI(h)" "j" "h"
@@ -70,4 +69,3 @@ do
    aplay $SOUNDFILE                               # play the sound file
    rm -f $SOUNDFILE                               # clean up after playing
 done
-

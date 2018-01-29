@@ -3,7 +3,7 @@
 # The program tests the pico2wave text2speech program
 # 
 # Author: Steinar/LA7XQ
-#         hack bach script skrevet av Steinar i full fart
+#         hack bash script skrevet av Steinar i full fart
 #
 # Remember to possibly adjust your headphone volume
 #

@@ -9,11 +9,19 @@
 #
 
 TEXT2SPEECHPROG="/usr/bin/pico2wave"
+
+# check access first:
+if [ ! -f /usr/bin/aplay ];then
+   echo "ERROR: The  /usr/bin/aplay program seems not to be installed on your RPI"
+   echo "Hint: install it by doing 'sudo apt-get install alsa-utils' first"
+   exit 1
+fi
 if [ ! -f $TEXT2SPEECHPROG ];then
    echo "ERROR The text2speech program called '$TEXT2SPEECHPROG' is not yet installed"
    echo "Hint: install it by doing 'sudo apt-get install libttspico-utils' first"
    exit 1
 fi
+
 echo "INFO: Type Ctrl C when you want to quit"
 SOUNDFILE="./mysound.wav"
 rm -f $SOUNDFILE
@@ -34,4 +42,3 @@ do
    aplay $SOUNDFILE                               # play the sound file
    rm -f $SOUNDFILE                               # clean up after playing
 done
-

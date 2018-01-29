@@ -20,12 +20,15 @@ getLAN() {
 getGATEWAY() {
    local NOOFIPS
    local i
-   NOOFIPS=$(route -ne | grep "0.0.0.0" | awk '{print $2}' | grep -v "0.0.0.0" | wc -l)
+   ROUTECMD="route -ne"
+   ROUTECMD="/bin/netstat -r"
+
+   NOOFIPS=$($ROUTECMD | grep "0.0.0.0" | awk '{print $2}' | grep -v "0.0.0.0" | wc -l)
    if [ $NOOFIPS -eq 1 ];then
-      GATEWAYIP=$(route -ne | grep "0.0.0.0" | awk '{print $2}' | grep -v "0.0.0.0")
+      GATEWAYIP=$($ROUTECMD | grep "0.0.0.0" | awk '{print $2}' | grep -v "0.0.0.0")
       GATEWAYIP_SAVE=$GATEWAYIP
    else
-      GATEWAYIP=$(route -ne | grep "0.0.0.0" | awk '{print $2}' | grep -v "0.0.0.0")
+      GATEWAYIP=$($ROUTECMD | grep "0.0.0.0" | awk '{print $2}' | grep -v "0.0.0.0")
       GATEWAYIP_SAVE=""
       for i in $GATEWAYIP;do
          if [ ! -z "$i" ];then
@@ -307,5 +310,8 @@ if [ $QUIET -eq 0 ];then
 fi
 echo;echo "(Other faster options available, type '$(basename $0) --help' too see)" 
 exit 0
+
+
+
 
 

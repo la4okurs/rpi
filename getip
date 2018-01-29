@@ -20,7 +20,7 @@ getLAN() {
 getGATEWAY() {
    local NOOFIPS
    local i
-   ROUTECMD="route -ne"
+   #ROUTECMD="route -ne"
    ROUTECMD="/bin/netstat -r"
 
    NOOFIPS=$($ROUTECMD | grep "0.0.0.0" | awk '{print $2}' | grep -v "0.0.0.0" | wc -l)

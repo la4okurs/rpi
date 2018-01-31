@@ -93,6 +93,9 @@ for i in "$@";do
    fi
 done
 
+echo " ===  $(basename $0) ===  hack script laget av Steinar";echo
+# echo "Gateway is       : $GATEWAYIP" # TBD, optional printout
+
 isRPI() {
    # return 0 if its a RPI
    if cat /proc/cpuinfo | egrep -q -i -e "(Hardware.*BCM270[89])"; then

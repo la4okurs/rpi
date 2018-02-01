@@ -1,0 +1,364 @@
+#!/bin/bash
+#
+# The program gives overview over your LAN and WAN properties
+# 
+# Author: Steinar/LA7XQ
+#         hack script skrevet av Steinar i full fart
+# For help, use '--help','-h' etc:
+
+# You may adjust the accepted ping time towards your router in AVMINIMUM:
+AVMINIMUM=5000  # eq. 5 ms average ping cycle time
+AVVERYMINIMUM=50000  # eq. 50 ms average ping cycle time
+AVECELENT=1000  # eq. 1 ms average ping cycle time
+QUIET=0
+HSTR=$(echo "$@" | sed -e 's/.*-h/-h/g' -e 's/-h.*/-h/g')
+
+getLAN() {
+   echo -ne "IP LAN address is:"
+   # ip addr | egrep -e "inet.*global" | grep -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | awk '{print "    ", $2,$NF}'
+   ip addr | egrep -e "inet.*global" | grep -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" >/dev/null 2>&1
+   RET=$?
+   [ $RET -ne 0 ] && { echo " NONE"; echo "Is your network turned OFF or have you specified incorrect SSID/key password ?"; }
+   ip addr | egrep -e "inet.*global" | grep -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | awk '{print "", $2,$NF," <==="}'
+}
+quick_info_whether_InetAccess() {
+   # test if access to Google
+   #GOOGLEIP="21.58.207.206" # see nslookup google.com
+   GOOGLEIP="216.58.207.206" # org, see nslookup google.com
+   if ! ping -c 1 "$GOOGLEIP" >/dev/null 2>&1;then  # ping google.co 
+      echo "ERROR: YOU HAVE NO INET ACCESS (at $GOOGLEIP )!! <==="
+      # echo;echo "As you have currently NO WAN accesss to Internet at $GOOGLEIP (Google Inc.)"
+      echo
+      echo "My advise: Check that selected SSID and password is correct to your related WiFi or ETH network"
+      echo
+      echo "You may try '$(basename $0) -ls' at once to check LAN access to other expected LAN members before changing settings"
+      return 1
+   else
+      echo "You have Inet access !! <==="
+      return 0
+   fi
+}
+
+getGATEWAY() {
+   local NOOFIPS
+   local i
+   ROUTECMD="route -ne"
+   ROUTECMD="/bin/netstat -r"
+
+   NOOFIPS=$($ROUTECMD | grep "0.0.0.0" | awk '{print $2}' | grep -v "0.0.0.0" | wc -l)
+   if [ $NOOFIPS -eq 1 ];then
+      GATEWAYIP=$($ROUTECMD | grep "0.0.0.0" | awk '{print $2}' | grep -v "0.0.0.0")
+      GATEWAYIP_SAVE=$GATEWAYIP
+   else
+      GATEWAYIP=$($ROUTECMD | grep "0.0.0.0" | awk '{print $2}' | grep -v "0.0.0.0")
+      GATEWAYIP_SAVE=""
+      for i in $GATEWAYIP;do
+         if [ ! -z "$i" ];then
+            # echo $i  # TBD, delete later
+            if [ ! "$i" = "$GATEWAYIP_SAVE" ];then
+               GATEWAYIP_SAVE=$i
+            fi
+         fi 
+      done
+   fi 
+   if [ ! -z "$GATEWAYIP_SAVE" ];then
+      GATEWAYIP=$GATEWAYIP_SAVE
+      echo "$GATEWAYIP"
+      return 0
+   else
+      echo ""
+      return 1
+   fi
+}
+
+for i in "$@";do
+   if [ "$HSTR" = "-h" ];then
+      echo "Usage:$(basename $0) [-q|-k|-w|-l|-e|-a|-n|-p|-pr|-o|-oo|-ooo]"
+      echo "Example 1: $(basename $0)     # get /WAN/LAN addresses"
+      echo "Example 2: $(basename $0) -q  # quiet mode, no questions (no ping test)"
+      echo "Example 3: $(basename $0) -k  # keep on doing scanning (100 scans),skip ping test"
+      echo "Example 4: $(basename $0) -w  # get only WAN address"
+      echo "Example 5: $(basename $0) -l  # get own LAN address"
+      echo "Example 6: $(basename $0) -e  # get wireless SSIDs seen/Wireless HW capabilities listed"
+      echo "Example 7: $(basename $0) -a  # scan any on the local network (LAN side)"
+      echo "Example 8: $(basename $0) -n  # get number of hosts up (LAN side)"
+      echo "Example 9: $(basename $0) -p  # ping test towards router"
+      echo "Example 10: $(basename $0) -pr # ping rotate test towards router"
+      echo "Example 11:$(basename $0) -o  # search for open ports on your own WAN address"
+      echo "Example 12:$(basename $0) -oo  # search for open ports on any WAN"
+      echo "Example 13:$(basename $0) -ooo # Which SSID am I connected to ?"
+      exit 0
+   fi
+done
+
+echo " ===  $(basename $0) ===  hack script laget av Steinar";echo
+# echo "Gateway is       : $GATEWAYIP" # TBD, optional printout
+
+isRPI() {
+   # return 0 if its a RPI
+   if cat /proc/cpuinfo | egrep -q -i -e "(Hardware.*BCM270[89])"; then
+     if cat /proc/cpuinfo | egrep -q -i -e "(^model name.*ARMv6-compatible processor|ARMv7.*processor)";then
+        return 0
+     fi
+   fi
+   return 1
+}
+
+pinglocalNorouterNeeded() {
+   # nmap -v -sn ${BASE}.0/24 | grep -B1 "Host is up"
+   nmap -v -sn ${GATEWAYIP}/24 | grep -B1 "Host is up"
+}
+
+pingtest() {
+   local taken
+   taken=10
+   #taken=8 # number of ping samples taken
+   #echo "ping test towards router..."
+   if ping -c 1 ${1} | grep -E "time=.*ms$" >/dev/null 2>&1;then
+      echo;echo "please wait, $taken samples of 'ping ${1}' now taken..."       
+      SUMMARY=$(ping -c $taken ${1} | grep "rtt.*min.*=" | sed -e 's/.*=//g')
+      AVMIN=$(echo $SUMMARY | awk -F "/" '{print $1}')
+      AV=$(echo $SUMMARY | awk -F "/" '{print $2}')
+      AVMAX=$(echo $SUMMARY | awk -F "/" '{print $3}')
+      echo "ping minimum: $AVMIN ms"
+      echo "ping maximum: $AVMAX ms"
+      echo "ping average: $AV ms <===="
+      # multiply operation:
+      TA=$(echo $AV | awk '{printf $AV * 1000}')
+      TM=$(echo $AVMINIMUM | awk '{printf $AV / 1000}')
+      if [ $TA -lt $AVECELENT ];then
+         echo "RESULT: ECELENT, average found: $AV ms (less than $TM ms)"
+      elif [ $TA -lt $AVMINIMUM ];then
+         echo "RESULT: ACCEPTABLE, average found: $AV ms (less than $TM ms)"
+      elif [ $TA -lt $AVVERYMINIMUM ];then
+         echo "RESULT: SLOW, slow ping time! (average found:$AV ms)"
+      else
+         echo "RESULT: EXTREMELY SLOW, too high ping time! (average found:$AV ms)"
+      fi
+      echo "(Acceptable limit by program set to be $TM ms)"
+   else 
+      echo "ERROR: No answer pinging this address ${1}"
+      exit 1
+   fi
+}
+
+pingrotatetest() {
+   local i
+   echo "I'll do 10 tests of 10 ping samples in each test...."
+   echo "(Stop test with Ctrl C)"
+   for i in {1..10};do
+      echo; echo "ping test $i towards router running..."
+      # pingtest ${BASE}.1 | grep -i -E "average found|No answer"
+      pingtest ${GATEWAYIP} | grep -i -E "average found|No answer"
+   done
+}
+
+getiwlist() {
+   local loop
+   local maxloop
+   loop=1
+   maxloop=2
+   while [ $loop -le $maxloop ];do
+     echo;echo "loop $loop heard..."
+     iwlist scanning 2>&1 | egrep -i -E "ss|support"
+     sleep 1
+     loop=$((loop+1))
+   done
+   echo
+   #echo "Press ENTER to see HW capablities regarding ciphers:";read
+   iwlist auth
+}
+
+getWAN() {
+   # First of all just test if Inet is possible to reach
+   quick_info_whether_InetAccess
+   RET=$?
+   if [ $RET -ne 0 ];then
+      # echo "INFO: As no access to internet. No sense to continue testing. Now exit"
+      echo "ERROR: Is your own Eth or WiFi network disabled or simply turned OFF"
+      echo "       or turned ON, but SSID given wrong or not correct key password given?"
+      exit 1
+   fi
+   
+   #GATEWAYIP=$(getGATEWAY)
+   #RET_GATEWAYIP=$?
+   #if [ $RET_GATEWAYIP -ne 0 ];then
+   #   echo "ERROR: Is your own network disabled or link down?"
+   #   echo "Check wireless access or cable if you're wired up"
+   #   exit 1
+   #fi 
+   #if ! ping -c 2 ${GATEWAYIP} >/dev/null 2>&1;then
+   #   echo "ERROR: Can't ping your router on address ${GATEWAYIP}"
+   #   echo "       Check connection path from your position towards the router !"
+   #   echo "       (either the eth wire or the WiFi path)"
+   #   echo "Try '$(basename $0) -a' as well"
+   #   echo "Try '$(basename $0) -ls' as well"
+   #   exit 1
+   #fi
+   
+   # Then try to pass the gateway...
+   echo -ne "IP WAN address is: "
+   if ! type curl >/dev/null 2>&1 ;then
+      echo "ERROR: curl missing. Try '$ sudo apt-get install curl' first. Then try again $(basename $0)"
+      exit 1
+   fi
+   
+   IPWAN=$(curl -s http://www.ipmotivation.com/ | grep "IP Address:"  | awk -F":" '{print $2}' | awk '{print $1}')
+   if [ -z "$IPWAN" ];then
+      echo "ERROR, can't gate the router, check gateway setting"
+      echo "(and/or cable if wired connection is used)!"
+      echo "Try '$(basename $0) -a' as well"
+      exit 1
+   else
+      echo $IPWAN
+   fi
+}
+
+maybepingtest() {
+   while true;do
+      echo
+      echo -n "Do you want to add the ping test towards the router? [y/n] "
+      read ans
+      ans=$(echo $ans | cut -c 1)
+      case "$ans" in
+         y|Y) pingtest ${GATEWAYIP};break;;
+         n|N) echo "OK, that's it then.";break;;
+         *)   continue;;
+      esac
+   done
+}
+
+scan_LANside(){
+   echo "please wait..."
+   GATEWAYIP=$(netstat -r | grep -v Destina | grep 0.0.0.0 | awk '{print $1}')
+   echo $GATEWAYIP | grep -q -i default
+   RET=$?
+   if [ $RET -eq 0 ];then
+      GATEWAYIP=$(getGATEWAY)
+      RET=$?
+   fi
+   if [ $RET -ne 0 ];then
+      echo "Current Gateway: NONE <==="
+      echo "Is your network turned OFF?"
+      echo "Now exit"
+      exit 1
+   fi
+   echo "Current Gateway: $GATEWAYIP <==="
+   NOOFSCANS=2
+   for num in $(seq 1 $NOOFSCANS);do
+      if type nmap 2>/dev/null | grep -q '/.*/';then
+         echo;echo -n " ---- SCAN $num ON MY LAN network ------:";echo
+         ip_list=$(nmap -sn ${GATEWAYIP}/24 | sed -e 's/[Nn]map/steinar/g' | grep report | awk '{print $NF}') # just to have a little fun
+         my_LAN=$(ip -f inet addr | grep inet | awk '{print $2}' | awk -F'/' '{print $1}' | grep -v "127.0.0" | head -1)
+         my_LINK=$(ip addr | egrep -i -e "(scope global)" | grep -v inet6 | awk '{ print $NF}')
+         for i in $ip_list;do
+             if [ "$i" = "${GATEWAYIP}" ];then
+                echo "$i <== gateway (most likely an router)"
+             elif [ "$i" = "${my_LAN}" ];then
+                isRPI
+                RET=$?
+                if [ $RET -eq 0 ];then
+                   echo "$i <== me,'$(hostname)',I am an RPI using $my_LINK link"
+                else
+                   echo "$i <== me,'$(hostname)' using $my_LINK link"
+                fi
+             else
+                 echo "$i"
+             fi
+         done
+
+      else
+         echo "Please install nmap to get more info! (sudo apt-get install nmap)"
+         exit 1
+      fi
+   done
+}
+
+arpscan() {
+   echo "----- start testing access to other LAN members using arps -----"
+   NOARPS=$(arp -a | wc -l)
+   if [ $NOARPS -eq 0 ];then
+      echo "Seems that your network is turned OFF"
+      echo "Please start with turning your network ON (enable network) and then try testing again"
+      exit 1
+   fi
+   NOARPSCAN=2
+   for num in $(seq 1 $NOARPSCAN);do
+      echo "----------- ARPSCAN $num --------"
+      arp -a
+   done
+}
+
+isRPI
+
+echo "Hostname is: $(hostname)"
+echo "You are logged in as user: $(whoami)"
+MANYSCANS=0
+case "$1" in
+   -p)  pingtest ${GATEWAYIP}; echo;exit 0;;
+   -pr) pingrotatetest; echo;exit 0;;
+   -w)  getWAN; echo;exit 0;;
+   -l)  getLAN;echo;exit 0;;
+   -q)  QUIET=1;getLAN;getWAN;;
+   -k)  QUIET=1;getLAN;getWAN;MANYSCANS=1;;
+   -e)  getiwlist; echo;exit 0;;
+  -ls)  getLAN
+        PURELANIP=$(getLAN | awk -F ":" '{print $2}' | awk -F "/" '{print $1}' | awk '{print $1}')
+        # echo "PURELANIP=$PURELANIP"
+        # arpscan
+        #GATEWAYIP="192.168.0.1" # TBD 
+        GATEWAYIP="" # TBD 
+        scan_LANside 2 "$GATEWAYIP"
+        #arpscan # already tested, but skip
+        exit 0;;  
+   -a)  echo;getLAN
+        echo;echo "start local scan on ${GATEWAYIP}/24 (be patient)...";
+        nmap -v -sn ${GATEWAYIP}/24 | sed -e 's/Nmap //g' | grep -B1 -i "up"
+        exit 0;;
+   -n)  echo;getLAN
+        echo;echo "start local scan on ${GATEWAYIP}/24 (be patient)...";
+        echo
+        nmap -v -sn ${GATEWAYIP}/24 | sed -e 's/Nmap //g' 2>/dev/null | grep "hosts up"
+        exit 0;;
+   -o)  IPWAN=$(curl -s http://www.ipmotivation.com/ | grep "IP Address:"  | awk -F":" '{print $2}' | awk '{print $1}')
+        echo "Finding open ports may take some time..."
+        nmap -sS $IPWAN | grep -i -E "[0-9]\/"
+        exit 0;;
+   -oo) while true;do
+           echo -ne "Give IPv4 address: "
+           read ANS
+           if echo "$ANS" | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" >/dev/null 2>&1; then
+              break
+           else
+              echo "Not a valid IPv4 address given"
+              continue
+           fi
+        done
+        echo "Finding open ports may take some time..."
+        sudo nmap -Pn -sS $ANS | grep -i -E "[0-9]\/"
+        exit 0;;
+   -ooo) sudo iwconfig 2>&1 | grep SSID
+        RET=$?
+        [ $RET -ne 0 ] && { echo "No SSID found, Are you not on Wi-Fi ?"; }
+        exit $RET;;
+   *)   getLAN
+        getWAN;;
+esac
+
+
+if [ $MANYSCANS -eq 1 ];then
+   NOOFSCANS=100
+   echo
+   echo "will now keep on scanning doing $NOOFSCANS scans...."
+   echo "stop script with Ctrl C..."
+else
+   NOOFSCANS=2
+fi
+
+#echo "Main: Gateway is       : $GATEWAYIP" # TBD, optional printout
+scan_LANside 2 "$GATEWAYIP"
+if [ $QUIET -eq 0 ];then
+   maybepingtest
+fi
+echo;echo "(Other faster options available, type '$(basename $0) --help' too see)" 
+exit 0

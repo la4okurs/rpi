@@ -26,7 +26,7 @@ quick_info_whether_InetAccess() {
    #GOOGLEIP="21.58.207.206" # see nslookup google.com
    GOOGLEIP="216.58.207.206" # org, see nslookup google.com
    if ! ping -c 1 "$GOOGLEIP" >/dev/null 2>&1;then  # ping google.co 
-      echo "ERROR: YOU HAVE NO INET ACCESS (at $GOOGLEIP )!! <==="
+      echo "ERROR: === YOU HAVE NO INET ACCESS (at $GOOGLEIP )!! ==="
       # echo;echo "As you have currently NO WAN accesss to Internet at $GOOGLEIP (Google Inc.)"
       echo
       echo "My advise: Check that selected SSID and password is correct to your related WiFi or ETH network"
@@ -34,7 +34,7 @@ quick_info_whether_InetAccess() {
       echo "You may try '$(basename $0) -ls' at once to check LAN access to other expected LAN members before changing settings"
       return 1
    else
-      echo "You have Inet access !! <==="
+      echo "=== You have Inet access !! ==="
       return 0
    fi
 }

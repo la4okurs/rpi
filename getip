@@ -229,7 +229,7 @@ maybepingtest() {
 }
 
 scan_LANside(){
-   echo "please wait..."
+   echo "please wait now testing more on LAN side....."
    GATEWAYIP=$(netstat -r | grep -v Destina | grep 0.0.0.0 | awk '{print $1}')
    echo $GATEWAYIP | grep -q -i default
    RET=$?
@@ -362,3 +362,5 @@ if [ $QUIET -eq 0 ];then
 fi
 echo;echo "(Other faster options available, type '$(basename $0) --help' too see)" 
 exit 0
+
+

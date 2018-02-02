@@ -5,7 +5,9 @@
 # Author: Steinar/LA7XQ
 #         hack script skrevet av Steinar i full fart
 # For help, use '--help','-h' etc:
-
+#
+# For quickly testing if you currently have Inet connection, you may type 'bash getip -i'
+#
 # You may adjust the accepted ping time towards your router in AVMINIMUM:
 AVMINIMUM=5000  # eq. 5 ms average ping cycle time
 AVVERYMINIMUM=50000  # eq. 50 ms average ping cycle time
@@ -74,7 +76,7 @@ getGATEWAY() {
 
 for i in "$@";do
    if [ "$HSTR" = "-h" ];then
-      echo "Usage:$(basename $0) [-q|-i|-k|-w|-l|-e|-a|-n|-p|-pr|-o|-oo|-ooo]"
+      echo "Usage:$(basename $0) [-q|-i|-k|-w|-l|-e|-a|-p|-pr|-o|-oo|-ooo]"
       echo "Example 1: $(basename $0)     # get /WAN/LAN addresses"
       echo "Example 2: $(basename $0) -q  # quiet mode, no questions (no ping test)"
       echo "Example 3: $(basename $0) -i  # quick test to see if Inet accesses is possible or not"
@@ -83,12 +85,11 @@ for i in "$@";do
       echo "Example 6: $(basename $0) -l  # get own LAN address"
       echo "Example 7: $(basename $0) -e  # get wireless SSIDs seen/Wireless HW capabilities listed"
       echo "Example 8: $(basename $0) -a  # scan any on the local network (LAN side)"
-      echo "Example 9: $(basename $0) -n  # get number of hosts up (LAN side)"
-      echo "Example 10:$(basename $0) -p  # ping test towards router"
-      echo "Example 11:$(basename $0) -pr # ping rotate test towards router"
-      echo "Example 12:$(basename $0) -o  # search for open ports on your own WAN address"
-      echo "Example 13:$(basename $0) -oo  # search for open ports on any WAN"
-      echo "Example 14:$(basename $0) -ooo # Which SSID am I connected to ?"
+      echo "Example 9: $(basename $0) -p  # ping test towards router"
+      echo "Example 10:$(basename $0) -pr # ping rotate test towards router"
+      echo "Example 11:$(basename $0) -o  # search for open ports on your own WAN address"
+      echo "Example 12:$(basename $0) -oo  # search for open ports on any WAN"
+      echo "Example 13:$(basename $0) -ooo # Which SSID am I connected to ?"
       exit 0
    fi
 done
@@ -230,7 +231,14 @@ scan_LANside(){
       exit 1
    fi
    echo "Current Gateway: $GATEWAYIP <==="
-   NOOFSCANS=2
+   if [ $MANYSCANS -eq 1 ];then
+      NOOFSCANS=100
+      echo
+      echo "will now keep on scanning doing $NOOFSCANS scans on LAN network...."
+      echo "stop script with Ctrl C..."
+   else
+      NOOFSCANS=2
+   fi
    for num in $(seq 1 $NOOFSCANS);do
       if type nmap 2>/dev/null | grep -q '/.*/';then
          echo;echo -n " ---- SCAN $num ON MY LAN network ------:";echo
@@ -281,7 +289,7 @@ echo "Hostname is: $(hostname)"
 echo "You are logged in as user: $(whoami)"
 MANYSCANS=0
 case "$1" in
-   -i)  quick_info_whether_InetAccess  # quick test to test whether Inet access or not
+   -i)  quick_info_whether_InetAccess  # quick test to chack Inet connection
         exit $?
         ;;
    -p)  pingtest ${GATEWAYIP}; echo;exit 0;;
@@ -301,13 +309,8 @@ case "$1" in
         #arpscan # already tested, but skip
         exit 0;;  
    -a)  echo;getLAN
-        echo;echo "start local scan on ${GATEWAYIP}/24 (be patient)...";
-        nmap -v -sn ${GATEWAYIP}/24 | sed -e 's/Nmap //g' | grep -B1 -i "up"
-        exit 0;;
-   -n)  echo;getLAN
-        echo;echo "start local scan on ${GATEWAYIP}/24 (be patient)...";
-        echo
-        nmap -v -sn ${GATEWAYIP}/24 | sed -e 's/Nmap //g' 2>/dev/null | grep "hosts up"
+        echo;echo "start local scan on $(hostname -I|awk '{print $1}')/24...";
+        nmap -v -sn $(hostname -I|awk '{print $1}')/24 | sed -e 's/Nmap //g' | grep -B1 -i "up"
         exit 0;;
    -o)  IPWAN=$(curl -s http://www.ipmotivation.com/ | grep "IP Address:"  | awk -F":" '{print $2}' | awk '{print $1}')
         echo "Finding open ports may take some time..."
@@ -335,14 +338,6 @@ case "$1" in
 esac
 
 
-if [ $MANYSCANS -eq 1 ];then
-   NOOFSCANS=100
-   echo
-   echo "will now keep on scanning doing $NOOFSCANS scans...."
-   echo "stop script with Ctrl C..."
-else
-   NOOFSCANS=2
-fi
 
 #echo "Main: Gateway is       : $GATEWAYIP" # TBD, optional printout
 scan_LANside 2 "$GATEWAYIP"
@@ -351,7 +346,6 @@ if [ $QUIET -eq 0 ];then
 fi
 echo;echo "(Other faster options available, type '$(basename $0) --help' too see)" 
 exit 0
-
 
 
 

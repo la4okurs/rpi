@@ -76,20 +76,37 @@ getGATEWAY() {
 
 for i in "$@";do
    if [ "$HSTR" = "-h" ];then
-      echo "Usage:$(basename $0) [-q|-i|-k|-w|-l|-e|-a|-p|-pr|-o|-oo|-ooo]"
-      echo "Example 1: $(basename $0)     # get /WAN/LAN addresses"
-      echo "Example 2: $(basename $0) -q  # quiet mode, no questions (no ping test)"
-      echo "Example 3: $(basename $0) -i  # quick test to see if Inet accesses is possible or not"
-      echo "Example 4: $(basename $0) -k  # keep on doing scanning (100 scans),skip ping test"
-      echo "Example 5: $(basename $0) -w  # get only WAN address"
-      echo "Example 6: $(basename $0) -l  # get own LAN address"
-      echo "Example 7: $(basename $0) -e  # get wireless SSIDs seen/Wireless HW capabilities listed"
-      echo "Example 8: $(basename $0) -a  # scan any on the local network (LAN side)"
-      echo "Example 9: $(basename $0) -p  # ping test towards router"
-      echo "Example 10:$(basename $0) -pr # ping rotate test towards router"
-      echo "Example 11:$(basename $0) -o  # search for open ports on your own WAN address"
-      echo "Example 12:$(basename $0) -oo  # search for open ports on any WAN"
-      echo "Example 13:$(basename $0) -ooo # Which SSID am I connected to ?"
+      echo "Usage:$(basename $0) [-a|-q|-i|-k|-n|-l|-e|-p|-pr|-o|-oo|-ooo|-s|-w]"
+      NEX=1
+      echo "Example ${NEX}: $(basename $0)     # get /WAN/LAN addresses"
+      NEX=$((NEX+1))
+      echo "Example ${NEX}: $(basename $0) -a  # scan any on the local network (LAN side)"
+      NEX=$((NEX+1))
+      echo "Example ${NEX}: $(basename $0) -q  # quiet mode, no questions (no ping test)"
+      NEX=$((NEX+1))
+      echo "Example ${NEX}: $(basename $0) -i  # quick test to see if Inet accesses is possible or not"
+      NEX=$((NEX+1))
+      echo "Example ${NEX}: $(basename $0) -k  # keep on doing LAN scanning (100 scans),skip ping test"
+      NEX=$((NEX+1))
+      echo "Example ${NEX}: $(basename $0) -n  # dump networks defined (on Raspian Stretch)"
+      NEX=$((NEX+1))
+      echo "Example ${NEX}: $(basename $0) -l  # get own LAN address"
+      NEX=$((NEX+1))
+      echo "Example ${NEX}: $(basename $0) -e  # get wireless SSIDs seen/Wireless HW capabilities listed"
+      NEX=$((NEX+1))
+      echo "Example ${NEX}: $(basename $0) -p  # ping test towards router"
+      NEX=$((NEX+1))
+      echo "Example ${NEX}: $(basename $0) -pr # ping rotate test towards router"
+      NEX=$((NEX+1))
+      echo "Example ${NEX}: $(basename $0) -o  # search for open ports on your own WAN address"
+      NEX=$((NEX+1))
+      echo "Example ${NEX}: $(basename $0) -oo  # search for open ports on any WAN"
+      NEX=$((NEX+1))
+      echo "Example ${NEX}: $(basename $0) -ooo # Which SSID am I connected to ?"
+      NEX=$((NEX+1))
+      echo "Example ${NEX}: $(basename $0) -s  # dump static IP defined (if any, on Raspian Stretch)"
+      NEX=$((NEX+1))
+      echo "Example ${NEX}: $(basename $0) -w  # get only WAN address"
       exit 0
    fi
 done
@@ -283,6 +300,53 @@ arpscan() {
    done
 }
 
+chkifRaspStrectch() {
+   if ! cat /etc/*rel* | grep -q ID=;then
+      # echo "Sorry, this option is only valid if you are running a Raspian Linux distro" 
+      return 1
+   else
+      if ! cat /etc/*rel* | grep -q stretch;then
+         # echo "Sorry, this option is only valid if you are running a Raspian Stretch Linux distro" 
+         return 1      
+      else
+         # echo "OK" 
+         return 0
+      fi
+   fi
+   return 1
+} 
+
+chknetwork() {
+   NETWORKS="/etc/wpa_supplicant/wpa_supplicant.conf"
+   if [ ! -f $NETWORKS ];then
+      echo "File $NETWORKS not found"
+      return 1
+   else
+      #echo "File $NETWORKS found"  # TBD to be commented
+      cat $NETWORKS
+   fi
+   return 0
+}
+
+chkstatic() {
+   STATICFILE="/etc/dhcpcd.conf"
+   if [ ! -f $STATICFILE ];then
+      echo "File $STATICFILE not found"
+      return 1
+   else
+      # echo "File $STATICFILE found"  # TBD to be commented
+      # cat $STATICFILE                # TBD to be commented
+      if cat $STATICFILE | grep "^static ip_address=" | grep -q -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b";then
+          echo "$(basename $0): Static IP(s) defined found:"
+          # cat $STATICFILE | grep "^static ip_address="
+          cat $STATICFILE | grep -E "^interface|^static ip_address=|^static routers|^static domain_name_servers=|^static domain_search=^SSID"
+      else
+          echo "NO Static IP defined found"
+      fi
+   fi
+   return 1
+}
+
 isRPI
 
 echo "Hostname is: $(hostname)"
@@ -312,6 +376,32 @@ case "$1" in
         echo;echo "start local scan on $(hostname -I|awk '{print $1}')/24...";
         nmap -v -sn $(hostname -I|awk '{print $1}')/24 | sed -e 's/Nmap //g' | grep -B1 -i "up"
         exit 0;;
+   -n)  echo
+        #getLAN
+        chkifRaspStrectch
+        RETCHK=$?
+        # echo "RETCHK=$RETCHK"
+        if [ $RETCHK -ne 0 ];then 
+           echo "Sorry this function is only valid if you are running Raspian Stretch distro"
+           exit 0
+        else
+           chknetwork
+        fi
+        exit 0
+        ;;
+   -s)  echo
+        #getLAN
+        chkifRaspStrectch
+        RETCHK=$?
+        # echo "RETCHK=$RETCHK"
+        if [ $RETCHK -ne 0 ];then 
+           echo "Sorry this function is only valid if you are running Raspian Stretch distro"
+           exit 0
+        else
+           chkstatic
+        fi
+        exit 0
+        ;;
    -o)  IPWAN=$(curl -s http://www.ipmotivation.com/ | grep "IP Address:"  | awk -F":" '{print $2}' | awk '{print $1}')
         echo "Finding open ports may take some time..."
         nmap -sS $IPWAN | grep -i -E "[0-9]\/"
@@ -346,6 +436,8 @@ if [ $QUIET -eq 0 ];then
 fi
 echo;echo "(Other faster options available, type '$(basename $0) --help' too see)" 
 exit 0
+
+
 
 
 

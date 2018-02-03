@@ -25,21 +25,17 @@ getLAN() {
 }
 
 quick_info_whether_InetAccess() {
-   # test if access to Google
-   #GOOGLEIP="21.58.207.206" # see nslookup google.com
-   GOOGLEIP="216.58.207.206" # org, see nslookup google.com
-   if ! ping -c 1 "$GOOGLEIP" >/dev/null 2>&1;then  # ping google.co 
-      echo "ERROR: === YOU HAVE NO INET ACCESS (at $GOOGLEIP )!! ==="
-      # echo;echo "As you have currently NO WAN accesss to Internet at $GOOGLEIP (Google Inc.)"
-      echo
-      echo "My advise: Check that selected SSID and password is correct to your related WiFi or ETH network"
-      echo
-      echo "You may try '$(basename $0) -ls' at once to check LAN access to other expected LAN members before changing settings"
-      return 1
-   else
-      echo "=== You have Inet access !! ==="
-      return 0
-   fi
+   GOOGLEIP="216.58.207.206"
+   MAXNOOFTRIES=2
+   for num in $(seq 1 $MAXNOOFTRIES);do
+      if ! ping -c 1 "$GOOGLEIP" >/dev/null 2>&1;then  # ping google.co 
+         echo "ERROR: === YOU HAVE NO INET ACCESS !! ==="
+      else
+         echo "=== You have Inet access !! ==="
+         return 0
+      fi
+   done
+   return 1
 }
 
 getGATEWAY() {
@@ -436,8 +432,3 @@ if [ $QUIET -eq 0 ];then
 fi
 echo;echo "(Other faster options available, type '$(basename $0) --help' too see)" 
 exit 0
-
-
-
-
-

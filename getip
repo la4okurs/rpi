@@ -302,13 +302,11 @@ chkifRaspStrectch() {
       return 1
    else
       # if ! cat /etc/*rel* | grep -q stretch;then
-      if ! cat /etc/*rel* | grep -E "^VERSION=.*\(.*stretch";then
-         # echo "Sorry, this option is only valid if you are running a Raspian Stretch Linux distro" 
+      if ! cat /etc/*rel* | grep -q -E "^VERSION=.*\(.*stretch";then
          echo "You have:"
          cat /etc/*rel* | grep -E "^VERSION="
          return 1      
       else
-         # echo "OK" 
          return 0
       fi
    fi
@@ -340,7 +338,7 @@ chkstatic() {
           # cat $STATICFILE | grep "^static ip_address="
           cat $STATICFILE | grep -E "^interface|^static ip_address=|^static routers|^static domain_name_servers=|^static domain_search=^SSID"
       else
-          echo "NO Static IP defined found"
+          echo "NO Static LAN IP addresses found"
       fi
    fi
    return 1

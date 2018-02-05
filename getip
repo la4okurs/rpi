@@ -83,7 +83,7 @@ for i in "$@";do
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -k  # keep on doing LAN scanning (100 scans),skip ping test"
       NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -n  # dump networks defined (on Raspian Stretch)"
+      echo "Example ${NEX}: $(basename $0) -n  # dump networks defined (only support for Raspian Stretch)"
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -l  # get own LAN address"
       NEX=$((NEX+1))
@@ -99,7 +99,7 @@ for i in "$@";do
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -ooo # Which SSID am I connected to ?"
       NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -s  # dump static IP defined (if any, on Raspian Stretch)"
+      echo "Example ${NEX}: $(basename $0) -s  # dump static IP defined (only support for Raspian Stretch)"
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -w  # get only WAN address"
       exit 0

@@ -316,6 +316,7 @@ arpscan() {
 isRaspStrectch() {
    [ -f /etc/os-release ] || { return 1; }
    if ! cat /etc/os-release | grep -q "^ID=raspbian";then
+      cat /etc/os-release | grep "ID="
       return 1
    else
       if ! cat /etc/os-release | grep -E "^VERSION=.*\(.*stretch";then
@@ -488,4 +489,3 @@ if [ $QUIET -eq 0 ];then
 fi
 echo;echo "(Other faster options available, type '$(basename $0) --help' too see)" 
 exit 0
-

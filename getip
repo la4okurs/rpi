@@ -363,6 +363,7 @@ clusterping() {
    # return 0 if all pings OK
    # return 1 if at least 1 IP fails in ping
    ALLOK=0 # yes
+   CLUSTERPINGLOG="$(basename $0)-c.err.log"
    echo;echo "=== Cluster ping test started at $(date) ==="
    for i in "$@";do
       ALLOK=2
@@ -376,7 +377,7 @@ clusterping() {
       ping -c 1 "$i" >/dev/null 2>&1
       PINGRET=$?
       if [ $PINGRET -ne 0 ];then
-         echo "ping -c 1 $i ===> NOT OK"
+         echo "$(date): ping -c 1 $i ===> NOT OK" | tee -a $CLUSTERPINGLOG
          return 1
       else
          echo "ping -c 1 $i ===> ok"
@@ -406,12 +407,13 @@ case "$1" in
         PURELANIP=$(getLAN | awk -F ":" '{print $2}' | awk -F "/" '{print $1}' | awk '{print $1}')
         # echo "PURELANIP=$PURELANIP"
         # arpscan
-        GATEWAYIP="" # TBD 
+        GATEWAYIP="" # to force setup
         scan_LANside 2 "$GATEWAYIP"
         #arpscan # already tested, but skip
         exit 0;;  
    -c)  echo
         echo "Cluster ping. Several hosts will be pinged in sequence..."
+        CLUSTERPINGLOG="$(basename $0)-c.err.log"
         clusterping $@
         CRET=$?
         if [ $CRET -eq 2 ];then
@@ -487,3 +489,5 @@ if [ $QUIET -eq 0 ];then
 fi
 echo;echo "(Other faster options available, type '$(basename $0) --help' too see)" 
 exit 0
+
+

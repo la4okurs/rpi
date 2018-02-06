@@ -322,6 +322,7 @@ isRaspStrectch() {
       if ! cat /etc/os-release | grep -E "^VERSION=.*\(.*stretch";then
          echo "You have:"
          cat /etc/*rel* | grep -E "^VERSION="
+         echo "(You may find some info inside '/etc/wpa_supplicant/wpa_supplicant.conf')"
          return 1      
       else
          return 0
@@ -430,6 +431,7 @@ case "$1" in
    -a)  echo;getLAN
         echo;echo "start local scan on $(hostname -I|awk '{print $1}')/24...";
         nmap -v -sn $(hostname -I|awk '{print $1}')/24 | sed -e 's/Nmap //g' | grep -B1 -i "up"
+        nmap -v -sn $(hostname -I|awk '{print $1}')/24 | sed -e 's/Nmap //g' | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
         exit 0;;
    -n)  echo
         #getLAN

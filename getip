@@ -40,7 +40,7 @@ quick_info_whether_InetAccess() {
 
 getGATEWAY() {
    if netstat -r | grep -v "^Destination" | grep -q -E " 0.0.0.0 .*G";then
-      GATEWAYIP=$(netstat -r | grep -v "^Destination" | grep -E " 0.0.0.0 .*G" | awk '{print $2}')
+      GATEWAYIP=$(netstat -rn | grep -v "^Destination" | grep -E " 0.0.0.0 .*G" | awk '{print $2}' | head -n 1)
       echo "$GATEWAYIP"
       return 0
    else
@@ -227,13 +227,6 @@ maybepingtest() {
 
 scan_LANside(){
    echo "please wait now testing more on LAN side....."
-   #GATEWAYIP=$(netstat -r | grep -v Destina | grep 0.0.0.0 | awk '{print $1}')
-   #echo $GATEWAYIP | grep -q -i default
-   #RET=$?
-   #if [ $RET -eq 0 ];then
-   #   GATEWAYIP=$(getGATEWAY)
-   #   RET=$?
-   #fi
    GATEWAYIP=$(getGATEWAY)
    RET=$?
 
@@ -474,4 +467,6 @@ if [ $QUIET -eq 0 ];then
 fi
 echo;echo "(Other faster options available, type '$(basename $0) --help' too see)" 
 exit 0
+
+
 

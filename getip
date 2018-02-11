@@ -39,34 +39,14 @@ quick_info_whether_InetAccess() {
 }
 
 getGATEWAY() {
-   local NOOFIPS
-   local i
-   ROUTECMD="route -ne"
-   ROUTECMD="/bin/netstat -r"
-
-   NOOFIPS=$($ROUTECMD | grep "0.0.0.0" | awk '{print $2}' | grep -v "0.0.0.0" | wc -l)
-   if [ $NOOFIPS -eq 1 ];then
-      GATEWAYIP=$($ROUTECMD | grep "0.0.0.0" | awk '{print $2}' | grep -v "0.0.0.0")
-      GATEWAYIP_SAVE=$GATEWAYIP
-   else
-      GATEWAYIP=$($ROUTECMD | grep "0.0.0.0" | awk '{print $2}' | grep -v "0.0.0.0")
-      GATEWAYIP_SAVE=""
-      for i in $GATEWAYIP;do
-         if [ ! -z "$i" ];then
-            if [ ! "$i" = "$GATEWAYIP_SAVE" ];then
-               GATEWAYIP_SAVE=$i
-            fi
-         fi 
-      done
-   fi 
-   if [ ! -z "$GATEWAYIP_SAVE" ];then
-      GATEWAYIP=$GATEWAYIP_SAVE
+   if netstat -r | grep -v "^Destination" | grep -q -E " 0.0.0.0 .*G";then
+      GATEWAYIP=$(netstat -r | grep -v "^Destination" | grep -E " 0.0.0.0 .*G" | awk '{print $2}')
       echo "$GATEWAYIP"
       return 0
    else
       echo ""
       return 1
-   fi
+   fi   
 }
 
 for i in "$@";do
@@ -247,13 +227,16 @@ maybepingtest() {
 
 scan_LANside(){
    echo "please wait now testing more on LAN side....."
-   GATEWAYIP=$(netstat -r | grep -v Destina | grep 0.0.0.0 | awk '{print $1}')
-   echo $GATEWAYIP | grep -q -i default
+   #GATEWAYIP=$(netstat -r | grep -v Destina | grep 0.0.0.0 | awk '{print $1}')
+   #echo $GATEWAYIP | grep -q -i default
+   #RET=$?
+   #if [ $RET -eq 0 ];then
+   #   GATEWAYIP=$(getGATEWAY)
+   #   RET=$?
+   #fi
+   GATEWAYIP=$(getGATEWAY)
    RET=$?
-   if [ $RET -eq 0 ];then
-      GATEWAYIP=$(getGATEWAY)
-      RET=$?
-   fi
+
    if [ $RET -ne 0 ];then
       echo "Current Gateway: NONE <==="
       echo "Is your network turned OFF?"
@@ -431,7 +414,7 @@ case "$1" in
    -a)  echo;getLAN
         echo;echo "start local scan on $(hostname -I|awk '{print $1}')/24...";
         nmap -v -sn $(hostname -I|awk '{print $1}')/24 | sed -e 's/Nmap //g' | grep -B1 -i "up"
-        nmap -v -sn $(hostname -I|awk '{print $1}')/24 | sed -e 's/Nmap //g' | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
+        # nmap -v -sn $(hostname -I|awk '{print $1}')/24 | sed -e 's/Nmap //g' | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
         exit 0;;
    -n)  echo
         #getLAN

@@ -28,6 +28,7 @@ vestf  :: http://nrk-mms-live.online.no/nrk_radio_p1_vestfold_mp3_l # NRK P1/Ves
 finnm  :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p1_finnmark_aac_h # "Finnmarksendingen NRK" # just a try, local 
 fuzz1  :: http://the1920sradionetwork.mediaplayer.whro.org/128   # old and fuzzy, but kind of good
 fuzz2  :: http://streaming.rubinbroadcasting.com/kcea            # old and fuzzy, but kind of good
+alpe   :: https://radio04.alpenmelodie.de:8443/alpenmelodie      # alpe musikk
 
 # podcasts:
 podqstla  :: http://84.214.218.74:2222/qstlalast.mp3  # QSTLA SSB at Sundays via 145.700 MHz LA8KR, honor to LA8BP Eirik

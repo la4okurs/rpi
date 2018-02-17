@@ -39,6 +39,7 @@ NO=$(id -u)
 [ $NO -ne 0 ] && { echo "ERROR: Disable networks and restart this script as 'sudo bash $0'"; exit 1; }
 echo "This host $(hostname) is assumed being the ssh client side"
 echo "Be sure to have done "enable ssh", "enable vnc" on the RPI ssh server side using 'sudo raspi-config'"
+echo "Be sure you have set a server side LAN IP addr on the eth interface"
 echo "Be sure to have a eth cross cable connected between the 2 RPIs"
 echo "Be sure having disabled the WiFi network (but not the Eth) on the remote (ssh) server side"
 echo "Be sure having disabled both WiFI and Eth network on this client side"

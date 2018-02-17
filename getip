@@ -76,7 +76,7 @@ quick_info_whether_InetAccess() {
    MAXNOOFTRIES=2
    for num in $(seq 1 $MAXNOOFTRIES);do
       if ! ping -c 1 "$GOOGLEIP" >/dev/null 2>&1;then  # ping google.co 
-         echo "ERROR: === YOU HAVE NO INET ACCESS !! ==="
+         echo "ERROR: === YOU HAVE NO INET ACCESS !! (NO WAN ACCESS) ==="
       else
          echo "=== You have Inet access !! ==="
          return 0

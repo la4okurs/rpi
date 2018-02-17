@@ -24,6 +24,53 @@ getLAN() {
    ip addr | egrep -e "inet.*global" | grep -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | awk '{print "", $2,$NF," <==="}'
 }
 
+crossoverethcable() {
+   [ -f /tmp/rpi_crosscable ] && rm -f /tmp/rpi_crosscable
+   # cat << EOF > /tmp/rpi_crosscable
+   cat << EOF
+Testing an RPI from a remote Laptop using only a crossover eth cable between RPI and Laptop.
+No router needed !!
+|-------|                    |----------|
+|       |                    |          |
+| RPI   -eth0 -----X-----eth |  Laptop  |
+|       |port            port|          |
+|       |                    |          |
+|-------|                    |----------|
+enable ssh server       test with ping or ssh
+enable VNC server       (vncviewer) 
+After config:
+
+X = crossed eth cable (or eth switch) as a direct link cable between RPI and Laptop
+eth= Ethernet
+No router needed at all for the connection !
+
+1. Turn off WiFi network on both RPI and the Laptop PC
+
+2. On RPI do set up an IP address (example: 192.168.1.240 on eth0):
+   hostname    # dump current RPI hostname
+   hostname -I # get current LAN addr (may be none yet)
+   # Now set static LAN IP addr on eth in RPI and reboot (or use 
+  'sudo ifconfig eth0 192.168.1.240/24 up'  # example)
+   (eth0 may be a different interface name in your RPI. Check with 'ifconfig -a')
+
+3. On Linux PC do set up an IP address (192.168.1.241 on eth0) using the Network manager GUI or this way:
+   hostname    # optional to get hostname
+   'sudo ifconfig eth0 192.168.1.241/24 up' # example creating an IP addr on the Linux Laptop
+   rpi/svar/getip -b    #  LA7XQ script to scan typical LAN bases
+   # Test connection from Laptop to RPI:
+   ping -c 5 -I eth0 192.168.1.240  # ping the RPI from the Laptop side (eth0,check with 'ifconfig -a')
+   ssh pi@192.168.1.240             # ssh remote login on the RPI
+   vncviewer                        # set up the VNC client on the Laptop, name=hostname on RPI
+
+After this you no longer need a screen, keyboard and mouse on the RPI, but run everything
+from the Linux PC thru ssh or using the VNC client (vncviewer) to the "black box" headless RPI
+If static IPs are set in the RPI, we may reboot the RPI and run headless later without a new setup needed, no router needed but only a crossover type eth cable.
+
+- Steinar
+EOF
+   [ -f /tmp/rpi_crosscable ] && rm -f /tmp/rpi_crosscable
+}
+
 quick_info_whether_InetAccess() {
    GOOGLEIP="216.58.207.206"
    MAXNOOFTRIES=2
@@ -51,11 +98,13 @@ getGATEWAY() {
 
 for i in "$@";do
    if [ "$HSTR" = "-h" ];then
-      echo "Usage:$(basename $0) [-a|-q|-i|-k|-n|-l|-e|-p|-pr|-o|-oo|-ooo|-s|-w]"
+      echo "Usage:$(basename $0) [-a|-b|-q|-i|-k|-n|-l|-e|-p|-pr|-o|-oo|-ooo|-s|-w]"
       NEX=1
       echo "Example ${NEX}: $(basename $0)     # get /WAN/LAN addresses"
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -a  # scan any on the local network (LAN side)"
+      NEX=$((NEX+1))
+      echo "Example ${NEX}: $(basename $0) -b  # scan several LANs (OK for eth cross cable and no router present)"
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -q  # quiet mode, no questions (no ping test)"
       NEX=$((NEX+1))
@@ -378,7 +427,7 @@ case "$1" in
    -w)  getWAN; echo;exit 0;;
    -l)  getLAN;echo;exit 0;;
    -q)  QUIET=1;getLAN;getWAN;;
-   -k)  QUIET=1;getLAN;getWAN;MANYSCANS=1;;
+   -k)  QUIET=1;getLAN;MANYSCANS=1;;
    -e)  getiwlist; echo;exit 0;;
   -ls)  getLAN
         PURELANIP=$(getLAN | awk -F ":" '{print $2}' | awk -F "/" '{print $1}' | awk '{print $1}')
@@ -408,6 +457,19 @@ case "$1" in
         echo;echo "start local scan on $(hostname -I|awk '{print $1}')/24...";
         nmap -v -sn $(hostname -I|awk '{print $1}')/24 | sed -e 's/Nmap //g' | grep -B1 -i "up"
         # nmap -v -sn $(hostname -I|awk '{print $1}')/24 | sed -e 's/Nmap //g' | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
+        exit 0;;
+   -b)  echo
+        crossoverethcable
+        echo;getLAN
+        LAN_BASE_TO_BE_SCANNED="$(hostname -I) 192.168.0.1 192.168.1.0 10.0.0.0"
+        echo "LANs (base) to be scanned: $LAN_BASE_TO_BE_SCANNED"
+        echo "NOTICE: This may take some time...."
+        for i in $LAN_BASE_TO_BE_SCANNED;do 
+           echo;echo "start local scan on ${i}/24...";
+           # nmap -v -sn ${i}/24 | sed -e 's/Nmap //g' | grep -B1 -i "up"
+           nmap -v -sn ${i}/24 | sed -e 's/Nmap //g' | grep -i -E "scan report|host is up" | grep -i -v "host down"
+           # nmap -v -sn $(hostname -I|awk '{print $1}')/24 | sed -e 's/Nmap //g' | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
+        done
         exit 0;;
    -n)  echo
         #getLAN
@@ -467,3 +529,4 @@ if [ $QUIET -eq 0 ];then
 fi
 echo;echo "(Other faster options available, type '$(basename $0) --help' too see)" 
 exit 0
+

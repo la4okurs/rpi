@@ -125,7 +125,7 @@ echo "noipv6" >> $FILETOAPPEND
 #cp $DHCPC_FILE ${DHCPC_FILE}_bac_$(date "+%H%M%S")
 
 restoreToNoneStatic $DHCPC_FILE # after this $DHCPC_FILE should be as org for none static IPs
-echo;echo "INFO: Typing Ctrl C now will restore bach to DHCP again - reboot RPI at once afterwards";read
+echo;echo "INFO: Typing Ctrl C now will restore bach to DHCP again - otherwise type ENTER and reboot RPI";read
 
 cat $DHCPC_FILE $FILETOAPPEND > ${DHCPC_FILE}.1
 if cp ${DHCPC_FILE}.1 ${DHCPC_FILE};then

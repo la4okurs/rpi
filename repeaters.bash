@@ -24,18 +24,25 @@ if [ $RET -ne 0 ];then
    echo "Fix this first, then restart the program"
    exit 0
 fi
-if [ ! -f /usr/bin/vlc ];then
-   echo "Be sure to have installed the alsa-utils and vlc packages first"
-   echo "Follow the instructions in top of this script how to install. Do a 'cat $(basename $0)'"
-   echo "Now exit"
+[ -f /usr/bin/cvlc ] || {
+   echo;echo "$(basename $0): ERROR: /usr/bin/cvlc not found."
+   echo "Be sure to have installed the package vlc or vlc-nox first by doing:"
+   echo "sudo apt-get update"
+   echo "(sudo apt-get purge vlc)"
+   echo "sudo apt-get autoremove vlc"
+   echo "sudo apt-get install vlc"
+   echo "Now exit until above is done"
    exit 1
-fi
-if [ ! -f /usr/bin/amixer ];then
-   echo "Be sure to have installed the alsa-utils and vlc packages first"
-   echo "Follow the instructions in top of this script how to install. Do a 'cat $(basename $0)'"
-   echo "Now exit"
+}
+
+[ -f /usr/bin/amixer ] || {
+   echo;echo "$(basename $0): ERROR: /usr/bin/amixer not found."
+   echo "Be sure to have installed the package alsa-utils first by doing:"
+   echo "sudo apt-get update"
+   echo "sudo apt-get install alsa-utils"
+   echo "Now exit until above is done"
    exit 1
-fi
+}
 
 
 echo "Good morning OM!"
@@ -49,3 +56,5 @@ echo;echo "(Type Ctrl C to stop this program)"
 kill -9 $(pgrep -f /usr/bin/vlc) >/dev/null 2>&1 # kill all (c)vlc processes already started, ignore print out
 cvlc http://51.174.165.11:8888/hls/stream.m3u8 >/dev/null 2>&1 # listen ham FM VHF repeaters
 exit $? # transfer the cvlc exit value to the outer shell
+
+

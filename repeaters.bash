@@ -16,10 +16,30 @@
 #
 # (You may use other players as well)
 #
+ping -c 1 216.58.207.206 >/dev/null 2>&1
+RET=$?
+if [ $RET -ne 0 ];then
+   echo "== You have no connection to Inet =="
+   echo "Fix this first, then restart the program"
+   exit 0
+fi
+if [ ! -f /usr/bin/vlc ];then
+   echo "Be sure to have installed the alsa-utils and vlc packages first"
+   echo "Follow the instructions in top of this script how to install. Do a 'cat $(basename $0)'"
+   echo "Now exit"
+   exit 1
+fi
+if [ ! -f /usr/bin/amixer ];then
+   echo "Be sure to have installed the alsa-utils and vlc packages first"
+   echo "Follow the instructions in top of this script how to install. Do a 'cat $(basename $0)'"
+   echo "Now exit"
+   exit 1
+fi
+
 echo "Good morning OM!"
 echo "Now listening (scanning) the ham VHF repeaters in the South East of Norway"
 echo "Please listen at your Raspberry PC audio jack connector (headphones) now"
-echo "Silence ? OK , it is silence when nobody on the repeater(s)"
+echo "Silence ? Forgotten to turn up the volume? OK, it is silence when nobody on the repeater(s)"
 echo "Best regards Steinar/LA7XQ who made this program"
 echo
 echo "(Type Ctrl C to stop this program)"

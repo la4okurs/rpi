@@ -31,7 +31,7 @@ fi
    echo "(sudo apt-get purge vlc)"
    echo "sudo apt-get autoremove vlc"
    echo "sudo apt-get install vlc"
-   echo "Now exit until above is done"
+   echo;echo "Now exit until above is done"
    exit 1
 }
 
@@ -40,7 +40,7 @@ fi
    echo "Be sure to have installed the package alsa-utils first by doing:"
    echo "sudo apt-get update"
    echo "sudo apt-get install alsa-utils"
-   echo "Now exit until above is done"
+   echo;echo "Now exit until above is done"
    exit 1
 }
 

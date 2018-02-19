@@ -55,6 +55,17 @@ getLAN() {
    ip addr | egrep -e "inet.*global" | grep -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | awk '{print "", $2,$NF," <==="}'
 }
 
+getGATEWAY() {
+   if netstat -r | grep -v "^Destination" | grep -q -E " 0.0.0.0 .*G";then
+      GATEWAYIP=$(netstat -rn | grep -v "^Destination" | grep -E " 0.0.0.0 .*G" | awk '{print $2}' | head -n 1)
+      echo "$GATEWAYIP"
+      return 0
+   else
+      echo ""
+      return 1
+   fi
+}
+
 restoreToNoneStatic() {
    sed -i '/^interface /d' $1
    sed -i '/^fallback static/d' $1
@@ -98,7 +109,16 @@ askForIP "Give IPv4 address you want as static IP [I suggest like '$DEFAULT']" "
 STATIC_IP="$IP"
 echo "static ip_address=${STATIC_IP}/24" >> $FILETOAPPEND
 
-DEFAULT=$(echo "$STATIC_IP" | awk -F "." '{printf $1"."$2"."$3".1"}')
+#DEFAULT=$(echo "$STATIC_IP" | awk -F "." '{printf $1"."$2"."$3".1"}')
+GATEWAYIP=$(getGATEWAY)
+RET=$?
+if [ $RET -ne 0 ];then
+   echo "Current Gateway: NONE <==="
+   echo "Is your network turned OFF?"
+   echo "Now exit"
+   exit 1
+fi
+DEFAULT="$GATEWAYIP"
 askForIP "Give IP address to gateway (router) [I suggest like '$DEFAULT']" "$DEFAULT" # output is IP
 ROUTERS_IP="$IP"
 echo "static routers=$ROUTERS_IP" >> $FILETOAPPEND

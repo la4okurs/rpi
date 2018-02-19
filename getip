@@ -107,7 +107,7 @@ for i in "$@";do
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -b  # scan several LANs (OK for eth cross cable and no router present)"
       NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -r  # get the gateway ip (often router's LAN address)"
+      echo "Example ${NEX}: $(basename $0) -r  # get Router LAN IP address (Gateway LAN address)"
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -q  # quiet mode, no questions (no ping test)"
       NEX=$((NEX+1))
@@ -133,7 +133,7 @@ for i in "$@";do
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -s  # dump static IP defined (only support for Raspian Stretch)"
       NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -w  # get only WAN address"
+      echo "Example ${NEX}: $(basename $0) -w  # get (Router) WAN address"
       exit 0
    fi
 done

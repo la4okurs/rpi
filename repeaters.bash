@@ -37,6 +37,7 @@ if [ ! -f /usr/bin/amixer ];then
    exit 1
 fi
 
+
 echo "Good morning OM!"
 echo "Now listening (scanning) the ham VHF repeaters in the South East of Norway"
 echo "Please listen at your Raspberry PC audio jack connector (headphones) now"

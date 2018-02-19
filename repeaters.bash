@@ -1,9 +1,10 @@
 #!/bin/bash
 #
-# A simple script version to play alpen music
+# A simple script to listen at the Norwegian VHF ham repeaters in South of Norway
+#
 # Stop rendering audio with typing Ctrl C (^C)
 #
-# Author: Steinar/LA7XQ
+# Author: Made by Steinar/LA7XQ
 #
 # INFO:
 # '>/dev/null 2>&1' below means: ignore any printout(s) from the statement in front

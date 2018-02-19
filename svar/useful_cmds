@@ -41,16 +41,25 @@ man ls                  # dump the manual for the 'ls' program
 nano, vim, leafpad, emacs # some popular editors
 
 # install/packages etc:
-sudo apt-get upgrade       # update the package list
-sudo apt-get install pack  # install a package (here called 'pack')
-sudo apt-get purge pack    # purge (remove) a package (including conf removal)
+sudo apt-get update        # update the package list in /etc/apt/sources.list
+sudo apt-get upgrade       # upgrade is used to install the newest versions of all packages currently installed on the system from the sources enumerated in /etc/apt/sources.list
+sudo apt-get install package  # install a package (here called 'pack')
+sudo apt-get purge package # purge (remove) a package (including conf removal)
 apt-cache search myprog    # find package name to the not yet installed bin program myprog
+   ex: apt-cache search nginx # search (list) packages not installed on the system
+   ex: apt-cache search  nmap # search all pacakes related to nmap (istalled or none-installed pacakes)
+   ex: apt-cache search --full nmap | grep -i depend # list dependent packages of the package nmap
+   ex: apt-cache search --full pico2wave # useful cmd, gives much information about the (binary) program pico2wave
+
 dpkg --get-selections      # list all packages already installed on this host
+dpkg -l                    # list all installed packages ,ii=installed
+   ex: dpkg -l | grep python3-twython # check if the package python3-twython is installed
+   ex: dpkg -l python3-twython    # have the package python3-twython explained
 dpkg -S /usr/bin/vlc       # example: Search to get the package name for the binary program vlc
    dpkg -S $(which ls)     # example: find corresponding package name to the binary ls program
 dpkg -L package            # Show files inside an already installed package (here inside the package 'package')
-                           # If no package-name is given, list all pacakges already installed on this host
-sudo apt-get update        # update the package list
+   example: dpkg -L python3-twython    # list files (installed) of the installed package python3-twython
+
 sudo apt-get install <package> # install a package, example: 'sudo apt-get install vlc'
 sudo apt-get purge  <package>  # remove a package including conf files
 

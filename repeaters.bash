@@ -22,7 +22,7 @@ echo "Please listen at your Raspberry PC audio jack connector (headphones) now"
 echo "Silence ? OK , it is silence when nobody on the repeater(s)"
 echo "Best regards Steinar/LA7XQ who made this program"
 echo
-echo "(TYpe Ctrl C to stop this program)"
+echo "(Type Ctrl C to stop this program)"
 /usr/bin/amixer cset numid=3 1   >/dev/null 2>&1  # force RPI audio output to the 3.5 mm jack, ignore printout
 # /usr/bin/amixer cset numid=3 2  # use this instead if audio output force to HDMI screen is wanted (requre HDMI speakers)
 kill -9 $(pgrep -f /usr/bin/vlc) >/dev/null 2>&1 # kill all (c)vlc processes already started, ignore print out

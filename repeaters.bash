@@ -26,5 +26,5 @@ echo "(Type Ctrl C to stop this program)"
 /usr/bin/amixer cset numid=3 1   >/dev/null 2>&1  # force RPI audio output to the 3.5 mm jack, ignore printout
 # /usr/bin/amixer cset numid=3 2  # use this instead if audio output force to HDMI screen is wanted (requre HDMI speakers)
 kill -9 $(pgrep -f /usr/bin/vlc) >/dev/null 2>&1 # kill all (c)vlc processes already started, ignore print out
-cvlc cvlc http://51.174.165.11:8888/hls/stream.m3u8 >/dev/null 2>&1 # listen ham FM VHF repeaters
+cvlc http://51.174.165.11:8888/hls/stream.m3u8 >/dev/null 2>&1 # listen ham FM VHF repeaters
 exit $? # transfer the cvlc exit value to the outer shell

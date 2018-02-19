@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Run this script on the Rasbian Stretch distro
-# Run this script on a (server) RPI you want establish static IP LAN address
+# Run this script on a (server) RPI on which you want to establish an static IP LAN server address
 #
 # Notice: This script should be executed as a 'sudo', but script gives a warning if not having root access
 #

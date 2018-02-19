@@ -111,7 +111,7 @@ for i in "$@";do
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -q  # quiet mode, no questions (no ping test)"
       NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -i  # quick test to see if Inet accesses is possible or not"
+      echo "Example ${NEX}: $(basename $0) -i  # quick test to see if you have Inet access"
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -k  # keep on doing LAN scanning (100 scans),skip ping test"
       NEX=$((NEX+1))

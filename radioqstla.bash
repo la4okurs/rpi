@@ -19,7 +19,7 @@
 #
 echo "Usage: $(basename $0)"
 echo "or"
-echo "Usage: $(basename $0) cvlc "
+echo "Usage: $(basename $0) cvlc"
 echo
 ping -c 1 216.58.207.206 >/dev/null 2>&1
 RET=$?

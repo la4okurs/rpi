@@ -49,8 +49,7 @@ fi
 }
 
 
-echo "Good morning OM!"
-echo "Now listening (scanning) the ham VHF repeaters in the South East of Norway"
+echo "Hello Mushtaq ! Here is a quick and dirty try"
 echo "Please listen at your Raspberry PC audio jack connector (headphones) now"
 echo "Silence ? Forgotten to turn up the volume? OK, it is silence when nobody on the repeater(s)"
 echo;echo "Best regards Steinar/LA7XQ who made this program"

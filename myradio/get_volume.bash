@@ -57,7 +57,7 @@ if [ $# -ne 0 ];then
       # as --help
       usage_exit
    fi
-   ssh ${1} "[ -f /home/pi/rpi/myradio/get_volume.bash ] && bash /home/pi/rpi/myradio/get_volume.bash"
+   ssh ${1} "[ -f $HOME/rpi/myradio/get_volume.bash ] && bash $HOME/rpi/myradio/get_volume.bash"
 else
    IP=$(hostname -I)
    getvolumblackboxRPI

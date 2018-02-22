@@ -4,7 +4,7 @@
 #
 # Author: Steinar/LA7XQ
 #
-# Program sets local or remote volume on RPI
+# Program gets info about local or remote volume sat on RPI
 #
 # Only initial values:
 IP=""

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Script to run plain bash commands in sequenze
+# Script to run plain shell commands in sequenze
 #
 # Made by Steinar/LA7XQ
 #
@@ -26,7 +26,7 @@ fi
 
 cat $1
 echo;echo
-echo "------now running one cmd after another -- press ENTER -----:"
+echo "------now running one shell cmd after another -- press ENTER -----:"
 LINE=0
 while true;do
    LINE=$((LINE+1))
@@ -47,7 +47,8 @@ while true;do
       eval "$CMD"
       RET=$?
       if [ $RET -ne 0 ];then
-         echo "ERROR? RET=$RET"
+         # echo "ERROR? RET=$RET"
+         echo "RET=$RET"
       fi
    fi
 done

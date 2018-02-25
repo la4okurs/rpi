@@ -28,6 +28,7 @@ cat $1
 echo;echo
 echo "------now running one shell cmd after another -- press ENTER -----:"
 LINE=0
+ASKFIRST=1
 while true;do
    LINE=$((LINE+1))
    CMD="$(sed -n ${LINE},${LINE}p $INFILE)"
@@ -43,7 +44,11 @@ while true;do
       fi
    else
       echo -ne "   $CMD"
-      read 
+      ANS=""
+      [ $ASKFIRST -ne 0 ] && read ANS
+      if [ "$ANS" = "c" ];then
+         ASKFIRST=0
+      fi
       eval "$CMD"
       RET=$?
       if [ $RET -ne 0 ];then
@@ -53,3 +58,5 @@ while true;do
    fi
 done
 exit 0
+
+

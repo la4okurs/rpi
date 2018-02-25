@@ -1,4 +1,9 @@
-#!/bin/step
+#!/bin/bash
+#
+# Script to run plain bash commands in sequenze
+#
+# Made by Steinar/LA7XQ
+#
 usage_exit() {
    echo "Usage: $(basename $0) <cmdfile>"
    exit 1

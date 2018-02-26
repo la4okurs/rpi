@@ -1,6 +1,7 @@
 #!/bin/bash
 #
-# Script will establish an eth connection between 2 RPIs without using any routers
+# This script will detect remote part possible to connect over an cable between two Linux PC (RPI)
+# with a router needed
 # Prerequisites:
 #       Execute this script on the ssh client side
 #       On the RPI server side it is assumed that "enable ssh server","enable VNC server" are
@@ -75,23 +76,35 @@ if [ $RET_IF -ne 0 ];then
 fi
 #ifconfig -a
 #hostname 
-#hostname -I
+LANIP=$(hostname -I | awk '{print $1}')
 # [ -f $HOME/rpi/getip ] && bash $HOME/rpi/getip -b
 [ -f $HOME/rpi/getip ] && bash $HOME/rpi/getip -l
+echo "wait while scanning for other(s) on this network...."
 if [ -f $HOME/rpi/getip ];then
-   echo "wait while scanning...."
-   bash $HOME/rpi/getip -a | grep -i "scan report"
-   RET=$?
-   if [ $RET -eq 0 ];then
-      echo "Your local IP is $(hostname -I)"
-      echo "Now try to ping the remote side"
-   else
-      echo "Can't find any reported"
+   SOMEFOUND=0
+   # echo "Now scanning for others on this network...."
+   IPRANGE=$(bash $HOME/rpi/getip -a | grep -i "scan report" | awk '{print $NF}')
+   for i in $IPRANGE;do
+      echo "$i" | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
+      IPRET=$?
+      [ $IPRET -ne 0 ] && continue
+      if [ "$i" = "$LANIP" ];then
+         echo "yourself found       : $i"
+      else
+         SOMEFOUND=1
+         echo "remote other(s) found: $i"
+      fi
+   done
+   if [ $SOMEFOUND -eq 0 ];then
+      echo "Sorry, can't find any remote IP"
       exit 1
    fi 
+   echo;echo "Now try to ping, ssh and VNC others with the IP(s) found"
    exit 0
 else
-   echo "The file $HOME/rpi/getip is not found. Now exit"
+   echo "The program file $HOME/rpi/getip is not found. Now exit"
    exit 1
 fi
+
+
 

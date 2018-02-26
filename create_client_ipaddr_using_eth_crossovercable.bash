@@ -105,6 +105,3 @@ else
    echo "The program file $HOME/rpi/getip is not found. Now exit"
    exit 1
 fi
-
-
-

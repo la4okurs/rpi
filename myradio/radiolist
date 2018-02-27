@@ -8,7 +8,7 @@ list   :: # DO NOT REMOVE THIS LINE
 
 # experimental streams (you may edit the list yourself): Bruce Frederick Joseph Springsteen
 ham    :: http://51.174.165.11:8000/stream            # myradio.no My Proxy public stream (currently the myradio.no LIVE PLAYER)
-ham2   :: rtmp://84.214.218.74:4444/live              # myradio.no (p-stream) I coded it for Android (MX player).
+ham2   :: rtmp://84.209.99.76:4444/live              # myradio.no (p-stream) I coded it for Android (MX player).
 ham3   :: http://51.174.165.11:8888/hls/stream.m3u8   # myradio.no My Proxy HLS stream made for Apple devices HTTP Live Streaming
 #                                                      Adobe’s RealTimeMessagingProtocol(RTMP),slow start on Microsoft
 beat   :: http://www.beatlesradio.com:8000/stream/    # Beatles radio station
@@ -31,12 +31,12 @@ fuzz2  :: http://streaming.rubinbroadcasting.com/kcea            # old and fuzzy
 alpe   :: https://radio04.alpenmelodie.de:8443/alpenmelodie      # alpe musikk
 
 # podcasts:
-podqstla  :: http://84.214.218.74:2222/qstlalast.mp3  # QSTLA SSB at Sundays via 145.700 MHz LA8KR, honor to LA8BP Eirik
-poddram   :: http://84.214.218.74:2222/qstdrammen.mp3 # QST Drammen
-podfollo  :: http://84.214.218.74:2222/qstfollo.mp3   # QST Follo       
-podmj     :: http://84.214.218.74:2222/qstmjoes.mp3   # QST Mjøsbyene
-podnyhet  :: http://84.214.218.74:2222/news.mp3       # URL for test of new ham podcasts based on bitrate 64kb/s
-podoslo   :: http://84.214.218.74:2222/qstoslo.mp3    # QST OSLO "LA4O NYTT"
-podcw     :: http://84.214.218.74:2222/qstcw.mp3      # QSTLA CW
+podqstla  :: http://84.209.99.76:2222/qstlalast.mp3  # QSTLA SSB at Sundays via 145.700 MHz LA8KR, honor to LA8BP Eirik
+poddram   :: http://84.209.99.76:2222/qstdrammen.mp3 # QST Drammen
+podfollo  :: http://84.209.99.76:2222/qstfollo.mp3   # QST Follo       
+podmj     :: http://84.209.99.76:2222/qstmjoes.mp3   # QST Mjøsbyene
+podnyhet  :: http://84.209.99.76:2222/news.mp3       # URL for test of new ham podcasts based on bitrate 64kb/s
+podoslo   :: http://84.209.99.76:2222/qstoslo.mp3    # QST OSLO "LA4O NYTT"
+podcw     :: http://84.209.99.76:2222/qstcw.mp3      # QSTLA CW
 
 

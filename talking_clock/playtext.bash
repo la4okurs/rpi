@@ -47,4 +47,3 @@ TEXT=${TEXT:-"Look at the usage example above"}
 /usr/bin/mplayer "${WAVFILE}" >/dev/null 2>&1
 
 exit $?
-

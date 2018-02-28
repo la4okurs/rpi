@@ -26,7 +26,9 @@
 
 help_exit() {
    echo "Usage: $(basename $0) \"type your text here\""
-   sleep 1
+   echo "or"
+   echo "Usage: $(basename $0) textfile"
+   exit 1
 }
 
 if [ $# -ne 1 ];then
@@ -37,7 +39,11 @@ WAVFILE="$(dirname $0)/talkinsound.wav"
 [ -f $WAVFILE ] && rm -f $WAVFILE
 
 TEXT="$1"
-TEXT=${TEXT:-"Look at the usage example above"}
+if [ -f "$1" ];then
+   TEXT=$(cat $1)
+else
+   TEXT=${TEXT:-"Look at the usage example above"}
+fi
 
 #/bin/bash $HOME/rpi/myradio/set_volume.bash 95 >/dev/null 2>&1 # see cronjob
 

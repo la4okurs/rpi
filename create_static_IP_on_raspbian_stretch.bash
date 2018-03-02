@@ -8,7 +8,6 @@
 # Author: Steinar/LA7XQ
 #
 # SCRIPT STATUS: Seems OK
-# TODO:          Perhaps a better check if actually running Raspian Stretch distro       
 # 
 FILETOAPPEND="/tmp/$(basename $0).app"
 DHCPC_FILE="/etc/dhcpcd.conf"
@@ -80,13 +79,40 @@ cleanup() {
    [ -f $1 ] && rm -f $1
 }
 
+isRaspStrectch() {
+   [ -f /etc/os-release ] || { return 1; }
+   if ! cat /etc/os-release | grep -q "^ID=raspbian";then
+      cat /etc/os-release | grep "ID="
+      return 1
+   else
+      if ! cat /etc/os-release | grep -E "^VERSION=.*\(.*stretch";then
+         echo "You have:"
+         cat /etc/*rel* | grep -E "^VERSION="
+         echo "(You may find some info inside '/etc/wpa_supplicant/wpa_supplicant.conf')"
+         return 1
+      else
+         return 0
+      fi
+   fi
+   return 1
+}
+
 echo
 NO=$(id -u)
 [ $NO -ne 0 ] && { echo "ERROR: Disable networks and restart this script as 'sudo bash $0'"; exit 1; }
 [ -f $DHCPC_FILE ] || { echo "Is this not an Raspbian Stretch distro ? Now exit"; exit 1; }
+# echo "Run this script on the Rasbian Stretch distro"
+# echo "Run this script on the RPI you want the static LAN address"
+isRaspStrectch
+RETCHK=$?
+# echo "RETCHK=$RETCHK"
+if [ $RETCHK -ne 0 ];then
+   echo "Sorry this function is only valid if you are running Raspian Stretch distro"
+   exit 0
+#else
+#   chknetwork
+fi
 echo "This host $(hostname) is assumed being the ssh server side"
-echo "Run this script on the Rasbian Stretch distro"
-echo "Run this script on the RPI you want the static LAN address"
 
 cleanup $FILETOAPPEND
 touch $FILETOAPPEND

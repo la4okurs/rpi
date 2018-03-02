@@ -25,11 +25,11 @@ getLAN() {
    isRaspStrectch
    RETCHK=$?
    # echo "RETCHK=$RETCHK"
-   if [ $RETCHK -eq 0 ];then
+   #if [ $RETCHK -eq 0 ];then
       # It is a Raspbian Stretch distro
       # In this case test of STATIC IP is set and if set, dump values:
       chkstatic
-   fi
+   #fi
 }
 
 crossoverethcable() {

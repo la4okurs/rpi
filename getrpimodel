@@ -49,4 +49,6 @@ cat /etc/*rel*
 echo;echo "============== KERNEL INFO: =========:"
 uname -a
 rm -f /tmp/rpi_models
+echo;echo "============== CPU INFO: ============:"
+[ -f $(which lscpu) ] && $(which lsusb)  
 exit 0

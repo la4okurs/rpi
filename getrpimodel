@@ -35,9 +35,9 @@ a22042	Q3 2016	2 Model B (with BCM2837)	1.2	1 GB	(Mfg by Embest)
 a02082	Q1 2016	3 Model B	1.2	1 GB	(Mfg by Sony UK)
 a22082	Q1 2016	3 Model B	1.2	1 GB	(Mfg by Embest)
 a020a0 	Q1 2016	CM3	 	1.0	1 GB	(Mfg by Sony UK)
-a32082 	?  ?    3 Model B       1.2     1 GB   (Mfg by Sony Japan)
-3a01041 ?  ?    2 Model B       ?       1 GB    ? 
-a020d3  ?  2018 3 Model B+             1 GB    ?
+a32082 	-  -    3 Model B       1.2     1 GB   (Mfg by Sony Japan)
+3a01041 -  -    2 Model B       -       1 GB    - 
+a020d3  - 2018 3 Model B+             1 GB    -
 EOF
 rev=$(sudo cat /proc/cpuinfo | grep -i "^revision" | awk '{print $NF}')
 [ -z "$rev" ] && { echo "This PC is likely not an RPI PC"; exit 1; }

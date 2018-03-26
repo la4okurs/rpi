@@ -18,8 +18,11 @@
 
 echo "Good morning Arnfinn !"
 echo "Do you hear the alpen melodie in your jack connector headphones?"
-/usr/bin/amixer cset numid=3 1   >/dev/null 2>&1  # force RPI audio output to the 3.5 mm jack, ignore printout
-# /usr/bin/amixer cset numid=3 2  # use this instead if audio output force to HDMI screen is wanted (requre HDMI speakers)
-kill -9 $(pgrep -f /usr/bin/vlc) >/dev/null 2>&1 # kill all (c)vlc processes already started, ignore print out
-cvlc https://radio04.alpenmelodie.de:8443/alpenmelodie >/dev/null 2>&1 # play the alpen music, ignore prinout
-exit $? # transfer the cvlc exit value to the outer shell
+echo "Adjust volume..."
+VLC=$(which "vlc" | grep -E "bin.*vlc$")
+
+/usr/bin/amixer cset numid=3 1    >/dev/null 2>&1  # force audio output to jack, ignore printout
+# /usr/bin/amixer cset numid=3 2  # force audio output to HDMI screen (if HDMI speakers present)
+kill -9 $(pgrep -f $VLC) >/dev/null 2>&1 # kill (c)vlc if already started,ignore print out
+cvlc https://radio04.alpenmelodie.de:8443/alpenmelodie >/dev/null 2>&1 # ignore prinout
+exit 0

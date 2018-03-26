@@ -17,7 +17,7 @@
 #
 
 echo "Good morning Arnfinn !"
-echo "Do you hear the alpen melodie in your jack connector headphones?"
+echo "Do you hear the alpen melodie in your RPI audio jack connector (headphones)?"
 echo "Adjust volume..."
 VLC=$(which "vlc" | grep -E "bin.*vlc$")
 

@@ -2,6 +2,18 @@
 #
 # Author: Steinar/LA7XQ
 #
+if [ $# -ne 0 ];then
+   echo $1 | grep -q -oE "\-h"
+   if [ $? -eq 0 ];then
+      # asked for help, -h,--h,--hel,--help etc.....
+      echo "Usage: $(basename $0) [-q ]"
+      echo "ex1:   $(basename $0) -q # quiet mode, no questions asked"
+      echo "ex1:   $(basename $0)    # prints RPI model and ask you for more"
+      exit 1
+   fi
+fi
+QUIETMODE=0
+[ $# -ne 0 ] && QUIETMODE=1
 echo "============== HW ============:"
 cat /proc/cpuinfo | grep -E "(Serial|Revision)"
 cat << EOF > /tmp/rpi_models
@@ -44,6 +56,11 @@ rev=$(sudo cat /proc/cpuinfo | grep -i "^revision" | awk '{print $NF}')
 line=$(grep $rev /tmp/rpi_models)
 model=$(echo $line | awk '{ print $4,$5,$6}')
 echo "$line ==> RPI $model"
+if [ $QUIETMODE -eq 0 ];then
+   echo;echo "Type ENTER to continue with OS and KERNEL info"
+   read
+fi
+
 echo;echo "============== OS/DISTRO ============:"
 cat /etc/*rel*
 echo;echo "============== KERNEL INFO: =========:"

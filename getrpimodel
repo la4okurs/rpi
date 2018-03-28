@@ -5,10 +5,9 @@
 if [ $# -ne 0 ];then
    echo $1 | grep -q -oE "\-h"
    if [ $? -eq 0 ];then
-      # asked for help, -h,--h,--hel,--help etc.....
       echo "Usage: $(basename $0) [-q ]"
       echo "ex1:   $(basename $0) -q # quiet mode, no questions asked"
-      echo "ex1:   $(basename $0)    # prints RPI model and ask you for more"
+      echo "ex2:   $(basename $0)    # prints RPI model and ask you for more"
       exit 1
    fi
 fi

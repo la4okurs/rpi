@@ -57,7 +57,7 @@ line=$(grep $rev /tmp/rpi_models)
 model=$(echo $line | awk '{ print $4,$5,$6}')
 echo "$line ==> RPI $model"
 if [ $QUIETMODE -eq 0 ];then
-   echo;echo "Type ENTER to continue with OS and KERNEL info"
+   echo;echo "Type ENTER to continue with OS, KERNEL and CPU info"
    read
 fi
 

@@ -55,7 +55,7 @@ fi
 rm -f $MYMOUNTDIR
 rm -f $MYRAMDISK
 mknod $MYRAMDISK  b 1 0
-$MKE2FS -q -F -m 0 $MYRAMDISK
+$MKE2FS -q -F -t ext4 -m 0 $MYRAMDISK
 set_access
 
 [ -d $MYMOUNTDIR ] || mkdir $MYMOUNTDIR
@@ -67,4 +67,3 @@ uname -a >$MYMOUNTDIR/myfile
 date >> $MYMOUNTDIR/myfile
 set_access
 optional
-exit 0

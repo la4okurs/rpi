@@ -111,7 +111,7 @@ for i in "$@";do
       NEX=1
       echo "Example ${NEX}: $(basename $0)     # get /WAN/LAN addresses"
       NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -a  # scan anyone on LAN side including vendor info"
+      echo "Example ${NEX}: $(basename $0) -a  # all, scan anyone on LAN side including vendor info"
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -b  # scan several LANs (OK for eth cross cable and no router present)"
       NEX=$((NEX+1))

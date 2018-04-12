@@ -485,7 +485,6 @@ case "$1" in
    -a)  QUIET=1;getLAN;getWAN
         scan_LANside 2 "$GATEWAYIP"
         WAS=$(pwd)
-        echo "WAS=$WAS'"
         #pushd $HOME/rpi rpi >/dev/null 2>&1
         cd $HOME/rpi
         bash getvendor

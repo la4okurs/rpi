@@ -486,7 +486,7 @@ case "$1" in
         scan_LANside 2 "$GATEWAYIP"
         WAS=$(pwd)
         #pushd $HOME/rpi rpi >/dev/null 2>&1
-        cd $HOME/rpi
+        cd /home/pi/rpi
         bash getvendor
         #popd >/dev/null 2>&1
         cd $WAS

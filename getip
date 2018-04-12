@@ -428,6 +428,11 @@ clusterping() {
    return $ALLOK
 }
 
+if [ "$(id -n -u)" = "root" ];then
+   echo "ERROR: Do run this program as a none root user"
+   echo "Now exit"
+   exit 1
+fi
 isRPI
 
 echo "Hostname is      : $(hostname)"

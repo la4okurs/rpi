@@ -7,7 +7,7 @@
 #
 
 TMP1="./arp.tmp1"
-OUIFILE="/home/pi/oui.txt"
+OUIFILE="$HOME/oui.txt"
 NOOFSCANS=100
 
 exit_help() {
@@ -40,7 +40,7 @@ fi
 
 if [ ! -f $OUIFILE ];then
    echo "$(basename $0):ERROR: File $OUIFILE not found"
-   echo "Perform first an 'cd /home/pi;rm -f oui.txt*;wget http://standards.ieee.org/develop/regauth/oui/oui.txt;bash rpi/getvendor;cd /home/pi/rpi' on your RPI"
+   echo "Perform first an 'cd $HOME;rm -f oui.txt*;wget http://standards.ieee.org/develop/regauth/oui/oui.txt;bash rpi/getvendor;cd $HOME/rpi' on your RPI"
    echo "Now exit"
    exit 1
 fi

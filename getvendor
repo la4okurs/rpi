@@ -18,12 +18,12 @@ exit_help() {
    [ -f $TMP1 ] && rm -f $TMP1  # cleanup if ever used
    exit 1
 }
+
 if [ "$(id -n -u)" = "root" ];then
    echo "ERROR: Do run this program as a none root user (not as sudo ...)
    echo "Now exit"
    exit 1
 fi
-
 
 echo;echo " ---- Vendor information ----"
 if [ $# -ne 0 ];then

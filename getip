@@ -569,5 +569,5 @@ if [ $QUIET -eq 0 ];then
    maybepingtest
 fi
 echo;echo "(Other faster options available, type '$(basename $0) --help' to see" 
-echo "Hopefully 'sudo bash $(basename $0) -a' might be very useful for you"
+echo "Hopefully 'bash $(basename $0) -a' might be very useful for you"
 exit 0

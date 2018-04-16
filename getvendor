@@ -19,7 +19,7 @@ exit_help() {
    exit 1
 }
 if [ "$(id -n -u)" = "root" ];then
-   echo "ERROR: Do run this program as a none root user"
+   echo "ERROR: Do run this program as a none root user (not as sudo ...)
    echo "Now exit"
    exit 1
 fi

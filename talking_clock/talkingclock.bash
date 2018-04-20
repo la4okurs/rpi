@@ -38,7 +38,7 @@ WAVFILE="$(dirname $0)/talkinsound.wav"
 [ -f $WAVFILE ] && rm -f $WAVFILE
 TEXT=""
 TEXT=${TEXT:-"Time is ! $(date '+%H %M') ! "}
-/bin/bash $HOME/rpi/myradio/set_volume.bash 65 >/dev/null 2>&1 # 
+#/bin/bash $HOME/rpi/myradio/set_volume.bash 65 >/dev/null 2>&1 # 
 MORETEXT="$1"
 TOTTEXT="${TEXT} ${MORETEXT}"
 /usr/bin/pico2wave -w "${WAVFILE}" "$TOTTEXT" >/dev/null 2>&1

@@ -2,7 +2,7 @@
 
 # SWE: add next lines from next block to the .bashrc file ------
 # SWE: added lines to the .bashrc file stops ------
-#if [ -f $HOME/pi/rpi/set_rpi_dir_access.bash ];then
+#if [ -f $HOME/rpi/set_rpi_dir_access.bash ];then
 #   . $HOME/rpi/set_rpi_dir_access.bash
 #fi
 # SWE: added lines to the .bashrc file stops ------

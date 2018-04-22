@@ -9,4 +9,4 @@
 
 # Do not copy the next lines to the $HOME/.bashrc  file:
 export PATH="$PATH:$HOME/rpi"
-sudo chmod u+x $HOME/rpi/get*
+sudo chmod a+rx $HOME/rpi/get*

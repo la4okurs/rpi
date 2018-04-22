@@ -1,10 +1,12 @@
 #!/bin/bash
 
-# SWE: add two next active lines to the .bashrc file ------
-# SWE: added lines to the .bashrc file starts ------
-echo "SWE:I am your .bashrc file"
-[ -f ./rpi/set_rpi_dir_access.bash ] && source ./rpi/set_rpi_dir_access.bash
-# SWE: added lines to the .bashrc file starts ------
+# SWE: add next lines from next block to the .bashrc file ------
+# SWE: added lines to the .bashrc file stops ------
+#if [ -f $HOME/pi/rpi/set_rpi_dir_access.bash ];then
+#   . $HOME/rpi/set_rpi_dir_access.bash
+#fi
+# SWE: added lines to the .bashrc file stops ------
 
+# Do not copy the next lines to the $HOME/.bashrc  file:
 export PATH="$PATH:$HOME/rpi"
-chmod u+x $HOME/rpi/get*
+sudo chmod u+x $HOME/rpi/get*

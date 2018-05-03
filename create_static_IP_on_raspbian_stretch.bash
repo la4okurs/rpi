@@ -152,7 +152,7 @@ echo "static routers=$ROUTERS_IP" >> $FILETOAPPEND
 DEFAULT="8.8.8.8"
 askForIP "Give domain name servers [I suggest like '$DEFAULT']" "$DEFAULT" # output is IP
 DOM_NAME_SERVERS="$IP"
-echo "static domain_name_servers=$DOM_NAME_SERVERS $DEFAULT fd51:42f8:caae:d92e::1" >> $FILETOAPPEND
+echo "static domain_name_servers=$ROUTERS_IP $DEFAULT fd51:42f8:caae:d92e::1" >> $FILETOAPPEND
 
 DEFAULT="$ROUTERS_IP $DOM_NAME_SERVERS"
 askForIP "Give static domain_search [I suggest these two: '$DEFAULT']" "$DEFAULT" # output is IP
@@ -163,7 +163,8 @@ echo "noipv6" >> $FILETOAPPEND
 echo "interface $WIFI_INTERFACE" >> $FILETOAPPEND
 echo "static ip_address=${STATIC_IP}/24" >> $FILETOAPPEND
 echo "static routers=$ROUTERS_IP" >> $FILETOAPPEND
-echo "static domain_name_servers=$DOM_NAME_SERVERS" >> $FILETOAPPEND
+DEFAULT="8.8.8.8"
+echo "static domain_name_servers=$ROUTERS_IP $DEFAULT fd51:42f8:caae:d92e::1" >> $FILETOAPPEND
 echo "static domain_search=$DOM_NAME_SEARCH" >> $FILETOAPPEND
 echo "noipv6" >> $FILETOAPPEND
 
@@ -188,3 +189,6 @@ echo;echo "====> Now reboot your RPI. IP $STATIC_IP should then be static instea
 echo "Next: open port 22 for ssh        (using port forward in the router) on LAN addr $STATIC_IP"
 echo "Next: open port 5900 for vncviewer (using port forward in the router) on LAN addr $STATIC_IP"
 exit $RET
+
+
+

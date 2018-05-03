@@ -152,7 +152,7 @@ echo "static routers=$ROUTERS_IP" >> $FILETOAPPEND
 DEFAULT="8.8.8.8"
 askForIP "Give domain name servers [I suggest like '$DEFAULT']" "$DEFAULT" # output is IP
 DOM_NAME_SERVERS="$IP"
-echo "static domain_name_servers=$DOM_NAME_SERVERS" >> $FILETOAPPEND
+echo "static domain_name_servers=$DOM_NAME_SERVERS $DEFAULT fd51:42f8:caae:d92e::1" >> $FILETOAPPEND
 
 DEFAULT="$ROUTERS_IP $DOM_NAME_SERVERS"
 askForIP "Give static domain_search [I suggest these two: '$DEFAULT']" "$DEFAULT" # output is IP

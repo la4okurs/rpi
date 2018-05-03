@@ -8,25 +8,23 @@
 #
 
 if [ ! -f $HOME/.bashrc ];then
-   mkdir -p $HOME/.bashrc
+   touch $HOME/.bashrc
 fi
 #ls -ld $HOME/.bashrc
-if ! cat $HOME/.bashrc | grep -q -E "if .*set_rpi_dir_access.bash";then
-   echo "# SWE added:" >> $HOME/.bashrc
-   echo "if [ -f \$HOME/rpi/set_rpi_dir_access.bash ];then" >> $HOME/.bashrc
-   echo ". \$HOME/rpi/set_rpi_dir_access.bash" >>$HOME/.bashrc
-   echo "fi" >>$HOME/.bashrc
-   echo "INFO: New last part of $HOME/.bashrc set as:"
-   cat $HOME/.bashrc | tail -n 5
-fi   
-
-# avoid appending multiple same directory $HOME/rpi to the final PATH:
-if ! echo $PATH | grep -q -E "$HOME/rpi";then
-   [ -d "$HOME/rpi" ] && export PATH="$PATH:$HOME/rpi"
-   sudo chmod a+rx $HOME/rpi/get*
-   echo "INFO:New PATH updated as '$PATH'"
+cat << EOF > $HOME/.bashrc    
+#---- SWE added block starts -----
+if [ -d \$HOME/rpi ];then
+   if ! echo "\$PATH" | grep -q -oE "\$HOME/rpi" ;then
+      # echo "Now export....# SWE added line" # SWE added line
+      export PATH=\$PATH:\$HOME/rpi   # SWE added line
+   else
+      :
+      # echo "Now DO NOT export PATH...# SWE added line" # SWE added line
+   fi
+   chmod u+x \$HOME/rpi/*  # SWE added line, no harm if done repeatedly
 fi
-echo "INFO:"
-echo "You should now be able to type simply 'getip', 'getrpimodel' etc"
-echo "from any pi directory"
+# echo "Now PATH is '\$PATH' # SWE added line" # SWE added line
+#---- SWE added block ends -----
+EOF
 exit 0
+

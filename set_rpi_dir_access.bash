@@ -11,7 +11,14 @@ if [ ! -f $HOME/.bashrc ];then
    touch $HOME/.bashrc
 fi
 #ls -ld $HOME/.bashrc
-cat << EOF > $HOME/.bashrc    
+if grep -q -E "export PATH=.*HOME/rpi" $HOME/.bashrc;then
+   echo "Seems that you have already run this script"
+   echo "ignored now, exit done"
+   echo "If you still want to execute this script, remove the added section in $HOME/.bashrc first"
+   exit 0
+fi
+
+cat << EOF >> $HOME/.bashrc    
 #---- SWE added block starts -----
 if [ -d \$HOME/rpi ];then
    if ! echo "\$PATH" | grep -q -oE "\$HOME/rpi" ;then
@@ -29,4 +36,6 @@ EOF
 echo "INFO: IMPORTANT: Now relogin $(whoami) or reboot your system"
 echo "                 in order to have the new settings in action"
 exit 0
+
+
 

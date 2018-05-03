@@ -1,17 +1,25 @@
 #!/bin/bash
 #
-# Run this script on the Rasbian Stretch distro
-# Run this script on a (server) RPI on which you want to establish an static IP LAN server address
+# This script will detect remote part possible to connect over an cable between two Linux PC (RPI)
+# with a router needed
+# Prerequisites:
+#       Execute this script on the ssh client side
+#       On the RPI server side it is assumed that "enable ssh server","enable VNC server" are
+#       already set and an (static) IP address is set on eth (Ethernet) and that an eth cross
+#       cable is attached between the two RPIs
+# Wire up an eth cross cable between the two RPIs. No router is needed
 #
-# Notice: This script should be executed as a 'sudo', but script gives a warning if not having root access
+# On the remote ssh server side, disable the WiFI network. Keep only the Eth network up
+# and write down the IP address (eth) using 'hostname -I' or LA7XQ script doing 'rpi/svar/getip -l'
+# Now disable both WiFi on the (ssh) server side
+
+# On the local (ssh) client side, disable both WiFi and Eth and then start this script
+# again
+#
+# Notice: This script should be executed as a 'sudo bash $0' in from of script: 'sudo thisscript'
 #
 # Author: Steinar/LA7XQ
 #
-# SCRIPT STATUS: Seems OK
-# 
-FILETOAPPEND="/tmp/$(basename $0).app"
-DHCPC_FILE="/etc/dhcpcd.conf"
-
 quest_bin() {
    RET=0
    while true;do
@@ -27,164 +35,73 @@ quest_bin() {
    done
    return $RET
 }
-
-askForIP() {
-   # loop until correct format given (not a complete test)
-   # call like 'askForIP "Give IPv4 address you want as static IP" "192.168.1.1"' # output is IP
-   while true;do
-      echo;echo -ne "$1 (give IP(s) or just ENTER to get suggested value): "
-      read IP
-      if [ -z "$IP" ];then
-         IP="$2"
-      fi
-      echo "$IP" | grep -q -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
-      RET=$?
-      [ $RET -eq 0 ] && break
-   done
-   echo $IP
-   return 0
-}
-
-getLAN() {
-   echo -ne "IP LAN address is:"
-   # ip addr | egrep -e "inet.*global" | grep -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | awk '{print "    ", $2,$NF}'
-   ip addr | egrep -e "inet.*global" | grep -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" >/dev/null 2>&1
-   RET=$?
-   [ $RET -ne 0 ] && { echo " NONE"; echo "Is your network turned OFF or have you specified incorrect SSID/key password ?"; }
-   ip addr | egrep -e "inet.*global" | grep -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | awk '{print "", $2,$NF," <==="}'
-}
-
-getGATEWAY() {
-   if netstat -r | grep -v "^Destination" | grep -q -E " 0.0.0.0 .*G";then
-      GATEWAYIP=$(netstat -rn | grep -v "^Destination" | grep -E " 0.0.0.0 .*G" | awk '{print $2}' | head -n 1)
-      echo "$GATEWAYIP"
-      return 0
-   else
-      echo ""
-      return 1
-   fi
-}
-
-restoreToNoneStatic() {
-   sed -i '/^interface /d' $1
-   sed -i '/^fallback static/d' $1
-   sed -i '/^static ip_address=/d' $1
-   sed -i '/^static routers=/d' $1
-   sed -i '/^static domain_name_servers=/d' $1
-   sed -i '/^static domain_search=/d' $1
-   sed -i '/^noipv6/d' $1
-}
-
-cleanup() {
-   [ -f $1 ] && rm -f $1
-}
-
-isRaspStrectch() {
-   [ -f /etc/os-release ] || { return 1; }
-   if ! cat /etc/os-release | grep -q "^ID=raspbian";then
-      cat /etc/os-release | grep "ID="
-      return 1
-   else
-      if ! cat /etc/os-release | grep -E "^VERSION=.*\(.*stretch";then
-         echo "You have:"
-         cat /etc/*rel* | grep -E "^VERSION="
-         echo "(You may find some info inside '/etc/wpa_supplicant/wpa_supplicant.conf')"
-         return 1
-      else
-         return 0
-      fi
-   fi
-   return 1
-}
-
 echo
 NO=$(id -u)
 [ $NO -ne 0 ] && { echo "ERROR: Disable networks and restart this script as 'sudo bash $0'"; exit 1; }
-[ -f $DHCPC_FILE ] || { echo "Is this not an Raspbian Stretch distro ? Now exit"; exit 1; }
-# echo "Run this script on the Rasbian Stretch distro"
-# echo "Run this script on the RPI you want the static LAN address"
-isRaspStrectch
-RETCHK=$?
-# echo "RETCHK=$RETCHK"
-if [ $RETCHK -ne 0 ];then
-   echo "Sorry this function is only valid if you are running Raspian Stretch distro"
-   exit 0
-#else
-#   chknetwork
-fi
-echo "This host $(hostname) is assumed being the ssh server side"
+echo "This host $(hostname) is assumed being the ssh client side"
+echo "Be sure to have done "enable ssh", "enable vnc" on the RPI ssh server side using 'sudo raspi-config'"
+echo "Be sure you have set a server side LAN IP addr on the eth interface"
+echo "Be sure to have a eth cross cable connected between the 2 RPIs"
+echo "Be sure having disabled the WiFi network (but not the Eth) on the remote (ssh) server side"
+echo "Be sure having disabled both WiFI and Eth network on this client side"
+echo "(This script will set up the eth network on this client side again....)"
+echo
+echo "I assume you have completed the above actions needed before you continue here"
+echo "If so, type ENTER to continue running this script..";read
 
-cleanup $FILETOAPPEND
-touch $FILETOAPPEND
-
-# Interfaces:
-WIFI_INTERFACE=$(ifconfig -a | grep -i -E "^w" | awk '{print $1}')
-ETH_INTERFACE=$(ifconfig -a | grep -i -E "^e" | awk '{print $1}')
-ETH_INTERFACE=$(echo $ETH_INTERFACE | awk -F ":" '{print $1}' | awk '{print $1}')
-WIFI_INTERFACE=$(echo $WIFI_INTERFACE | awk -F ":" '{print $1}' | awk '{print $1}')
-echo;echo "Network interfaces found:"
-echo $ETH_INTERFACE
-echo $WIFI_INTERFACE
-
-echo "interface $ETH_INTERFACE" >> $FILETOAPPEND
-echo "fallback static_$ETH_INTERFACE" >> $FILETOAPPEND
-PURELANIP=$(getLAN | awk -F ":" '{print $2}' | awk -F "/" '{print $1}' | awk '{print $1}')
-
-DEFAULT="$PURELANIP"
-askForIP "Give IPv4 address you want as static IP [I suggest like '$DEFAULT']" "$DEFAULT" # output is IP
-STATIC_IP="$IP"
-echo "static ip_address=${STATIC_IP}/24" >> $FILETOAPPEND
-
-#DEFAULT=$(echo "$STATIC_IP" | awk -F "." '{printf $1"."$2"."$3".1"}')
-GATEWAYIP=$(getGATEWAY)
-RET=$?
-if [ $RET -ne 0 ];then
-   echo "Current Gateway: NONE <==="
-   echo "Is your network turned OFF?"
-   echo "Now exit"
+while true;do
+   quest_bin "which IP base do you want on this client? (should be same as base as on the remote ssh server), either " "192.168.0" "192.168.1" "10.0.0"
+   RET=$?
+   # echo "RET=$RET"
+   IP_ADDRB=""
+   if [ $RET -eq 1 ];then
+      IP_ADDRB="192.168.0"
+      break
+   elif [ $RET -eq 2 ];then
+      IP_ADDRB="192.168.1"
+      break
+   elif [ $RET -eq 3 ];then
+      IP_ADDRB="10.0.0"
+      break
+   else
+      continue
+   fi
+done
+NETW_INTERFACE=$(ifconfig -a | grep -E "Link encap.*Ethernet" | grep -i "^e" | awk '{print $1}')
+ifconfig $NETW_INTERFACE ${IP_ADDRB}.219 up
+RET_IF=$?
+if [ $RET_IF -ne 0 ];then
+   echo "Try restarting this script running as 'sudo bash $0'"
    exit 1
 fi
-DEFAULT="$GATEWAYIP"
-askForIP "Give IP address to gateway (router) [I suggest like '$DEFAULT']" "$DEFAULT" # output is IP
-ROUTERS_IP="$IP"
-echo "static routers=$ROUTERS_IP" >> $FILETOAPPEND
-
-DEFAULT="8.8.8.8"
-askForIP "Give domain name servers [I suggest like '$DEFAULT']" "$DEFAULT" # output is IP
-DOM_NAME_SERVERS="$IP"
-echo "static domain_name_servers=$DOM_NAME_SERVERS $DEFAULT fd51:42f8:caae:d92e::1" >> $FILETOAPPEND
-
-DEFAULT="$ROUTERS_IP $DOM_NAME_SERVERS"
-askForIP "Give static domain_search [I suggest these two: '$DEFAULT']" "$DEFAULT" # output is IP
-DOM_NAME_SEARCH="$IP"
-echo "static domain_search=$DOM_NAME_SEARCH" >> $FILETOAPPEND
-echo "noipv6" >> $FILETOAPPEND
-
-echo "interface $WIFI_INTERFACE" >> $FILETOAPPEND
-echo "static ip_address=${STATIC_IP}/24" >> $FILETOAPPEND
-echo "static routers=$ROUTERS_IP" >> $FILETOAPPEND
-echo "static domain_name_servers=$DOM_NAME_SERVERS" >> $FILETOAPPEND
-echo "static domain_search=$DOM_NAME_SEARCH" >> $FILETOAPPEND
-echo "noipv6" >> $FILETOAPPEND
-
-[ -f $DHCPC_FILE ] || { echo "Can not find your $DHCPC_FILE file. Now exit"; exit 1; }
-#cp $DHCPC_FILE ${DHCPC_FILE}_bac_$(date "+%H%M%S")
-
-restoreToNoneStatic $DHCPC_FILE # after this $DHCPC_FILE should be as org for none static IPs
-echo;echo "INFO: Typing Ctrl C now will restore DHCP (none static IPs) again - type ENTER if still STATIC is wanted. After this, reboot RPI";read
-
-cat $DHCPC_FILE $FILETOAPPEND > ${DHCPC_FILE}.1
-if cp ${DHCPC_FILE}.1 ${DHCPC_FILE};then
-   echo "A new ${DHCPC_FILE} file is created."
-   RET=0
+#ifconfig -a
+#hostname 
+LANIP=$(hostname -I | awk '{print $1}')
+# [ -f $HOME/rpi/getip ] && bash $HOME/rpi/getip -b
+[ -f $HOME/rpi/getip ] && bash $HOME/rpi/getip -l
+echo "wait while scanning for other(s) on this network...."
+if [ -f $HOME/rpi/getip ];then
+   SOMEFOUND=0
+   # echo "Now scanning for others on this network...."
+   IPRANGE=$(bash $HOME/rpi/getip -a | grep -i "scan report" | awk '{print $NF}')
+   for i in $IPRANGE;do
+      echo "$i" | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
+      IPRET=$?
+      [ $IPRET -ne 0 ] && continue
+      if [ "$i" = "$LANIP" ];then
+         echo "yourself found       : $i"
+      else
+         SOMEFOUND=1
+         echo "remote other(s) found: $i"
+      fi
+   done
+   if [ $SOMEFOUND -eq 0 ];then
+      echo "Sorry, can't find any remote IP"
+      exit 1
+   fi 
+   echo;echo "Now try to ping, ssh and VNC others with the IP(s) found"
+   exit 0
 else
-   echo "ERROR when 'cp ${DHCPC_FILE}.1 ${DHCPC_FILE}'. Now exit"
-   RET=1
-fi 
-cleanup $FILETOAPPEND
-cleanup ${DHCPC_FILE}.1
-
-echo;echo "====> Now reboot your RPI. IP $STATIC_IP should then be static instead of DHCP"
-echo "Next: open port 22 for ssh        (using port forward in the router) on LAN addr $STATIC_IP"
-echo "Next: open port 5900 for vncviewer (using port forward in the router) on LAN addr $STATIC_IP"
-exit $RET
+   echo "The program file $HOME/rpi/getip is not found. Now exit"
+   exit 1
+fi

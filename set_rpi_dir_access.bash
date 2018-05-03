@@ -28,6 +28,6 @@ if [ -d \$HOME/rpi ];then
 fi
 #---- SWE added block ends -----
 EOF
-echo "INFO: IMPORTANT: Now relogin $(whoami) or reboot your system"
+echo "INFO: IMPORTANT: Now relogin $(whoami) (do 'sudo login $(whoami)') or reboot your system"
 echo "                 in order to have the new settings in action"
 exit 0

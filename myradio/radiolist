@@ -6,37 +6,36 @@ stop   :: # DO NOT REMOVE THIS LINE
 status :: # DO NOT REMOVE THIS LINE
 list   :: # DO NOT REMOVE THIS LINE
 
-# experimental streams (you may edit the list yourself): Bruce Frederick Joseph Springsteen
-ham    :: http://51.174.165.11:8000/stream            # myradio.no My Proxy public stream (currently the myradio.no LIVE PLAYER)
-ham2   :: rtmp://84.209.99.76:4444/live              # myradio.no (p-stream) I coded it for Android (MX player).
-ham3   :: http://51.174.165.11:8888/hls/stream.m3u8   # myradio.no My Proxy HLS stream made for Apple devices HTTP Live Streaming
+# experimental streams (you may edit the list yourself, but keep the format double colon etc):
+ham    :: http://51.174.165.11:8000/stream            # My radio Proxy public stream (driven from my cabin)
+ham2   :: rtmp://84.214.208.10:4444/live              # myradio.no (p-stream) I coded it for Android (MX player)
+ham3   :: http://51.174.165.11:8888/hls/stream.m3u8   # My radio HLS Proxy for Apple devices HTTP Live Streaming (cabin driven)
 #                                                      Adobe’s RealTimeMessagingProtocol(RTMP),slow start on Microsoft
 beat   :: http://www.beatlesradio.com:8000/stream/    # Beatles radio station
 bob    :: http://listen.57fm.com:80/dtracks           # Bob Dylan
-bruce  :: http://67.212.166.178:9000/;stream/         # Bruce Frederick Joseph Springsteen (Notice: not always active stream?)
+bruce  :: http://67.212.166.178:9000/;stream/         # Bruce Frederick Joseph Springsteen
 dire   :: http://m4a-64.cdn107.com/05/44/24/0544246022.m4a # Dire Straits (Not a radio station ?)
-elvis  :: http://s2.fastcast4u.com:9246/;stream/1     # Elvis Presley Radio station (Notice: stream often inactive)
+elvis  :: http://s2.fastcast4u.com:9246/;stream/1     # Elvis Presley Radio station (Notice: stream some times inactive)
 johnny :: http://streaming.radio.co/s9fa0dff72/listen # Johnny Cash
-nrk    :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p1_ostlandssendingen_aac_h # "Østlandssendingen NRK"
-nrkl    :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p1_ostlandssendingen_aac_l # "Østlandssendingen NRK"
-nyhet  :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_alltid_nyheter_aac_h # Alltid nyheter
-p13    :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p13_aac_h # NRK P13
+nrk    :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p1_ostlandssendingen_aac_h # "Østlandssendingen NRK high quality"
+nrkl   :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p1_ostlandssendingen_aac_l # "Østlandssendingen NRK low quality"
+nyhet  :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_alltid_nyheter_aac_h       # Alltid nyheter
+p13    :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p13_aac_h                  # NRK P13
 p4     :: http://stream.p4.no/p4_mp3_hq               # P4
 sat    :: http://stream.radioh.no:443/scan128         # Scandinavian Satellite Radio
 #vestf  :: http://https://radio.nrk.no/direkte/p1_vestfold # NRK P1/Vestfold
 vestf  :: http://nrk-mms-live.online.no/nrk_radio_p1_vestfold_mp3_l # NRK P1/Vestfold
 finnm  :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p1_finnmark_aac_h # "Finnmarksendingen NRK" # just a try, local 
-fuzz1  :: http://the1920sradionetwork.mediaplayer.whro.org/128   # old and fuzzy, but kind of good
-fuzz2  :: http://streaming.rubinbroadcasting.com/kcea            # old and fuzzy, but kind of good
-alpe   :: https://radio04.alpenmelodie.de:8443/alpenmelodie      # alpe musikk
+fuzz1  :: http://the1920sradionetwork.mediaplayer.whro.org/128              # old and fuzzy, but kind of good
+fuzz2  :: http://streaming.rubinbroadcasting.com/kcea                       # old and fuzzy, but kind of good
+alpe   :: https://radio04.alpenmelodie.de:8443/alpenmelodie                 # alpe musikk
 
-# podcasts:
-podqstla  :: http://84.209.99.76:2222/qstlalast.mp3  # QSTLA SSB at Sundays via 145.700 MHz LA8KR, honor to LA8BP Eirik
-poddram   :: http://84.209.99.76:2222/qstdrammen.mp3 # QST Drammen
-podfollo  :: http://84.209.99.76:2222/qstfollo.mp3   # QST Follo       
-podmj     :: http://84.209.99.76:2222/qstmjoes.mp3   # QST Mjøsbyene
-podnyhet  :: http://84.209.99.76:2222/news.mp3       # URL for test of new ham podcasts based on bitrate 64kb/s
-podoslo   :: http://84.209.99.76:2222/qstoslo.mp3    # QST OSLO "LA4O NYTT"
-podcw     :: http://84.209.99.76:2222/qstcw.mp3      # QSTLA CW
-
+# Norwegian ham podcasts:
+podqstla  :: http://myradio.no/qstlalast.mp3  # QSTLA SSB at Sundays via 145.700 MHz LA8KR, honor to LA8BP Eirik
+poddram   :: http://myradio.no/qstdrammen.mp3 # QST Drammen
+podfollo  :: http://myradio.no/qstfollo.mp3   # QST Follo       
+podmj     :: http://myradio.no/qstmjoes.mp3   # QST Mjøsbyene
+podnyhet  :: http://myradio.no/news.mp3       # URL for test of new ham podcasts based on bitrate 64kb/s
+podoslo   :: http://myradio.no/qstoslo.mp3    # QST OSLO "LA4O NYTT"
+podcw     :: http://myradio.no/qstcw.mp3      # QSTLA CW
 

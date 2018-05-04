@@ -1,6 +1,6 @@
 # You may add new URLs lines to this file yourself in the 'streams' and 'podcast' sections below
 # Be sure to keep the two '::' as field seperator (no other spaces needed if not wanted)
-# This file is read by the cradio.bash program using the rpi/listen.bash
+# This file is read by the cradio.bash program using the rpi/listen.bash (Currently myradio.no = 84.214.208.10:2222 )
 start  :: # DO NOT REMOVE THIS LINE, listening at myradio.no server live stream (scanned VHF repeaters)
 stop   :: # DO NOT REMOVE THIS LINE
 status :: # DO NOT REMOVE THIS LINE

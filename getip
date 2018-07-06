@@ -159,7 +159,7 @@ echo " ===  $(basename $0) ===  hack script laget av Steinar";echo
 
 isRPI() {
    # return 0 if its a RPI
-   if cat /proc/cpuinfo | egrep -q -i -e "(Hardware.*BCM270[89])"; then
+   if cat /proc/cpuinfo | egrep -q -i -e "(Hardware.*BCM2)"; then
      if cat /proc/cpuinfo | egrep -q -i -e "(^model name.*ARMv6-compatible processor|ARMv7.*processor)";then
         return 0
      fi

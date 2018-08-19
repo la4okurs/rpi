@@ -11,9 +11,11 @@ For download av en ENKELT file:                $ wget https://raw.github.com/la4
 
 For download av ALLE filer fra dette rpi repository: $ git clone http://github.com/la4okurs/rpi
 
-                                                     $ cd rpi
+                                                     $ mv rpi rpi_old     # optional, take backup of old rpi/
+
+                                                     $ cd rpi             # change directory to dowloaded rpi/ area  
                                                      
-                                                     $ find .
+                                                     $ find .             # optional, dump names of all directories and files  
 
 Send meg email hvis noe er uklart
 

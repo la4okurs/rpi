@@ -23,9 +23,10 @@ echo "Good morning Arnfinn !"
 echo "Do you hear the Gotradio in your RPI audio jack connector (headphones)?"
 echo "Adjust volume..."
 VLC=$(which "vlc" | grep -E "bin.*vlc$")
+KILL_VLC=$(which "vlc" | grep -E "bin.*vlc$")
 
 /usr/bin/amixer cset numid=3 1    >/dev/null 2>&1  # force audio output to 1=jack, ignore printout
 # /usr/bin/amixer cset numid=3 2  >/dev/null 2>&1  # uncomment this line if sinking to 2=HDMI screen instead (HDMI speakers needed)
-kill -9 $(pgrep -f $VLC) >/dev/null 2>&1           # kill (c)vlc process if already started, ignore print out
-vlc http://gotradio-edge1.cdnstream.com/1182_128?listenerid=da4dfc5beb929b932c861a5ac02e05f3&esPlayer&cb=290873.mp3 >/dev/null 2>&1 # ignore prinout
+kill -9 $(pgrep -f $KILL_VLC) >/dev/null 2>&1           # kill (c)vlc process if already started, ignore print out
+$VLC http://gotradio-edge1.cdnstream.com/1182_128?listenerid=da4dfc5beb929b932c861a5ac02e05f3&esPlayer&cb=290873.mp3 >/dev/null 2>&1 # ignore prinout
 exit 0

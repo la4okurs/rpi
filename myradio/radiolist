@@ -7,9 +7,9 @@ status :: # DO NOT REMOVE THIS LINE
 list   :: # DO NOT REMOVE THIS LINE
 
 # experimental streams (you may edit the list yourself, but keep the format double colon etc):
-ham    :: http://51.174.165.11:8000/stream            # My radio Proxy public stream (driven from my cabin)
+ham    :: http://51.174.207.121:8000/stream            # My radio Proxy public stream (driven from my cabin)
 ham2   :: rtmp://84.214.208.10:4444/live              # myradio.no (p-stream) I coded it for Android (MX player)
-ham3   :: http://51.174.165.11:8888/hls/stream.m3u8   # My radio HLS Proxy for Apple devices HTTP Live Streaming (cabin driven)
+ham3   :: http://51.174.207.121:8888/hls/stream.m3u8   # My radio HLS Proxy for Apple devices HTTP Live Streaming (cabin driven)
 #                                                      Adobe’s RealTimeMessagingProtocol(RTMP),slow start on Microsoft
 beat   :: http://www.beatlesradio.com:8000/stream/    # Beatles radio station
 bob    :: http://listen.57fm.com:80/dtracks           # Bob Dylan
@@ -20,6 +20,7 @@ johnny :: http://streaming.radio.co/s9fa0dff72/listen # Johnny Cash
 nrk    :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p1_ostlandssendingen_aac_h # "Østlandssendingen NRK high quality"
 nrkl   :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p1_ostlandssendingen_aac_l # "Østlandssendingen NRK low quality"
 nyhet  :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_alltid_nyheter_aac_h       # Alltid nyheter
+p2     :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p2_aac_h
 p13    :: http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p13_aac_h                  # NRK P13
 p4     :: http://stream.p4.no/p4_mp3_hq               # P4
 sat    :: http://stream.radioh.no:443/scan128         # Scandinavian Satellite Radio
@@ -38,4 +39,4 @@ podmj     :: http://myradio.no/qstmjoes.mp3   # QST Mjøsbyene
 podnyhet  :: http://myradio.no/news.mp3       # URL for test of new ham podcasts based on bitrate 64kb/s
 podoslo   :: http://myradio.no/qstoslo.mp3    # QST OSLO "LA4O NYTT"
 podcw     :: http://myradio.no/qstcw.mp3      # QSTLA CW
-
+podonlycw :: http://myradio.no/qstcw.mp3.part.mp3.last # PURE QSTLA CW

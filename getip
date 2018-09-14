@@ -27,7 +27,7 @@ getLAN() {
    # ip addr | egrep -e "inet.*global" | grep -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | awk '{print "    ", $2,$NF}'
    ip addr | egrep -e "inet.*global" | grep -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" >/dev/null 2>&1
    RET=$?
-   [ $RET -ne 0 ] && { echo " NONE"; echo "Is your network turned OFF or have you specified incorrect SSID/key password ?"; }
+   [ $RET -ne 0 ] && { echo " NONE"; echo "ERROR: Is your network turned OFF, cable out (if wired network) or have you specified incorrect SSID/key password ?"; }
    ip addr | egrep -e "inet.*global" | grep -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | awk '{print "", $2,$NF," <==="}'
    isRaspStrectch
    RETCHK=$?
@@ -439,7 +439,7 @@ isRPI
 echo "Hostname is      : $(hostname)"
 echo "Logged in as user: $(whoami)"
 if iwconfig 2>&1 | grep -q ESSID;then
-   echo "WiFi        $(iwconfig 2>&1 | grep ESSID | awk '{print $NF}')"
+   echo "WiFi  ESSID: $(iwconfig 2>&1 | grep ESSID | awk -F "ESSID:" '{print $2}' | awk '{print $1}')"
 fi
 MANYSCANS=0
 case "$1" in

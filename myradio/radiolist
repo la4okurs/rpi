@@ -7,6 +7,7 @@ status :: # DO NOT REMOVE THIS LINE
 list   :: # DO NOT REMOVE THIS LINE
 
 # experimental streams (you may edit the list yourself, but keep the format double colon etc):
+50s    :: http://gotradio-edge1.cdnstream.com/1182_128?listenerid=da4dfc5beb929b932c861a5ac02e05f3&amp;esPlayer&amp;cb=290873.mp3 # Back to the 50s
 ham    :: http://51.174.207.121:8000/stream            # My radio Proxy public stream (driven from my cabin)
 ham2   :: rtmp://84.214.208.10:4444/live              # myradio.no (p-stream) I coded it for Android (MX player)
 ham3   :: http://51.174.207.121:8888/hls/stream.m3u8   # My radio HLS Proxy for Apple devices HTTP Live Streaming (cabin driven)

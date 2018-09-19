@@ -9,11 +9,11 @@ Download til RPI kan gjøres f.eks. slik:
 For download av en ENKELT file:                $ wget https://raw.github.com/la4okurs/rpi/master/file
 
 
-For download av ALLE filer fra dette rpi repository: $ git clone http://github.com/la4okurs/rpi
+For download av ALLE filer fra dette rpi repository: $ mv rpi rpi_old     # before clone, take backup of old rpi/ direectory
 
-                                                     $ mv rpi rpi_old     # optional, take backup of old rpi/
+                                                     $ git clone http://github.com/la4okurs/rpi # transfer alll files
 
-                                                     $ cd rpi             # change directory to dowloaded rpi/ area  
+                                                     $ cd rpi             # change directory to the new dowloaded rpi/ area  
                                                      
                                                      $ find .             # optional, dump names of all directories and files  
 

@@ -18,7 +18,7 @@ fi
 
 AVMINIMUM=5000  # eq. 5 ms average ping cycle time
 AVVERYMINIMUM=50000  # eq. 50 ms average ping cycle time
-AVECELENT=1000  # eq. 1 ms average ping cycle time
+AVEXCELLENT=1000  # eq. 1 ms average ping cycle time
 QUIET=0
 HSTR=$(echo "$@" | sed -e 's/.*-h/-h/g' -e 's/-h.*/-h/g')
 
@@ -197,8 +197,8 @@ pingtest() {
       # multiply operation:
       TA=$(echo $AV | awk '{printf $AV * 1000}')
       TM=$(echo $AVMINIMUM | awk '{printf $AV / 1000}')
-      if [ $TA -lt $AVECELENT ];then
-         echo "RESULT: ECELENT, average found: $AV ms (less than $TM ms)"
+      if [ $TA -lt $AVEXCELLENT ];then
+         echo "RESULT: EXCELLENT, average found: $AV ms (less than $TM ms)"
       elif [ $TA -lt $AVMINIMUM ];then
          echo "RESULT: ACCEPTABLE, average found: $AV ms (less than $TM ms)"
       elif [ $TA -lt $AVVERYMINIMUM ];then
@@ -270,7 +270,7 @@ getWAN() {
       exit 1
    fi
    
-   IPWAN=$(curl -s http://www.ipmotivation.com/ | grep "IP Address:"  | awk -F":" '{print $2}' | awk '{print $1}')
+   IPWAN=$(wget -qO - ipv4bot.whatismyipaddress.com)
    if [ -z "$IPWAN" ];then
       echo "ERROR, can't gate the router, check gateway setting"
       echo "(and/or cable if wired connection is used)!"
@@ -539,7 +539,7 @@ case "$1" in
         fi
         exit 0
         ;;
-   -o)  IPWAN=$(curl -s http://www.ipmotivation.com/ | grep "IP Address:"  | awk -F":" '{print $2}' | awk '{print $1}')
+   -o)  IPWAN=$(wget -qO - ipv4bot.whatismyipaddress.com)
         echo "Finding open ports may take some time..."
         nmap -sS $IPWAN | grep -i -E "[0-9]\/"
         exit 0;;

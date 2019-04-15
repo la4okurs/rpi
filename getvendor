@@ -1,4 +1,4 @@
-#!/bi#!/bin/bash
+#!/bin/bash
 #
 # The program gives vendor overview on the local (private LAN network)
 # The program also perform arp scan.....

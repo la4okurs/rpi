@@ -270,7 +270,8 @@ getWAN() {
       exit 1
    fi
    
-   IPWAN=$(wget -qO - ipv4bot.whatismyipaddress.com)
+   #IPWAN=$(wget -qO - ipv4bot.whatismyipaddress.com)
+   IPWAN=$(wget -qO- checkip.dyndns.org|grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
    if [ -z "$IPWAN" ];then
       echo "ERROR, can't gate the router, check gateway setting"
       echo "(and/or cable if wired connection is used)!"

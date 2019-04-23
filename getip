@@ -23,7 +23,7 @@ QUIET=0
 HSTR=$(echo "$@" | sed -e 's/.*-h/-h/g' -e 's/-h.*/-h/g')
 
 getLAN() {
-   echo -ne "IP LAN address is:"
+   echo -ne "Your IP LAN addr :"
    # ip addr | egrep -e "inet.*global" | grep -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | awk '{print "    ", $2,$NF}'
    ip addr | egrep -e "inet.*global" | grep -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" >/dev/null 2>&1
    RET=$?
@@ -61,14 +61,14 @@ No router needed at all for the connection !
 
 1. Turn off WiFi network on both RPI and the Laptop PC
 
-2. On RPI do set up an IP address (example: 192.168.1.240 on eth0):
+2. On RPI do set up an IP addr (example: 192.168.1.240 on eth0):
    hostname    # dump current RPI hostname
    hostname -I # get current LAN addr (may be none yet)
    # Now set static LAN IP addr on eth in RPI and reboot (or use 
   'sudo ifconfig eth0 192.168.1.240/24 up'  # example)
    (eth0 may be a different interface name in your RPI. Check with 'ifconfig -a')
 
-3. On Linux PC do set up an IP address (192.168.1.241 on eth0) using the Network manager GUI or this way:
+3. On Linux PC do set up an IP addr (192.168.1.241 on eth0) using the Network manager GUI or this way:
    hostname    # optional to get hostname
    'sudo ifconfig eth0 192.168.1.241/24 up' # example creating an IP addr on the Linux Laptop
    rpi/svar/getip -b    #  LA7XQ script to scan typical LAN bases
@@ -101,7 +101,7 @@ quick_info_whether_InetAccess() {
 }
 
 getGATEWAY() {
-   # this GATEWAY is often the router LAN address itself
+   # this GATEWAY is often the router LAN addr itself
    if netstat -r | grep -v "^Destination" | grep -q -E " 0.0.0.0 .*G";then
       GATEWAYIP=$(netstat -rn | grep -v "^Destination" | grep -E " 0.0.0.0 .*G" | awk '{print $2}' | head -n 1)
       echo "$GATEWAYIP"
@@ -116,13 +116,13 @@ for i in "$@";do
    if [ "$HSTR" = "-h" ];then
       echo "Usage:$(basename $0) [-a|-b|-r|-q|-i|-k|-n|-l|-e|-p|-pr|-o|-oo|-ooo|-s|-w|-x]"
       NEX=1
-      echo "Example ${NEX}: $(basename $0)     # get /WAN/LAN addresses"
+      echo "Example ${NEX}: $(basename $0)     # get /WAN/LAN addr"
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -a  # all, scan anyone on LAN side including vendor info"
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -b  # scan several LANs (OK for eth cross cable and no router present)"
       NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -r  # get Router LAN IP address (Gateway LAN address)"
+      echo "Example ${NEX}: $(basename $0) -r  # get Router LAN IP addr (Gateway LAN addr)"
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -q  # quiet mode, no questions (no ping test)"
       NEX=$((NEX+1))
@@ -132,7 +132,7 @@ for i in "$@";do
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -n  # dump networks defined (only support for Raspian Stretch)"
       NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -l  # get own LAN address"
+      echo "Example ${NEX}: $(basename $0) -l  # get own LAN addr"
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -e  # get wireless SSIDs seen/Wireless HW capabilities listed"
       NEX=$((NEX+1))
@@ -140,7 +140,7 @@ for i in "$@";do
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -pr # ping rotate test towards router"
       NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -o  # search for open ports on your own WAN address"
+      echo "Example ${NEX}: $(basename $0) -o  # search for open ports on your own WAN addr"
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -oo  # search for open ports on any WAN"
       NEX=$((NEX+1))
@@ -148,7 +148,7 @@ for i in "$@";do
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -s  # dump static IP defined (only support for Raspian Stretch)"
       NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -w  # get (Router) WAN address"
+      echo "Example ${NEX}: $(basename $0) -w  # get (Router) WAN addr"
       NEX=$((NEX+1))
       echo "Example ${NEX}: $(basename $0) -x  # scan anyone on the LAN side (no vendor info), see also -a option"
       exit 0
@@ -178,7 +178,7 @@ pingtest() {
    GATEWAYIP=$(getGATEWAY)
    RET=$?
    if [ $RET -ne 0 ];then
-      echo "Current Gateway (often the router LAN address): NONE <==="
+      echo "Current Gateway (often the router LAN addr): NONE <==="
       echo "Is your network turned OFF?"
       echo "Now exit"
       exit 1
@@ -208,7 +208,7 @@ pingtest() {
       fi
       echo "(Acceptable limit by program set to be $TM ms)"
    else 
-      echo "ERROR: No answer pinging this address ${GATEWAYIP}"
+      echo "ERROR: No answer pinging this addr ${GATEWAYIP}"
       exit 1
    fi
 }
@@ -221,7 +221,7 @@ pingrotatetest() {
       RET=$?
    fi
    if [ $RET -ne 0 ];then
-      echo "Current Gateway (often the router LAN address): NONE <==="
+      echo "Current Gateway (often the router LAN addr): NONE <==="
       echo "Is your network turned OFF?"
       echo "Now exit"
       exit 1
@@ -264,7 +264,7 @@ getWAN() {
    fi
    
    # Then try to pass the gateway...
-   echo -ne "IP WAN address is: "
+   echo -ne "Your WAN IP addr : "
    if ! type curl >/dev/null 2>&1 ;then
       echo "ERROR: curl missing. Try '$ sudo apt-get install curl' first. Then try again $(basename $0)"
       exit 1
@@ -302,12 +302,12 @@ scan_LANside(){
    RET=$?
 
    if [ $RET -ne 0 ];then
-      echo "Current Gateway (often the router LAN address): NONE <==="
+      echo "Current Gateway (often the router LAN addr): NONE <==="
       echo "Is your network turned OFF?"
       echo "Now exit"
       exit 1
    fi
-   echo "Current Gateway (often the router LAN address): $GATEWAYIP <==="
+   echo "Current Gateway: $GATEWAYIP (often the router's LAN addr) <==="
    if [ $MANYSCANS -eq 1 ];then
       NOOFSCANS=100
       echo
@@ -401,7 +401,7 @@ chkstatic() {
           cat $STATICFILE | grep -E "^interface|^static ip_address=|^static routers|^static domain_name_servers=|^static domain_search=^SSID"
           return 0
       else
-          echo "NO Static LAN IP addresses found"
+          echo "NO Static LAN IP addr found"
       fi
    fi
    return 1
@@ -440,7 +440,7 @@ isRPI
 echo "Hostname is      : $(hostname)"
 echo "Logged in as user: $(whoami)"
 if iwconfig 2>&1 | grep -q ESSID;then
-   echo "WiFi  ESSID: $(iwconfig 2>&1 | grep ESSID | awk -F "ESSID:" '{print $2}' | awk '{print $1}')"
+   echo "WiFi  ESSID      : $(iwconfig 2>&1 | grep ESSID | awk -F "ESSID:" '{print $2}' | awk '{print $1}')"
 fi
 MANYSCANS=0
 case "$1" in
@@ -466,12 +466,12 @@ case "$1" in
         GATEWAYIP=$(getGATEWAY)
         RET=$?
         if [ $RET -ne 0 ];then
-           echo "Current Gateway (often the router LAN address): NONE <==="
+           echo "Current Gateway (often the router LAN addr): NONE <==="
            echo "Is your network turned OFF?"
            echo "Now exit"
            exit 1
         fi
-        echo "Current Gateway (often the router LAN address): $GATEWAYIP"
+        echo "Current Gateway (often the router LAN addr): $GATEWAYIP"
         exit 0;;  
    -c)  echo
         echo "Cluster ping. Several hosts will be pinged in sequence..."
@@ -545,12 +545,12 @@ case "$1" in
         nmap -sS $IPWAN | grep -i -E "[0-9]\/"
         exit 0;;
    -oo) while true;do
-           echo -ne "Give IPv4 address: "
+           echo -ne "Give IPv4 addr: "
            read ANS
            if echo "$ANS" | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" >/dev/null 2>&1; then
               break
            else
-              echo "Not a valid IPv4 address given"
+              echo "Not a valid IPv4 addr given"
               continue
            fi
         done
@@ -572,3 +572,4 @@ fi
 echo;echo "(Other faster options available, type '$(basename $0) --help' to see" 
 echo "Hopefully 'bash $(basename $0) -a' might be very useful for you"
 exit 0
+

@@ -10,17 +10,59 @@
 #
 # You may adjust the accepted ping time towards your router in AVMINIMUM:
 
+echobold() {
+   if [ -z "$2" ];then
+      echo -ne "\033[1m${1}"
+   else
+      echo -ne "\033[1m$(basename $0) ${1}"
+   fi
+   echo -ne "\033[0m"   # back to normal
+}
+
+usage_exit() {
+   echobold "NAME\n"
+   echo "   $(basename $0) - get ip information about your WAN and LAN network"
+   echo "   $(basename $0) - Script author: Steinar/LA7XQ"
+   echobold "SYNOPSIS\n"
+   echo "   $(basename $0) [options]"
+   echo "   See available [options] in the following examples:"
+   echobold "EXAMPLES\n"
+   EXNO=0
+   EXNO=$((EXNO+1));echo "   Ex$EXNO: $(basename $0)      # get /WAN/LAN addr"
+   EXNO=$((EXNO+1));echo "   Ex$EXNO: $(basename $0) -a   # all, scan anyone on LAN side including vendor info"
+   EXNO=$((EXNO+1));echo "   Ex$EXNO: $(basename $0) -b   # scan several LANs (OK for eth cross cable and no router present)"
+   EXNO=$((EXNO+1));echo "   Ex$EXNO: $(basename $0) -r   # get Router LAN IP addr (Gateway LAN addr)"
+   EXNO=$((EXNO+1));echo "   Ex$EXNO: $(basename $0) -q   # quiet mode, no questions (no ping test)"
+   EXNO=$((EXNO+1));echo "   Ex$EXNO: $(basename $0) -i   # quick test to see if you have Inet access"
+   EXNO=$((EXNO+1));echo "   Ex$EXNO: $(basename $0) -k   # keep on doing LAN scanning (100 scans),skip ping test"
+   EXNO=$((EXNO+1));echo "   Ex$EXNO: $(basename $0) -n   # dump networks defined (only support for Raspian Stretch)"
+   EXNO=$((EXNO+1));echo "   Ex$EXNO: $(basename $0) -l   # get own LAN addr"
+   EXNO=$((EXNO+1));echo "   Ex$EXNO: $(basename $0) -e  # get wireless SSIDs seen/Wireless HW capabilities listed"
+   EXNO=$((EXNO+1));echo "   Ex$EXNO: $(basename $0) -p  # ping test towards router"
+   EXNO=$((EXNO+1));echo "   Ex$EXNO: $(basename $0) -pr # ping rotate test towards router"
+   EXNO=$((EXNO+1));echo "   Ex$EXNO: $(basename $0) -o  # search for open ports on your own WAN addr"
+   EXNO=$((EXNO+1));echo "   Ex$EXNO: $(basename $0) -oo # search for open ports on any WAN"
+   EXNO=$((EXNO+1));echo "   Ex$EXNO: $(basename $0) -ooo # Which SSID am I connected to ?"
+   EXNO=$((EXNO+1));echo "   Ex$EXNO: $(basename $0) -s  # dump static IP defined (only support for Raspian Stretch)"
+   EXNO=$((EXNO+1));echo "   Ex$EXNO: $(basename $0) -w  # get (Router) WAN addr"
+   EXNO=$((EXNO+1));echo "   Ex$EXNO: $(basename $0) -x  # scan anyone on the LAN side (no vendor info), see also -a option"
+   exit 0
+}
+
 if [ "$(id -n -u)" = "root" ];then
    echo "ERROR: Do run this program as a none root user (not 'sudo' prefixed)"
    echo "Now exit"
    exit 1
 fi
 
+if echo "$1" | grep -q "\-h" ;then
+   usage_exit
+fi
+
 AVMINIMUM=5000  # eq. 5 ms average ping cycle time
 AVVERYMINIMUM=50000  # eq. 50 ms average ping cycle time
 AVEXCELLENT=1000  # eq. 1 ms average ping cycle time
 QUIET=0
-HSTR=$(echo "$@" | sed -e 's/.*-h/-h/g' -e 's/-h.*/-h/g')
 
 getLAN() {
    echo -ne "Your IP LAN addr :"
@@ -111,49 +153,6 @@ getGATEWAY() {
       return 1
    fi   
 }
-
-for i in "$@";do
-   if [ "$HSTR" = "-h" ];then
-      echo "Usage:$(basename $0) [-a|-b|-r|-q|-i|-k|-n|-l|-e|-p|-pr|-o|-oo|-ooo|-s|-w|-x]"
-      NEX=1
-      echo "Example ${NEX}: $(basename $0)     # get /WAN/LAN addr"
-      NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -a  # all, scan anyone on LAN side including vendor info"
-      NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -b  # scan several LANs (OK for eth cross cable and no router present)"
-      NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -r  # get Router LAN IP addr (Gateway LAN addr)"
-      NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -q  # quiet mode, no questions (no ping test)"
-      NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -i  # quick test to see if you have Inet access"
-      NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -k  # keep on doing LAN scanning (100 scans),skip ping test"
-      NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -n  # dump networks defined (only support for Raspian Stretch)"
-      NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -l  # get own LAN addr"
-      NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -e  # get wireless SSIDs seen/Wireless HW capabilities listed"
-      NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -p  # ping test towards router"
-      NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -pr # ping rotate test towards router"
-      NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -o  # search for open ports on your own WAN addr"
-      NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -oo  # search for open ports on any WAN"
-      NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -ooo # Which SSID am I connected to ?"
-      NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -s  # dump static IP defined (only support for Raspian Stretch)"
-      NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -w  # get (Router) WAN addr"
-      NEX=$((NEX+1))
-      echo "Example ${NEX}: $(basename $0) -x  # scan anyone on the LAN side (no vendor info), see also -a option"
-      exit 0
-   fi
-done
 
 echo " ===  $(basename $0) ===  hack script laget av Steinar";echo
 
@@ -450,6 +449,7 @@ case "$1" in
    -p)  pingtest; echo;exit 0;;
    -pr) pingrotatetest; echo;exit 0;;
    -w)  getWAN; echo;exit 0;;
+   -y)  getWAN | grep "WAN IP addr" | sed -e "s/.*:[ /t]*//g" | awk '{print $1}';exit 0;;
    -l)  getLAN;echo;exit 0;;
    -q)  QUIET=1;getLAN;getWAN;;
    -k)  QUIET=1;getLAN;MANYSCANS=1;;
@@ -572,4 +572,3 @@ fi
 echo;echo "(Other faster options available, type '$(basename $0) --help' to see" 
 echo "Hopefully 'bash $(basename $0) -a' might be very useful for you"
 exit 0
-

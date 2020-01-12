@@ -133,9 +133,9 @@ quick_info_whether_InetAccess() {
    MAXNOOFTRIES=2
    for num in $(seq 1 $MAXNOOFTRIES);do
       if ! ping -c 1 "$GOOGLEIP" >/dev/null 2>&1;then  # ping google.co 
-         echo "ERROR: === YOU HAVE NO INET ACCESS !! (NO WAN ACCESS) ==="
+         echo "    **** YOU HAVE NO RESPONSE FROM GOOGLE IP $GOOGLEIP ****"
       else
-         echo "    **** You have Inet access !! ****"
+         echo "    ==== You have Inet access !! ===="
          return 0
       fi
    done
@@ -177,7 +177,7 @@ pingtest() {
    GATEWAYIP=$(getGATEWAY)
    RET=$?
    if [ $RET -ne 0 ];then
-      echo "Current Gateway (often the router LAN addr): NONE <==="
+      echo "Current Gateway (which is often ROUTER's LAN addr): NONE <==="
       echo "Is your network turned OFF?"
       echo "Now exit"
       exit 1
@@ -220,7 +220,7 @@ pingrotatetest() {
       RET=$?
    fi
    if [ $RET -ne 0 ];then
-      echo "Current Gateway (often the router LAN addr): NONE <==="
+      echo "Current Gateway (which is often ROUTER's LAN addr): NONE <==="
       echo "Is your network turned OFF?"
       echo "Now exit"
       exit 1
@@ -252,6 +252,16 @@ getiwlist() {
 
 getWAN() {
    # First of all just test if Inet is possible to reach
+   if ping -c 2 -q 8.8.8.8 >/dev/null 2>&1 ;then
+      # echo "    === ping dns.google was OK ==="
+      echo "    === STATUS OUTGOING: OK TOWARDS INET ==="
+   else
+      # echo "    === ping dns.google was NOT OK ==="
+      echobold "    === STATUS OUTGOING: NOT OK TOWARDS INET ===\n"
+      echo "    (ADVICE: 1. Try to ping your router first)"
+      echo "             2. If no ping connection, check your wired cable or if Wi-FI connection"
+      echo "                is used, check if Wi-Fi is turned ON or correct SSID is confirgured)"
+   fi
    quick_info_whether_InetAccess
    RET=$?
    if [ $RET -ne 0 ];then
@@ -259,6 +269,7 @@ getWAN() {
       # echo "ERROR: Is your own Eth or WiFi network disabled or simply turned OFF ?"
       # echo "Is your own Eth or WiFi network disabled or simply turned OFF ?"
       # echo "       or turned ON, but SSID given wrong or not correct key password given?"
+      echo "Try '$(basename $0) -x' to check whether LAN access"
       exit 1
    fi
    
@@ -272,12 +283,15 @@ getWAN() {
    #IPWAN=$(wget -qO - ipv4bot.whatismyipaddress.com)
    IPWAN=$(wget -qO- checkip.dyndns.org|grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
    if [ -z "$IPWAN" ];then
-      echo "ERROR, can't gate the router, check gateway setting"
-      echo "(and/or cable if wired connection is used)!"
-      echo "Try '$(basename $0) -a' as well"
+      echo "ERROR, router can't gate you, check gateway setting"
+      echobold "    === STATUS INGOING: NOT OK FROM INET REACHING THIS HOST $(hostname -I) ===\n"
+      echo "    ===         DATA SEEMS TO STOP IN ROUTER TOWARDS THIS HOST ON INGOING ==="
+      echo "    ===         PERHAPS SOME VITAL PORTS ARE CLOSED IN ROUTER PREVENTING THIS SITE? ==="
+      echo "Try '$(basename $0) -x' to check whether LAN access"
       exit 1
    else
       echo "$IPWAN  <==== Other Inet users see you here"
+      echo "    === STATUS INGOING: OK FROM INET REACHING THIS HOST $(hostname -I) ==="
    fi
 }
 
@@ -301,12 +315,12 @@ scan_LANside(){
    RET=$?
 
    if [ $RET -ne 0 ];then
-      echo "Current Gateway (often the router LAN addr): NONE <==="
+      echo "Current Gateway (which is often ROUTER's LAN addr): NONE <==="
       echo "Is your network turned OFF?"
       echo "Now exit"
       exit 1
    fi
-   echo "Current Gateway: $GATEWAYIP (often the router's LAN addr) <==="
+   echo "Current Gateway: $GATEWAYIP (which is often ROUTER'S LAN addr) <==="
    if [ $MANYSCANS -eq 1 ];then
       NOOFSCANS=100
       echo
@@ -450,7 +464,7 @@ case "$1" in
    -pr) pingrotatetest; echo;exit 0;;
    -w)  getWAN; echo;exit 0;;
    -y)  getWAN | grep "WAN IP addr" | sed -e "s/.*:[ /t]*//g" | awk '{print $1}';exit 0;;
-   -l)  getLAN;echo;exit 0;;
+   -l)  getLAN;echo;echo "You may also run '$(basename $0) -x' to see if more on your LAN";exit 0;;
    -q)  QUIET=1;getLAN;getWAN;;
    -k)  QUIET=1;getLAN;MANYSCANS=1;;
    -e)  getiwlist; echo;exit 0;;
@@ -466,12 +480,12 @@ case "$1" in
         GATEWAYIP=$(getGATEWAY)
         RET=$?
         if [ $RET -ne 0 ];then
-           echo "Current Gateway (often the router LAN addr): NONE <==="
+           echo "Current Gateway (which is often ROUTER'S LAN addr): NONE <==="
            echo "Is your network turned OFF?"
            echo "Now exit"
            exit 1
         fi
-        echo "Current Gateway (often the router LAN addr): $GATEWAYIP"
+        echo "Current Gateway (which is often ROUTER'S LAN addr): $GATEWAYIP"
         exit 0;;  
    -c)  echo
         echo "Cluster ping. Several hosts will be pinged in sequence..."
@@ -498,7 +512,13 @@ case "$1" in
         #popd >/dev/null 2>&1
         cd $WAS
         exit 0;;
-   -x)  echo;getLAN   # previous -a
+   -x)  echo
+        echo
+        arp -n
+        echo;echo "Type ENTER to continue";
+        read
+        getLAN   # previous -a
+        # check more on LAN side....
         echo;echo "start local scan on $(hostname -I|awk '{print $1}')/24...";
         nmap -v -sn $(hostname -I|awk '{print $1}')/24 | sed -e 's/Nmap //g' | grep -B1 -i "up"
         # nmap -v -sn $(hostname -I|awk '{print $1}')/24 | sed -e 's/Nmap //g' | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"

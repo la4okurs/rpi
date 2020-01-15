@@ -22,7 +22,7 @@ echobold() {
 usage_exit() {
    echobold "NAME\n"
    echo "   $(basename $0) - get ip information about your WAN and LAN network"
-   echo "   $(basename $0) - Script author: Steinar/LA7XQ"
+   echo "   $(basename $0) - Script author: Steinar"
    echobold "SYNOPSIS\n"
    echo "   $(basename $0) [options]"
    echo "   See available [options] in the following examples:"

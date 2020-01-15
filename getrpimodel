@@ -1,6 +1,7 @@
+
 #!/bin/bash
 #
-# Author: Steinar/LA7XQ
+# Author: Steinar Wenaas
 #
 if [ $# -ne 0 ];then
    echo $1 | grep -q -oE "\-h"
@@ -50,6 +51,9 @@ a32082 	-  -    3 Model B       1.2     1 GB   (Mfg by Sony Japan)
 3a01041 -  -    2 Model B       -       1 GB    - 
 a020d3  - 2018  3 Model B+              1 GB    -
 9020e0	Q4 2018	3 Model A+	1.0	512 MB	(Mfg by Sony)
+a03111	Q  2019	4 Model B	1.1	1 GB	(Mfg by Sony UK)
+b03111	Q  2019	4 Model B	1.1	2 GB	(Mfg by Sony UK)
+c03111	Q  2019	4 Model B	1.1	4 GB	(Mfg by Sony UK)
 EOF
 rev=$(sudo cat /proc/cpuinfo | grep -i "^revision" | awk '{print $NF}')
 [ -z "$rev" ] && { echo "This PC is likely not an RPI PC"; exit 1; }
@@ -71,3 +75,4 @@ if [ -f $(which lscpu) ];then
    $(which lscpu)
 fi
 exit 0
+

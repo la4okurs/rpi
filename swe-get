@@ -52,7 +52,7 @@ updatelocalbin() {
    ls -ld $RPICLUBDIR
    ls -ldtr $RPICLUBDIR/*
    ls -ld $FILE
-   echo;echo "Now you may try running '$PROG' from any directory..."
+   echo;echo "Now you may try running 'sudo $PROG' from any directory..."
 }
 
 if [ $(id -u) -ne 0 ];then

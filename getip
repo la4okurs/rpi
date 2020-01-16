@@ -113,7 +113,7 @@ No router needed at all for the connection !
 3. On Linux PC do set up an IP addr (192.168.1.241 on eth0) using the Network manager GUI or this way:
    hostname    # optional to get hostname
    'sudo ifconfig eth0 192.168.1.241/24 up' # example creating an IP addr on the Linux Laptop
-   rpi/svar/getip -b    #  LA7XQ script to scan typical LAN bases
+   rpi/svar/getip -b    #  Steinar W script to scan typical LAN bases
    # Test connection from Laptop to RPI:
    ping -c 5 -I eth0 192.168.1.240  # ping the RPI from the Laptop side (eth0,check with 'ifconfig -a')
    ssh pi@192.168.1.240             # ssh remote login on the RPI

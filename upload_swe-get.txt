@@ -1,1 +1,6 @@
-
+cd
+mkdir rpiklubben
+cd rpiklubben/
+wget https://raw.github.com/la4okurs/rpi/master/swe-get
+sudo bash swe-get swe-get
+sudo swe-get getip

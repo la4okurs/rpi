@@ -411,7 +411,9 @@ chkstatic() {
       if cat $STATICFILE | grep "^static ip_address=" | grep -q -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b";then
           echo "$(basename $0): Static IP(s) defined found:"
           # cat $STATICFILE | grep "^static ip_address="
-          cat $STATICFILE | grep -E "^interface|^static ip_address=|^static routers|^static domain_name_servers=|^static domain_search=^SSID"
+          #cat $STATICFILE | grep -E "^interface|^static ip_address=|^static routers|^static domain_name_servers=|^static domain_search=^SSID"
+          cat $STATICFILE | grep -E "^interface|^static "
+
           return 0
       else
           echo "NO Static LAN IP addr found"

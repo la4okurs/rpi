@@ -3,7 +3,7 @@
 # The program gives vendor overview on the local (private LAN network)
 # The program also perform arp scan.....
 #
-# Author: Steinar/LA7XQ
+# Author: Steinar W
 #
 
 TMP1="/tmp/arp.tmp1"

@@ -1,19 +1,17 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-      # this  line helps using norwegian characters like øæå in python2.x
+# -*- coding: utf-8 -*-      # do not delete this line !
 
 # COMMENT AREA
 #
 # Template made by Steinar W
 #
 # Usage:
-# In your program delete from this template the comment area starting with
-# and including the # COMMENT AREA line above, but be sure to
-# keep the very two first lines of this file and
-# KEEP ALL THE UNCOMMENTED LINES below as in this file!
+# Tell what this progra does...
+#
 #
 # Making a new program:
 # When making a new program you may simply have a quick start of your
-# own source file by coping this file to your new yourprogra.py:
+# own source file by coping this file to yourprogram.py:
 #
 # $ cp thisfile.py  yourprogram.py      # e.g make a copy of the template
 #
@@ -23,7 +21,6 @@
 # IMPORT AREA
 # import ....
 #
-
 
 
 #

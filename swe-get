@@ -49,13 +49,11 @@ updatelocalbin() {
             # considered as prog files
             chmod 0755 $i
             FILE=$(basename $i)
-            echo "FILE=$FILE"
             [ -L /usr/local/bin/$FILE ] && rm -f /usr/local/bin/$FILE # rm old_link
             ln -s $i /usr/local/bin/$FILE  # make a link in the /usr/local/bin dir
          fi
       fi
       if [ -d $i ];then
-         echo "dir i=$i"
          chmod 0765 $i
       fi
    done

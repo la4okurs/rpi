@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+#
+# This script adds a program to the directory $PIHOME/rpiklubben
+# INFO: This script overwrites an old version of the same script
+#       You should create rpiklubben as a directory manually first
+#       before running this program
+#   
+# Author: Steinar W
+#
+#
+MYDIR=rpiklubben
+PIHOME="/home/pi"
+
+usage_exit() {
+   echo "Usage: 'bash $(basename $0) <program-to-download>'"
+   echo "Example: sudo bash $(basename $0) getip   # download the getip program"
+   echo "Now exit"
+   exit 1
+}
+
+askYesNo() {
+   while true; do
+      echo -n "$1 ? [y/n]"
+      read ANS
+      CH=$(echo "$ANS" | cut -c 1)
+      #echo "CH=$CH"
+      if [ "$CH" = "y" ];then
+         return 0
+      elif [ "$CH" = "n" ];then
+         return 1
+      else
+         continue
+      fi
+   done
+}
+
+updatelocalbin() {
+   echo "updating...."
+   FILE="/usr/local/bin/$PROG"
+   #echo "PROG=$PROG"
+   # if [ -f $FILE ];then
+   #   echo "file link...:"
+   #   ls -ld $FILE
+   #fi
+   #ls -ld $RPICLUBDIR/$PROG
+   chown pi:pi $RPICLUBDIR/$PROG
+   chmod -R 0755 $RPICLUBDIR
+   chmod 0755 ${RPICLUBDIR}/$PROG # set exec access on all files here
+   chmod 0755 ${RPICLUBDIR}/* # set exec access on all files here
+   rm -f $FILE # del old link (if any)
+   ln -s $RPICLUBDIR/$PROG $FILE # make the link in $FILE
+   ls -ld $RPICLUBDIR
+   ls -ldtr $RPICLUBDIR/*
+   ls -ld $FILE
+   echo;echo "Now you may try running '$PROG' from any directory..."
+}
+
+if [ $(id -u) -ne 0 ];then
+   echo "ERROR in usage: Run this script from user root or use sudo prefix"
+   exit 1
+fi
+
+if [ $# -eq 0 ];then
+   echo "ERROR IN USAGE OF THIS SCRIPT"
+   usage_exit
+else
+   PROG="$1"
+fi
+if ! [ -d $PIHOME/$MYDIR ];then
+   echo "Can'f find directory $PIHOME/$MYDIR"
+   echo "This script assumes that the directory $PIHOME/$MYDIR exists"
+   exit 1
+fi
+
+RPICLUBDIR="$PIHOME/$MYDIR"
+cd $RPICLUBDIR
+if [ ! "$(pwd)" = "$RPICLUBDIR" ];then
+   echo "ERROR: You are not at dir $RPICLUBDIR"
+   echo "Now exit"
+   exit 1
+fi
+
+[ -f ./$PROG ] && rm -f ./$PROG
+
+if ! wget https://raw.github.com/la4okurs/rpi/master/$PROG;then
+   echo " As seen an error, stop here"
+   exit 1
+fi
+
+if [ -f /usr/local/bin/$PROG ];then
+   echo;echo "INFO: You have an old version of $PROG in /usr/local/bin/$PROG"
+   echo "Old version will now be updated..."
+   
+   #if askYesNo "Do you want to update this file as well";then
+   #   updatelocalbin
+   #   exit 0
+   #fi
+fi
+updatelocalbin
+exit 0

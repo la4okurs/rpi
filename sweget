@@ -13,7 +13,7 @@ PIHOME="/home/pi"
 
 usage_exit() {
    echo "Usage: 'bash $(basename $0) <program-to-download>'"
-   echo "Example: sudo bash $(basename $0) getip"
+   echo "Example: sudo bash $(basename $0) getip   # download the getip program"
    echo "Now exit"
    exit 1
 }

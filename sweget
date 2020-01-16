@@ -44,13 +44,14 @@ updatelocalbin() {
    #fi
    #ls -ld $RPICLUBDIR/$PROG
    chown pi:pi $RPICLUBDIR/$PROG
-   #chmod 0755 $RPICLUBDIR/$PROG # set exec access on downloaded file
-   chmod 0755 $RPICLUBDIR/* # set exec access on all files here
+   chmod -R 0755 $RPICLUBDIR
+   chmod 0755 ${RPICLUBDIR}/$PROG # set exec access on all files here
+   chmod 0755 ${RPICLUBDIR}/* # set exec access on all files here
    rm -f $FILE # del old link (if any)
    ln -s $RPICLUBDIR/$PROG $FILE # make the link in $FILE
-   chmod 0755 $FILE
-   #ls -ld $RPICLUBDIR/$PROG
-   #ls -ld $FILE
+   ls -ld $RPICLUBDIR
+   ls -ldtr $RPICLUBDIR/*
+   ls -ld $FILE
    echo;echo "Now you may try running '$PROG' from any directory..."
 }
 
@@ -94,5 +95,4 @@ if [ -f /usr/local/bin/$PROG ];then
    fi
 fi
 updatelocalbin
-
 exit 0

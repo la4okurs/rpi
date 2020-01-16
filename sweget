@@ -89,10 +89,10 @@ fi
 
 if [ -f /usr/local/bin/$PROG ];then
    echo;echo "INFO: You have an old version of $PROG in /usr/local/bin/$PROG"
-   if askYesNo "Do you want to update this file as well";then
-      updatelocalbin
-      exit 0
-   fi
+   #if askYesNo "Do you want to update this file as well";then
+   #   updatelocalbin
+   #   exit 0
+   #fi
 fi
 updatelocalbin
 exit 0

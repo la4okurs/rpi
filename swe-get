@@ -100,3 +100,4 @@ if [ -f /usr/local/bin/$PROG ];then
 fi
 updatelocalbin
 exit 0
+

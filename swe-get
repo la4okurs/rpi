@@ -24,7 +24,6 @@ askYesNo() {
       echo -n "$1 ? [y/n]"
       read ANS
       CH=$(echo "$ANS" | cut -c 1)
-      #echo "CH=$CH"
       if [ "$CH" = "y" ];then
          return 0
       elif [ "$CH" = "n" ];then
@@ -38,22 +37,32 @@ askYesNo() {
 updatelocalbin() {
    echo "updating...."
    FILE="/usr/local/bin/$PROG"
-   #echo "PROG=$PROG"
-   # if [ -f $FILE ];then
-   #   echo "file link...:"
-   #   ls -ld $FILE
-   #fi
-   #ls -ld $RPICLUBDIR/$PROG
-   chown pi:pi $RPICLUBDIR/$PROG
-   chmod -R 0755 $RPICLUBDIR
-   chmod 0755 ${RPICLUBDIR}/$PROG # set exec access on all files here
-   chmod 0755 ${RPICLUBDIR}/* # set exec access on all files here
    rm -f $FILE # del old link (if any)
-   ln -s $RPICLUBDIR/$PROG $FILE # make the link in $FILE
-   ls -ld $RPICLUBDIR
-   ls -ldtr $RPICLUBDIR/*
-   ls -ld $FILE
-   echo;echo "Now you may try running '$PROG' from any directory..."
+   FILES=$(find $(pwd))
+   #echo "FILES=$FILES"
+   for i in $FILES;do
+      chown pi:pi $i
+      if [ -f $i ];then
+         if echo "$i" | grep -q -i -E ".txt$|.html$";then
+            chmod 0644 $i
+         else
+            # considered as prog files
+            chmod 0755 $i
+            FILE=$(basename $i)
+            echo "FILE=$FILE"
+            [ -L /usr/local/bin/$FILE ] && rm -f /usr/local/bin/$FILE # rm old_link
+            ln -s $i /usr/local/bin/$FILE  # make a link in the /usr/local/bin dir
+         fi
+      fi
+      if [ -d $i ];then
+         echo "dir i=$i"
+         chmod 0765 $i
+      fi
+   done
+   FILES=$(find $(pwd))
+   for i in $FILES;do
+      ls -ld $i
+   done
 }
 
 if [ $(id -u) -ne 0 ];then
@@ -82,7 +91,7 @@ if [ ! "$(pwd)" = "$RPICLUBDIR" ];then
    exit 1
 fi
 
-[ -f ./$PROG ] && rm -f ./$PROG
+[ -f $RPICLUBDIR/$PROG ] && rm -f $RPICLUBDIR/$PROG
 
 if ! wget https://raw.github.com/la4okurs/rpi/master/$PROG;then
    echo " As seen an error, stop here"
@@ -100,4 +109,3 @@ if [ -f /usr/local/bin/$PROG ];then
 fi
 updatelocalbin
 exit 0
-

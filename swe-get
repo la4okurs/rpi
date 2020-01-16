@@ -57,7 +57,7 @@ updatelocalbin() {
 
 if [ $(id -u) -ne 0 ];then
    echo "ERROR in usage: Run this script from user root or use sudo prefix"
-   exit 1
+   usage_exit
 fi
 
 if [ $# -eq 0 ];then

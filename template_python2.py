@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 # -*- coding: utf-8 -*-      # do not delete this line !
 
 # COMMENT AREA
@@ -30,7 +30,6 @@
 #
 
 
-
 #
 # FUNCTION AREA
 # change the 'pass' statement below to be your own statements
@@ -42,9 +41,9 @@ def foo():
 #
 # MAIN AREA
 if __name__ == "__main__":  # keeping this line helps you creating libraries
-   foo() # call your function(s) here
-   print "æøå"
-   print "john"
+   foo()           # modify this line to be your own
+   print "æøå"     # modify this line to be your own
+   print "This is the template_python2.py file" # modify this line to be your own
    # ....
    # ...
 

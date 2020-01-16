@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-      # this  line helps using norwegian characters like øæå
-#
+# -*- coding: utf-8 -*-      # this  line helps using norwegian characters like øæå in python2.x
+
 # COMMENT AREA
 #
 # Template made by Steinar W
@@ -46,6 +46,8 @@ def foo():
 # MAIN AREA
 if __name__ == "__main__":  # keeping this line helps you creating libraries
    foo() # call your function(s) here
+   print "æøå"
+   print "john"
    # ....
    # ...
 
@@ -53,4 +55,3 @@ if __name__ == "__main__":  # keeping this line helps you creating libraries
    # In the end of the program use exit statement to indicate
    # to outer shell (like bash) the success of running this program
    exit(0)
-

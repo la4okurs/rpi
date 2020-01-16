@@ -13,8 +13,8 @@ PIHOME="/home/pi"
 
 usage_exit() {
    echo "Usage: 'bash $(basename $0) <program-to-download>'"
-   echo "Example: sudo bash $(basename $0) getip   # download the getip program"
-   echo    or   : sudo $(basename $0) getip        # download the getip program"
+   echo "Example: 'sudo bash $(basename $0) getip'   # download the getip program"
+   echo "  or   : 'sudo $(basename $0) getip'        # download the getip program"
    echo "Now exit"
    exit 1
 }
@@ -100,3 +100,4 @@ if [ -f /usr/local/bin/$PROG ];then
 fi
 updatelocalbin
 exit 0
+
